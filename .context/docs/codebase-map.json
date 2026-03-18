@@ -1,0 +1,2639 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-01-21T21:07:08.867Z",
+  "stack": {
+    "primaryLanguage": "typescript",
+    "languages": [
+      "javascript",
+      "typescript",
+      "python"
+    ],
+    "frameworks": [],
+    "buildTools": [
+      "vite",
+      "docker",
+      "docker-compose"
+    ],
+    "testFrameworks": [
+      "playwright"
+    ],
+    "packageManager": "npm",
+    "isMonorepo": false,
+    "hasDocker": true,
+    "hasCI": true
+  },
+  "structure": {
+    "totalFiles": 8144,
+    "topDirectories": [
+      {
+        "name": "assets",
+        "fileCount": 1
+      },
+      {
+        "name": "babel.config.cjs",
+        "fileCount": 1
+      },
+      {
+        "name": "backend",
+        "fileCount": 3495
+      },
+      {
+        "name": "backups",
+        "fileCount": 0
+      },
+      {
+        "name": "browser-registration-test.html",
+        "fileCount": 1
+      },
+      {
+        "name": "BUG_RAIZ_IDENTIFICADO.md",
+        "fileCount": 1
+      },
+      {
+        "name": "components.json",
+        "fileCount": 1
+      },
+      {
+        "name": "CONSOLIDATED_RULES.md",
+        "fileCount": 1
+      },
+      {
+        "name": "CONTRIBUTING.md",
+        "fileCount": 1
+      },
+      {
+        "name": "CORRECAO_CONVITES.md",
+        "fileCount": 1
+      },
+      {
+        "name": "CORRECAO_FINAL_CREATE_USER.md",
+        "fileCount": 1
+      },
+      {
+        "name": "CORRECAO_ROTEAMENTO_ADMIN.md",
+        "fileCount": 1
+      },
+      {
+        "name": "CORRECOES_CRITICAS.md",
+        "fileCount": 1
+      },
+      {
+        "name": "CORREÇÕES_FORMULÁRIO_REGISTRO.md",
+        "fileCount": 1
+      },
+      {
+        "name": "CORREÇÕES_IMPLEMENTADAS.md",
+        "fileCount": 1
+      },
+      {
+        "name": "CORRECOES_LOGIN_ROTEAMENTO.md",
+        "fileCount": 1
+      },
+      {
+        "name": "debug-registration-complete.js",
+        "fileCount": 1
+      },
+      {
+        "name": "DEPLOY_MANUAL_SUPABASE.md",
+        "fileCount": 1
+      },
+      {
+        "name": "DIAGNOSTICO_REAL_SISTEMA.md",
+        "fileCount": 1
+      },
+      {
+        "name": "docker-compose.prod.yml",
+        "fileCount": 1
+      },
+      {
+        "name": "docker-compose.yml",
+        "fileCount": 1
+      },
+      {
+        "name": "Dockerfile",
+        "fileCount": 1
+      },
+      {
+        "name": "Dockerfile.prod",
+        "fileCount": 1
+      },
+      {
+        "name": "docs",
+        "fileCount": 45
+      },
+      {
+        "name": "e2e-tests",
+        "fileCount": 1
+      },
+      {
+        "name": "eslint_report_full.json",
+        "fileCount": 1
+      },
+      {
+        "name": "eslint_report.json",
+        "fileCount": 1
+      },
+      {
+        "name": "final-test.js",
+        "fileCount": 1
+      },
+      {
+        "name": "fix_invite_system.sh",
+        "fileCount": 1
+      },
+      {
+        "name": "FIX_USER_DELETE_CASCADE.sql",
+        "fileCount": 1
+      },
+      {
+        "name": "FIX_USERS_ID_FKEY.sql",
+        "fileCount": 1
+      },
+      {
+        "name": "index.html",
+        "fileCount": 1
+      },
+      {
+        "name": "INSTRUCOES_CRUD_FUNCIONARIOS.md",
+        "fileCount": 1
+      },
+      {
+        "name": "INSTRUCOES_FIX_FK.md",
+        "fileCount": 1
+      },
+      {
+        "name": "jest.config.cjs",
+        "fileCount": 1
+      },
+      {
+        "name": "locales",
+        "fileCount": 6
+      },
+      {
+        "name": "mcp-config.json",
+        "fileCount": 1
+      },
+      {
+        "name": "netlify.toml",
+        "fileCount": 1
+      },
+      {
+        "name": "nginx.conf",
+        "fileCount": 1
+      },
+      {
+        "name": "package-lock.json",
+        "fileCount": 1
+      },
+      {
+        "name": "package.json",
+        "fileCount": 1
+      },
+      {
+        "name": "plano-consolidacao-mcp.md",
+        "fileCount": 1
+      },
+      {
+        "name": "playwright-report",
+        "fileCount": 4
+      },
+      {
+        "name": "playwright.config.ts",
+        "fileCount": 1
+      },
+      {
+        "name": "postcss.config.js",
+        "fileCount": 1
+      },
+      {
+        "name": "public",
+        "fileCount": 7
+      },
+      {
+        "name": "push_log_3.txt",
+        "fileCount": 1
+      },
+      {
+        "name": "push_log.txt",
+        "fileCount": 1
+      },
+      {
+        "name": "README.md",
+        "fileCount": 1
+      },
+      {
+        "name": "REFACTORING_STATUS.md",
+        "fileCount": 1
+      },
+      {
+        "name": "RELATORIO_TESTE_DEFINITIVO.md",
+        "fileCount": 1
+      },
+      {
+        "name": "RESUMO_CORREÇÕES.md",
+        "fileCount": 1
+      },
+      {
+        "name": "RESUMO_CRUD_CORRECAO.md",
+        "fileCount": 1
+      },
+      {
+        "name": "RESUMO_SESSAO_CORRECOES.md",
+        "fileCount": 1
+      },
+      {
+        "name": "scripts",
+        "fileCount": 133
+      },
+      {
+        "name": "SETUP_EMPLOYEE_CRUD.sql",
+        "fileCount": 1
+      },
+      {
+        "name": "simple-test-register.js",
+        "fileCount": 1
+      },
+      {
+        "name": "SISTEMA_CORRIGIDO.md",
+        "fileCount": 1
+      },
+      {
+        "name": "SOLUCAO_DEFINITIVA_AUTH.md",
+        "fileCount": 1
+      },
+      {
+        "name": "SOLUCAO_DEFINITIVA_TRADUCOES.md",
+        "fileCount": 1
+      },
+      {
+        "name": "SOLUCAO_RAIZ_HARDCODED.md",
+        "fileCount": 1
+      },
+      {
+        "name": "spec",
+        "fileCount": 3
+      },
+      {
+        "name": "src",
+        "fileCount": 508
+      },
+      {
+        "name": "supabase",
+        "fileCount": 32
+      },
+      {
+        "name": "tailwind.config.js",
+        "fileCount": 1
+      },
+      {
+        "name": "taskmaster",
+        "fileCount": 2301
+      },
+      {
+        "name": "test-auth-definitive.cjs",
+        "fileCount": 1
+      },
+      {
+        "name": "test-auth-definitive.js",
+        "fileCount": 1
+      },
+      {
+        "name": "test-auth-final-improvements.js",
+        "fileCount": 1
+      },
+      {
+        "name": "test-login-fixed.js",
+        "fileCount": 1
+      },
+      {
+        "name": "test-login-routing.cjs",
+        "fileCount": 1
+      },
+      {
+        "name": "test-login-sem-timeout.cjs",
+        "fileCount": 1
+      },
+      {
+        "name": "test-new-auth-system.cjs",
+        "fileCount": 1
+      },
+      {
+        "name": "test-results",
+        "fileCount": 5
+      },
+      {
+        "name": "testsprite_tests",
+        "fileCount": 1534
+      },
+      {
+        "name": "tmp",
+        "fileCount": 6
+      },
+      {
+        "name": "tsconfig.json",
+        "fileCount": 1
+      },
+      {
+        "name": "tsconfig.node.json",
+        "fileCount": 1
+      },
+      {
+        "name": "vite.config.ts",
+        "fileCount": 1
+      }
+    ],
+    "languageDistribution": [
+      {
+        "extension": ".js",
+        "count": 2134
+      },
+      {
+        "extension": ".ts",
+        "count": 1974
+      },
+      {
+        "extension": ".map",
+        "count": 792
+      },
+      {
+        "extension": ".md",
+        "count": 532
+      },
+      {
+        "extension": ".py",
+        "count": 509
+      },
+      {
+        "extension": ".pyc",
+        "count": 493
+      },
+      {
+        "extension": ".json",
+        "count": 485
+      },
+      {
+        "extension": ".tsx",
+        "count": 239
+      },
+      {
+        "extension": ".cjs",
+        "count": 141
+      },
+      {
+        "extension": ".cts",
+        "count": 101
+      }
+    ]
+  },
+  "architecture": {
+    "layers": [
+      {
+        "name": "Config",
+        "description": "Configuration and constants",
+        "directories": [
+          ".",
+          "src/presenters",
+          "src/hooks",
+          "src/config",
+          "src/collections",
+          "src/config/__tests__",
+          "src/contexts",
+          "testsprite_tests"
+        ],
+        "symbolCount": 32,
+        "dependsOn": [
+          "Models",
+          "Controllers"
+        ]
+      },
+      {
+        "name": "Utils",
+        "description": "Shared utilities and helpers",
+        "directories": [
+          "src/utils",
+          "src/lib",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/types",
+          "src/components/common",
+          "scripts/utils",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/utilsBundleImpl",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/third_party",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/remote",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/protocol",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/generated",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/client",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/cli",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/vite/traceViewer",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/utils/isomorphic",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/webkit",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/utils",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/registry",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/recorder",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/har",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/firefox",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/electron",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/dispatchers",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/codegen",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/chromium",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/bidi",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/android",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/vite/traceViewer/assets",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/vite/recorder/assets",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/webkit/wsl",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/utils/image_tools",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/trace/viewer",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/trace/test",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/trace/recorder",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/bidi/third_party",
+          "testsprite_tests/venv/lib/python3.14/site-packages",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pyee",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip",
+          "testsprite_tests/venv/lib/python3.14/site-packages/greenlet",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal",
+          "testsprite_tests/venv/lib/python3.14/site-packages/greenlet/tests",
+          "testsprite_tests/venv/lib/python3.14/site-packages/greenlet/platform",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl/__pyinstaller",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/truststore",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/tomli_w",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/tomli",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/resolvelib",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/rich",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/pyproject_hooks",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/pygments",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/platformdirs",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/pkg_resources",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/requests",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/packaging",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/distro",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/msgpack",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/idna",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/dependency_groups",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/certifi",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/cachecontrol",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/distlib",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/vcs",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/utils",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/resolution",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/req",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/operations",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/network",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/locations",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/index",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/distributions",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/commands",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/cli",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/util",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/packages",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/contrib",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/resolvelib/resolvers",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/pyproject_hooks/_in_process",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/pygments/styles",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/pygments/lexers",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/pygments/formatters",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/pygments/filters",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/packaging/licenses",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/cachecontrol/caches",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/resolution/resolvelib",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/resolution/legacy",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/operations/install",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/packages/backports",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/contrib/_securetransport"
+        ],
+        "symbolCount": 3274,
+        "dependsOn": [
+          "Controllers",
+          "Components",
+          "Repositories"
+        ]
+      },
+      {
+        "name": "Services",
+        "description": "Business logic and orchestration",
+        "directories": [
+          "src/utils",
+          "src/services",
+          "src/error",
+          "src/auth",
+          "backend/src",
+          "src/services/__tests__",
+          "src/pages",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/chromium",
+          "scripts"
+        ],
+        "symbolCount": 197,
+        "dependsOn": [
+          "Models",
+          "Controllers"
+        ]
+      },
+      {
+        "name": "Repositories",
+        "description": "Data access and persistence",
+        "directories": [
+          "src/utils",
+          "src/types",
+          "src/hooks",
+          "src/data",
+          "src/store",
+          "src/contexts",
+          "src/components",
+          "src/components/admin",
+          "src/components/admin/gdpr-rights",
+          "scripts/diagnostics",
+          "scripts/fixes",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server",
+          "scripts",
+          "testsprite_tests",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/packaging",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/idna",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/metadata",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/metadata/importlib"
+        ],
+        "symbolCount": 192,
+        "dependsOn": [
+          "Controllers",
+          "Components"
+        ]
+      },
+      {
+        "name": "Controllers",
+        "description": "Request handling and routing",
+        "directories": [
+          "src/utils",
+          "src/types",
+          "src/hooks",
+          "src",
+          "src/components",
+          "src/auth",
+          "scripts/fixes",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/generated",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/client",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/dispatchers",
+          "scripts",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/sync_api",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/async_api",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl",
+          "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl/__pyinstaller",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/truststore",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/platformdirs",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/requests",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/cachecontrol"
+        ],
+        "symbolCount": 163,
+        "dependsOn": [
+          "Components"
+        ]
+      },
+      {
+        "name": "Models",
+        "description": "Data structures and domain objects",
+        "directories": [
+          "src/schemas",
+          "src/models",
+          "scripts",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/pygments",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/requests",
+          "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/models"
+        ],
+        "symbolCount": 81,
+        "dependsOn": [
+          "Controllers"
+        ]
+      },
+      {
+        "name": "Components",
+        "description": "UI components and views",
+        "directories": [
+          "src/components/ui",
+          "src/pages",
+          "src/components",
+          "src/design-system/components",
+          "src/components/vacation_config",
+          "src/components/layout",
+          "src/components/location",
+          "src/components/taskmaster",
+          "src/components/header",
+          "src/components/examples",
+          "src/components/Reports",
+          "src/components/auth",
+          "src/components/Performance",
+          "src/components/Dashboard",
+          "src/components/admin",
+          "src/components/AdminDashboard",
+          "src/components/Charts",
+          "scripts"
+        ],
+        "symbolCount": 170,
+        "dependsOn": [
+          "Controllers"
+        ]
+      }
+    ],
+    "patterns": [
+      {
+        "name": "Factory",
+        "confidence": 0.9,
+        "description": "Creates instances of related objects without specifying concrete classes",
+        "occurrences": 7
+      },
+      {
+        "name": "Singleton",
+        "confidence": 0.7,
+        "description": "Ensures a class has only one instance",
+        "occurrences": 1
+      },
+      {
+        "name": "Service Layer",
+        "confidence": 0.85,
+        "description": "Encapsulates business logic in service classes",
+        "occurrences": 37
+      },
+      {
+        "name": "Controller",
+        "confidence": 0.9,
+        "description": "Handles incoming requests and returns responses",
+        "occurrences": 3
+      },
+      {
+        "name": "Observer",
+        "confidence": 0.75,
+        "description": "Defines a subscription mechanism to notify multiple objects",
+        "occurrences": 17
+      }
+    ],
+    "entryPoints": [
+      "taskmaster/src/index.ts",
+      "src/types/index.ts",
+      "src/error/index.ts",
+      "src/design-system/index.ts",
+      "backend/src/index.ts",
+      "supabase/functions/update-employee/index.ts",
+      "supabase/functions/send-invite-email/index.ts",
+      "supabase/functions/delete-user-invite/index.ts",
+      "supabase/functions/delete-auth-user/index.ts",
+      "supabase/functions/create-employee/index.ts",
+      "supabase/functions/create-auth-user/index.ts",
+      "src/design-system/tokens/index.ts",
+      "src/components/ui/index.ts",
+      "src/index.tsx",
+      "taskmaster/src/index.js",
+      "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/index.js",
+      "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/cli.js",
+      "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/utilsBundleImpl/index.js",
+      "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/index.js",
+      "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/lib/server/registry/index.js"
+    ]
+  },
+  "symbols": {
+    "classes": [
+      {
+        "name": "A",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/greenlet/tests/fail_initialstub_already_started.py",
+        "line": 28,
+        "exported": true
+      },
+      {
+        "name": "AbstractDistribution",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/distributions/base.py",
+        "line": 13,
+        "exported": true
+      },
+      {
+        "name": "AbstractProvider",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/resolvelib/providers.py",
+        "line": 21,
+        "exported": true
+      },
+      {
+        "name": "AbstractResolver",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/resolvelib/resolvers/abstract.py",
+        "line": 22,
+        "exported": true
+      },
+      {
+        "name": "Accessibility",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/sync_api/_generated.py",
+        "line": 3137,
+        "exported": true
+      },
+      {
+        "name": "Accessibility",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/async_api/_generated.py",
+        "line": 3093,
+        "exported": true
+      },
+      {
+        "name": "Accessibility",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl/_accessibility.py",
+        "line": 56,
+        "exported": true
+      },
+      {
+        "name": "AdjacentTempDirectory",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/utils/temp_dir.py",
+        "line": 224,
+        "exported": true
+      },
+      {
+        "name": "Align",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/rich/align.py",
+        "line": 17,
+        "exported": true
+      },
+      {
+        "name": "AlreadyInstalledCandidate",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/resolution/resolvelib/candidates.py",
+        "line": 356,
+        "exported": true
+      },
+      {
+        "name": "Android",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/platformdirs/android.py",
+        "line": 14,
+        "exported": true
+      },
+      {
+        "name": "AnsiDecoder",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/rich/ansi.py",
+        "line": 120,
+        "exported": true
+      },
+      {
+        "name": "ANSISyntaxTheme",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/rich/syntax.py",
+        "line": 180,
+        "exported": true
+      },
+      {
+        "name": "APIRequest",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/sync_api/_generated.py",
+        "line": 18911,
+        "exported": true
+      },
+      {
+        "name": "APIRequest",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/async_api/_generated.py",
+        "line": 18790,
+        "exported": true
+      },
+      {
+        "name": "APIRequest",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl/_fetch.py",
+        "line": 60,
+        "exported": true
+      },
+      {
+        "name": "APIRequestContext",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/sync_api/_generated.py",
+        "line": 18213,
+        "exported": true
+      },
+      {
+        "name": "APIRequestContext",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/async_api/_generated.py",
+        "line": 18112,
+        "exported": true
+      },
+      {
+        "name": "APIRequestContext",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl/_fetch.py",
+        "line": 102,
+        "exported": true
+      },
+      {
+        "name": "APIResponse",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/sync_api/_generated.py",
+        "line": 18088,
+        "exported": true
+      },
+      {
+        "name": "APIResponse",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/async_api/_generated.py",
+        "line": 17987,
+        "exported": true
+      },
+      {
+        "name": "APIResponse",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl/_fetch.py",
+        "line": 453,
+        "exported": true
+      },
+      {
+        "name": "APIResponseAssertions",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/sync_api/_generated.py",
+        "line": 21077,
+        "exported": true
+      },
+      {
+        "name": "APIResponseAssertions",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/async_api/_generated.py",
+        "line": 20890,
+        "exported": true
+      },
+      {
+        "name": "APIResponseAssertions",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl/_assertions.py",
+        "line": 940,
+        "exported": true
+      },
+      {
+        "name": "AppEngineManager",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/contrib/appengine.py",
+        "line": 79,
+        "exported": true
+      },
+      {
+        "name": "AppEnginePlatformError",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/contrib/appengine.py",
+        "line": 75,
+        "exported": true
+      },
+      {
+        "name": "AppEnginePlatformWarning",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/contrib/appengine.py",
+        "line": 71,
+        "exported": true
+      },
+      {
+        "name": "ArchiveInfo",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/models/direct_url.py",
+        "line": 98,
+        "exported": true
+      },
+      {
+        "name": "Artifact",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl/_artifact.py",
+        "line": 24,
+        "exported": true
+      },
+      {
+        "name": "AssertionsBase",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl/_assertions.py",
+        "line": 34,
+        "exported": true
+      },
+      {
+        "name": "AsyncBase",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl/_async_base.py",
+        "line": 63,
+        "exported": true
+      },
+      {
+        "name": "AsyncContextManager",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl/_async_base.py",
+        "line": 93,
+        "exported": true
+      },
+      {
+        "name": "AsyncEventContextManager",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl/_async_base.py",
+        "line": 44,
+        "exported": true
+      },
+      {
+        "name": "AsyncEventInfo",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl/_async_base.py",
+        "line": 29,
+        "exported": true
+      },
+      {
+        "name": "AsyncIOEventEmitter",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pyee/asyncio.py",
+        "line": 13,
+        "exported": true
+      },
+      {
+        "name": "AuditLoggingService",
+        "kind": "class",
+        "file": "src/services/auditLoggingService.ts",
+        "line": 35,
+        "exported": true
+      },
+      {
+        "name": "AuthBase",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/requests/auth.py",
+        "line": 69,
+        "exported": true
+      },
+      {
+        "name": "AuthPersistence",
+        "kind": "class",
+        "file": "src/utils/authPersistence.ts",
+        "line": 26,
+        "exported": true
+      },
+      {
+        "name": "AuthStateManager",
+        "kind": "class",
+        "file": "src/utils/authStateManager.ts",
+        "line": 12,
+        "exported": true
+      },
+      {
+        "name": "AutoTranslationService",
+        "kind": "class",
+        "file": "src/utils/autoTranslation.ts",
+        "line": 284,
+        "exported": true
+      },
+      {
+        "name": "B",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/greenlet/tests/fail_initialstub_already_started.py",
+        "line": 30,
+        "exported": true
+      },
+      {
+        "name": "Backend",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/metadata/__init__.py",
+        "line": 88,
+        "exported": true
+      },
+      {
+        "name": "BackendUnavailable",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/pyproject_hooks/_impl.py",
+        "line": 38,
+        "exported": true
+      },
+      {
+        "name": "BackendUnavailable",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py",
+        "line": 41,
+        "exported": true
+      },
+      {
+        "name": "BadCommand",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/exceptions.py",
+        "line": 298,
+        "exported": true
+      },
+      {
+        "name": "BadMetadata",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/metadata/importlib/_compat.py",
+        "line": 10,
+        "exported": true
+      },
+      {
+        "name": "Bar",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/rich/bar.py",
+        "line": 17,
+        "exported": true
+      },
+      {
+        "name": "BarColumn",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/rich/progress.py",
+        "line": 646,
+        "exported": true
+      },
+      {
+        "name": "BaseAdapter",
+        "kind": "class",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/requests/adapters.py",
+        "line": 113,
+        "exported": true
+      }
+    ],
+    "interfaces": [
+      {
+        "name": "AcceptInviteResult",
+        "kind": "interface",
+        "file": "src/types/auth.ts",
+        "line": 65,
+        "exported": true
+      },
+      {
+        "name": "AcceptInviteRpcResponse",
+        "kind": "interface",
+        "file": "src/types/rpc-responses.ts",
+        "line": 11,
+        "exported": true
+      },
+      {
+        "name": "AccessibilityFeedbackProps",
+        "kind": "interface",
+        "file": "src/components/common/AccessibilityFeedback.tsx",
+        "line": 77,
+        "exported": true
+      },
+      {
+        "name": "AccessibilityStatesProps",
+        "kind": "interface",
+        "file": "src/components/common/AccessibilityStates.tsx",
+        "line": 50,
+        "exported": true
+      },
+      {
+        "name": "ActionButtonProps",
+        "kind": "interface",
+        "file": "src/components/ui/action-button.tsx",
+        "line": 40,
+        "exported": true
+      },
+      {
+        "name": "AdminSimulationProps",
+        "kind": "interface",
+        "file": "src/types/smart-translation-demo.ts",
+        "line": 59,
+        "exported": true
+      },
+      {
+        "name": "AdvancedToastOptions",
+        "kind": "interface",
+        "file": "src/hooks/useAdvancedToast.ts",
+        "line": 5,
+        "exported": true
+      },
+      {
+        "name": "AgeBasedRule",
+        "kind": "interface",
+        "file": "src/models/VacationRulesConfig.ts",
+        "line": 6,
+        "exported": true
+      },
+      {
+        "name": "AlertProps",
+        "kind": "interface",
+        "file": "src/components/common/Alert.tsx",
+        "line": 19,
+        "exported": true
+      },
+      {
+        "name": "AlertThresholds",
+        "kind": "interface",
+        "file": "src/utils/supabasePerformanceMonitor.ts",
+        "line": 58,
+        "exported": true
+      },
+      {
+        "name": "AnimatedAuthElementProps",
+        "kind": "interface",
+        "file": "src/components/auth/AuthAnimations.tsx",
+        "line": 167,
+        "exported": true
+      },
+      {
+        "name": "AnimatedAuthWrapperProps",
+        "kind": "interface",
+        "file": "src/components/auth/AuthAnimations.tsx",
+        "line": 156,
+        "exported": true
+      },
+      {
+        "name": "AnimatedButtonProps",
+        "kind": "interface",
+        "file": "src/types/animations.ts",
+        "line": 85,
+        "exported": true
+      },
+      {
+        "name": "AnimatedCardProps",
+        "kind": "interface",
+        "file": "src/types/animations.ts",
+        "line": 98,
+        "exported": true
+      },
+      {
+        "name": "AnimatedCardProps",
+        "kind": "interface",
+        "file": "src/components/ui/animated-card.tsx",
+        "line": 29,
+        "exported": true
+      },
+      {
+        "name": "AnimatedElementProps",
+        "kind": "interface",
+        "file": "src/types/animations.ts",
+        "line": 44,
+        "exported": true
+      },
+      {
+        "name": "AnimatedListProps",
+        "kind": "interface",
+        "file": "src/types/animations.ts",
+        "line": 66,
+        "exported": true
+      },
+      {
+        "name": "AnimationConfig",
+        "kind": "interface",
+        "file": "src/types/animations.ts",
+        "line": 26,
+        "exported": true
+      },
+      {
+        "name": "AnonymizationQueue",
+        "kind": "interface",
+        "file": "src/services/dataRetentionService.ts",
+        "line": 38,
+        "exported": true
+      },
+      {
+        "name": "ApiError",
+        "kind": "interface",
+        "file": "src/types/api.ts",
+        "line": 18,
+        "exported": true
+      },
+      {
+        "name": "ApiErrorResponse",
+        "kind": "interface",
+        "file": "src/types/error-handling.ts",
+        "line": 47,
+        "exported": true
+      },
+      {
+        "name": "ApiRequestConfig",
+        "kind": "interface",
+        "file": "src/types/enhanced-types.ts",
+        "line": 100,
+        "exported": true
+      },
+      {
+        "name": "ApiResponse",
+        "kind": "interface",
+        "file": "src/types/enhanced-types.ts",
+        "line": 92,
+        "exported": true
+      },
+      {
+        "name": "ApiResponse",
+        "kind": "interface",
+        "file": "src/types/api.ts",
+        "line": 2,
+        "exported": true
+      },
+      {
+        "name": "ApiStatus",
+        "kind": "interface",
+        "file": "src/types/smart-translation-demo.ts",
+        "line": 14,
+        "exported": true
+      },
+      {
+        "name": "ApiSuccessResponse",
+        "kind": "interface",
+        "file": "src/types/error-handling.ts",
+        "line": 58,
+        "exported": true
+      },
+      {
+        "name": "AppError",
+        "kind": "interface",
+        "file": "src/types/types.ts",
+        "line": 350,
+        "exported": true
+      },
+      {
+        "name": "AppHeaderProps",
+        "kind": "interface",
+        "file": "src/types/app-header.ts",
+        "line": 7,
+        "exported": true
+      },
+      {
+        "name": "AsyncOperationConfig",
+        "kind": "interface",
+        "file": "src/hooks/useAsyncOperationEnhanced.ts",
+        "line": 9,
+        "exported": true
+      },
+      {
+        "name": "AsyncOperationOptions",
+        "kind": "interface",
+        "file": "src/types/enhanced-types.ts",
+        "line": 62,
+        "exported": true
+      },
+      {
+        "name": "AsyncOperationResult",
+        "kind": "interface",
+        "file": "src/types/enhanced-types.ts",
+        "line": 71,
+        "exported": true
+      },
+      {
+        "name": "AsyncOperationResult",
+        "kind": "interface",
+        "file": "src/hooks/useAsyncOperationEnhanced.ts",
+        "line": 61,
+        "exported": true
+      },
+      {
+        "name": "AsyncOperationState",
+        "kind": "interface",
+        "file": "src/hooks/useAsyncOperationEnhanced.ts",
+        "line": 39,
+        "exported": true
+      },
+      {
+        "name": "AsyncState",
+        "kind": "interface",
+        "file": "src/types/enhanced-types.ts",
+        "line": 313,
+        "exported": true
+      },
+      {
+        "name": "AuditDetails",
+        "kind": "interface",
+        "file": "src/services/auditService.ts",
+        "line": 45,
+        "exported": true
+      },
+      {
+        "name": "AuditLog",
+        "kind": "interface",
+        "file": "src/services/auditService.ts",
+        "line": 54,
+        "exported": true
+      },
+      {
+        "name": "AuditLogEntry",
+        "kind": "interface",
+        "file": "src/types/enhanced-types.ts",
+        "line": 127,
+        "exported": true
+      },
+      {
+        "name": "AuditLogEntry",
+        "kind": "interface",
+        "file": "src/services/auditLoggingService.ts",
+        "line": 17,
+        "exported": true
+      },
+      {
+        "name": "AuditLogFilters",
+        "kind": "interface",
+        "file": "src/services/gdprAuditService.ts",
+        "line": 85,
+        "exported": true
+      },
+      {
+        "name": "AuditOptions",
+        "kind": "interface",
+        "file": "src/types/enhanced-types.ts",
+        "line": 141,
+        "exported": true
+      },
+      {
+        "name": "AuditQuery",
+        "kind": "interface",
+        "file": "src/services/auditService.ts",
+        "line": 68,
+        "exported": true
+      },
+      {
+        "name": "AuditStatistics",
+        "kind": "interface",
+        "file": "src/services/gdprAuditService.ts",
+        "line": 100,
+        "exported": true
+      },
+      {
+        "name": "AuditStats",
+        "kind": "interface",
+        "file": "src/services/auditService.ts",
+        "line": 76,
+        "exported": true
+      },
+      {
+        "name": "AuthAction",
+        "kind": "interface",
+        "file": "src/auth/types.ts",
+        "line": 19,
+        "exported": true
+      },
+      {
+        "name": "AuthAnimationConfig",
+        "kind": "interface",
+        "file": "src/components/auth/AuthAnimations.tsx",
+        "line": 142,
+        "exported": true
+      },
+      {
+        "name": "AuthContextType",
+        "kind": "interface",
+        "file": "src/types/types.ts",
+        "line": 139,
+        "exported": true
+      },
+      {
+        "name": "AuthContextType",
+        "kind": "interface",
+        "file": "src/auth/types.ts",
+        "line": 25,
+        "exported": true
+      },
+      {
+        "name": "AuthenticationError",
+        "kind": "interface",
+        "file": "src/types/error-handling.ts",
+        "line": 155,
+        "exported": true
+      },
+      {
+        "name": "AuthorizationError",
+        "kind": "interface",
+        "file": "src/types/error-handling.ts",
+        "line": 162,
+        "exported": true
+      },
+      {
+        "name": "AuthResponse",
+        "kind": "interface",
+        "file": "src/types/auth.ts",
+        "line": 10,
+        "exported": true
+      }
+    ],
+    "functions": [
+      {
+        "name": "a",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/greenlet/tests/test_generator_nested.py",
+        "line": 92,
+        "exported": true
+      },
+      {
+        "name": "a_run",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/greenlet/tests/fail_initialstub_already_started.py",
+        "line": 18,
+        "exported": true
+      },
+      {
+        "name": "add_dict_to_cookiejar",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/requests/utils.py",
+        "line": 468,
+        "exported": true
+      },
+      {
+        "name": "add_metaclass",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/packages/six.py",
+        "line": 953,
+        "exported": true
+      },
+      {
+        "name": "add_move",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/packages/six.py",
+        "line": 544,
+        "exported": true
+      },
+      {
+        "name": "add_source_url_to_script",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl/_js_handle.py",
+        "line": 335,
+        "exported": true
+      },
+      {
+        "name": "add_stderr_logger",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/__init__.py",
+        "line": 63,
+        "exported": true
+      },
+      {
+        "name": "add_target_python_options",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/cli/cmdoptions.py",
+        "line": 697,
+        "exported": true
+      },
+      {
+        "name": "address_in_network",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/requests/utils.py",
+        "line": 672,
+        "exported": true
+      },
+      {
+        "name": "adjacent_tmp_file",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/utils/filesystem.py",
+        "line": 46,
+        "exported": true
+      },
+      {
+        "name": "alabel",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/idna/core.py",
+        "line": 284,
+        "exported": true
+      },
+      {
+        "name": "allexcept",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/pygments/unistring.py",
+        "line": 86,
+        "exported": true
+      },
+      {
+        "name": "allowed_gai_family",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/util/connection.py",
+        "line": 108,
+        "exported": true
+      },
+      {
+        "name": "android_platforms",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/packaging/tags.py",
+        "line": 533,
+        "exported": true
+      },
+      {
+        "name": "announceToScreenReader",
+        "kind": "function",
+        "file": "src/utils/accessibility.ts",
+        "line": 270,
+        "exported": true
+      },
+      {
+        "name": "ansiformat",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/pygments/console.py",
+        "line": 48,
+        "exported": true
+      },
+      {
+        "name": "apply_filters",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/pygments/filter.py",
+        "line": 12,
+        "exported": true
+      },
+      {
+        "name": "as_base_candidate",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/resolution/resolvelib/candidates.py",
+        "line": 48,
+        "exported": true
+      },
+      {
+        "name": "ask",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/utils/misc.py",
+        "line": 217,
+        "exported": true
+      },
+      {
+        "name": "ask_input",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/utils/misc.py",
+        "line": 232,
+        "exported": true
+      },
+      {
+        "name": "ask_password",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/utils/misc.py",
+        "line": 238,
+        "exported": true
+      },
+      {
+        "name": "ask_path_exists",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/utils/misc.py",
+        "line": 202,
+        "exported": true
+      },
+      {
+        "name": "assert_fingerprint",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/util/ssl_.py",
+        "line": 185,
+        "exported": true
+      },
+      {
+        "name": "assert_header_parsing",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/util/response.py",
+        "line": 40,
+        "exported": true
+      },
+      {
+        "name": "assertCountEqual",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/packages/six.py",
+        "line": 745,
+        "exported": true
+      },
+      {
+        "name": "assertNotRegex",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/packages/six.py",
+        "line": 757,
+        "exported": true
+      },
+      {
+        "name": "assertRaisesRegex",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/packages/six.py",
+        "line": 749,
+        "exported": true
+      },
+      {
+        "name": "assertRegex",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/packages/six.py",
+        "line": 753,
+        "exported": true
+      },
+      {
+        "name": "async_playwright",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/async_api/__init__.py",
+        "line": 89,
+        "exported": true
+      },
+      {
+        "name": "async_readfile",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl/_helper.py",
+        "line": 531,
+        "exported": true
+      },
+      {
+        "name": "async_writefile",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl/_helper.py",
+        "line": 522,
+        "exported": true
+      },
+      {
+        "name": "atomic_open",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/requests/utils.py",
+        "line": 296,
+        "exported": true
+      },
+      {
+        "name": "auto",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/rich/repr.py",
+        "line": 28,
+        "exported": true
+      },
+      {
+        "name": "auto",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/rich/repr.py",
+        "line": 33,
+        "exported": true
+      },
+      {
+        "name": "auto",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/rich/repr.py",
+        "line": 37,
+        "exported": true
+      },
+      {
+        "name": "auto_complete_paths",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/cli/autocompletion.py",
+        "line": 156,
+        "exported": true
+      },
+      {
+        "name": "autocomplete",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/cli/autocompletion.py",
+        "line": 17,
+        "exported": true
+      },
+      {
+        "name": "autoFixOnImport",
+        "kind": "function",
+        "file": "src/utils/circuitBreakerFix.ts",
+        "line": 136,
+        "exported": true
+      },
+      {
+        "name": "backport_makefile",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/packages/backports/makefile.py",
+        "line": 13,
+        "exported": true
+      },
+      {
+        "name": "backup_dir",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/utils/misc.py",
+        "line": 191,
+        "exported": true
+      },
+      {
+        "name": "blend_rgb",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/rich/color.py",
+        "line": 580,
+        "exported": true
+      },
+      {
+        "name": "bool_to_js_bool",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl/_locator.py",
+        "line": 895,
+        "exported": true
+      },
+      {
+        "name": "break_args_options",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/req/req_file.py",
+        "line": 449,
+        "exported": true
+      },
+      {
+        "name": "build",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/wheel_builder.py",
+        "line": 204,
+        "exported": true
+      },
+      {
+        "name": "build_constraints",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/cli/cmdoptions.py",
+        "line": 454,
+        "exported": true
+      },
+      {
+        "name": "build_editable",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py",
+        "line": 285,
+        "exported": true
+      },
+      {
+        "name": "build_iter_view",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/resolvelib/structs.py",
+        "line": 200,
+        "exported": true
+      },
+      {
+        "name": "build_netloc",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/utils/misc.py",
+        "line": 394,
+        "exported": true
+      },
+      {
+        "name": "build_number",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/distro/distro.py",
+        "line": 417,
+        "exported": true
+      },
+      {
+        "name": "build_parser",
+        "kind": "function",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/req/req_file.py",
+        "line": 471,
+        "exported": true
+      }
+    ],
+    "types": [
+      {
+        "name": "AcceptanceMethod",
+        "kind": "type",
+        "file": "src/services/privacyPolicyService.ts",
+        "line": 41,
+        "exported": true
+      },
+      {
+        "name": "ActionButtonToken",
+        "kind": "type",
+        "file": "src/styles/tokens.ts",
+        "line": 158,
+        "exported": true
+      },
+      {
+        "name": "AnimationTheme",
+        "kind": "type",
+        "file": "src/components/auth/AuthAnimations.tsx",
+        "line": 132,
+        "exported": true
+      },
+      {
+        "name": "AnimationTrigger",
+        "kind": "type",
+        "file": "src/types/animations.ts",
+        "line": 39,
+        "exported": true
+      },
+      {
+        "name": "AnimationType",
+        "kind": "type",
+        "file": "src/types/animations.ts",
+        "line": 8,
+        "exported": true
+      },
+      {
+        "name": "AnimationVariant",
+        "kind": "type",
+        "file": "src/components/auth/AuthAnimations.tsx",
+        "line": 127,
+        "exported": true
+      },
+      {
+        "name": "ApiResponse",
+        "kind": "type",
+        "file": "src/types/error-handling.ts",
+        "line": 65,
+        "exported": true
+      },
+      {
+        "name": "AsyncResult",
+        "kind": "type",
+        "file": "src/types/error-handling.ts",
+        "line": 121,
+        "exported": true
+      },
+      {
+        "name": "AuditLogLevel",
+        "kind": "type",
+        "file": "src/services/gdprAuditService.ts",
+        "line": 34,
+        "exported": true
+      },
+      {
+        "name": "AuthAnimationType",
+        "kind": "type",
+        "file": "src/components/auth/AuthAnimations.tsx",
+        "line": 110,
+        "exported": true
+      },
+      {
+        "name": "AutoSaveStatus",
+        "kind": "type",
+        "file": "src/hooks/useAutoSave.ts",
+        "line": 15,
+        "exported": true
+      },
+      {
+        "name": "BackupData",
+        "kind": "type",
+        "file": "src/services/dataRetentionService.ts",
+        "line": 10,
+        "exported": true
+      },
+      {
+        "name": "BadgeToken",
+        "kind": "type",
+        "file": "src/styles/tokens.ts",
+        "line": 157,
+        "exported": true
+      },
+      {
+        "name": "BindingSource",
+        "kind": "type",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/types/structs.d.ts",
+        "line": 45,
+        "exported": true
+      },
+      {
+        "name": "ButtonProps",
+        "kind": "type",
+        "file": "src/components/ui/button.tsx",
+        "line": 39,
+        "exported": true
+      },
+      {
+        "name": "ButtonSize",
+        "kind": "type",
+        "file": "src/types/animations.ts",
+        "line": 80,
+        "exported": true
+      },
+      {
+        "name": "ButtonVariant",
+        "kind": "type",
+        "file": "src/types/animations.ts",
+        "line": 75,
+        "exported": true
+      },
+      {
+        "name": "Canton",
+        "kind": "type",
+        "file": "src/types/database.ts",
+        "line": 62,
+        "exported": true
+      },
+      {
+        "name": "Canton",
+        "kind": "type",
+        "file": "src/types/Region.ts",
+        "line": 3,
+        "exported": true
+      },
+      {
+        "name": "ChartConfig",
+        "kind": "type",
+        "file": "src/components/ui/chart.tsx",
+        "line": 9,
+        "exported": true
+      },
+      {
+        "name": "CheckboxProps",
+        "kind": "type",
+        "file": "src/components/ui/checkbox.tsx",
+        "line": 7,
+        "exported": true
+      },
+      {
+        "name": "ChecklistItemCategory",
+        "kind": "type",
+        "file": "src/types/gdpr.ts",
+        "line": 8,
+        "exported": true
+      },
+      {
+        "name": "ChecklistItemPriority",
+        "kind": "type",
+        "file": "src/types/gdpr.ts",
+        "line": 13,
+        "exported": true
+      },
+      {
+        "name": "ChecklistItemStatus",
+        "kind": "type",
+        "file": "src/types/gdpr.ts",
+        "line": 18,
+        "exported": true
+      },
+      {
+        "name": "CompanyRegistrationData",
+        "kind": "type",
+        "file": "src/schemas/validationSchemas.ts",
+        "line": 285,
+        "exported": true
+      },
+      {
+        "name": "CompleteInviteData",
+        "kind": "type",
+        "file": "src/schemas/validationSchemas.ts",
+        "line": 284,
+        "exported": true
+      },
+      {
+        "name": "ConnectionStatus",
+        "kind": "type",
+        "file": "src/services/realtimeConnectionService.ts",
+        "line": 21,
+        "exported": true
+      },
+      {
+        "name": "CookieCategory",
+        "kind": "type",
+        "file": "src/services/cookieConsentService.ts",
+        "line": 10,
+        "exported": true
+      },
+      {
+        "name": "CreateInviteData",
+        "kind": "type",
+        "file": "src/schemas/validationSchemas.ts",
+        "line": 283,
+        "exported": true
+      },
+      {
+        "name": "Database",
+        "kind": "type",
+        "file": "src/types/supabase.ts",
+        "line": 9,
+        "exported": true
+      },
+      {
+        "name": "DatabaseRecord",
+        "kind": "type",
+        "file": "src/services/dataRetentionService.ts",
+        "line": 15,
+        "exported": true
+      },
+      {
+        "name": "DataCategory",
+        "kind": "type",
+        "file": "src/services/gdprAuditService.ts",
+        "line": 39,
+        "exported": true
+      },
+      {
+        "name": "DataExportFormat",
+        "kind": "type",
+        "file": "src/types/dataSubjectRights.ts",
+        "line": 35,
+        "exported": true
+      },
+      {
+        "name": "DataProcessingType",
+        "kind": "type",
+        "file": "src/components/DataProcessingConsent.tsx",
+        "line": 10,
+        "exported": true
+      },
+      {
+        "name": "DataRightRequestPriority",
+        "kind": "type",
+        "file": "src/types/dataSubjectRights.ts",
+        "line": 30,
+        "exported": true
+      },
+      {
+        "name": "DataRightRequestStatus",
+        "kind": "type",
+        "file": "src/types/dataSubjectRights.ts",
+        "line": 20,
+        "exported": true
+      },
+      {
+        "name": "DataRightRequestStatus",
+        "kind": "type",
+        "file": "backend/src/gdprService.ts",
+        "line": 19,
+        "exported": true
+      },
+      {
+        "name": "DataSubjectRightType",
+        "kind": "type",
+        "file": "src/types/dataSubjectRights.ts",
+        "line": 9,
+        "exported": true
+      },
+      {
+        "name": "DataSubjectRightType",
+        "kind": "type",
+        "file": "backend/src/gdprService.ts",
+        "line": 8,
+        "exported": true
+      },
+      {
+        "name": "DayOfWeekName",
+        "kind": "type",
+        "file": "src/types/types.ts",
+        "line": 82,
+        "exported": true
+      },
+      {
+        "name": "DbPendingRequest",
+        "kind": "type",
+        "file": "src/models/PendingRequest.ts",
+        "line": 4,
+        "exported": true
+      },
+      {
+        "name": "DbPendingRequestInsert",
+        "kind": "type",
+        "file": "src/models/PendingRequest.ts",
+        "line": 6,
+        "exported": true
+      },
+      {
+        "name": "DbPendingRequestUpdate",
+        "kind": "type",
+        "file": "src/models/PendingRequest.ts",
+        "line": 8,
+        "exported": true
+      },
+      {
+        "name": "DbUser",
+        "kind": "type",
+        "file": "src/types/admin-user-list.ts",
+        "line": 7,
+        "exported": true
+      },
+      {
+        "name": "DbUserInsert",
+        "kind": "type",
+        "file": "src/types/admin-user-list.ts",
+        "line": 12,
+        "exported": true
+      },
+      {
+        "name": "DbUserUpdate",
+        "kind": "type",
+        "file": "src/types/admin-user-list.ts",
+        "line": 17,
+        "exported": true
+      },
+      {
+        "name": "ElementHandleForTag",
+        "kind": "type",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/types/structs.d.ts",
+        "line": 44,
+        "exported": true
+      },
+      {
+        "name": "Enums",
+        "kind": "type",
+        "file": "src/types/supabase.ts",
+        "line": 577,
+        "exported": true
+      },
+      {
+        "name": "EvaluationArgument",
+        "kind": "type",
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/driver/package/types/structs.d.ts",
+        "line": 26,
+        "exported": true
+      },
+      {
+        "name": "FetchPriority",
+        "kind": "type",
+        "file": "src/utils/imageOptimization.ts",
+        "line": 156,
+        "exported": true
+      }
+    ],
+    "enums": [
+      {
+        "name": "AuditAction",
+        "kind": "enum",
+        "file": "src/services/auditService.ts",
+        "line": 12,
+        "exported": true
+      },
+      {
+        "name": "AuditSeverity",
+        "kind": "enum",
+        "file": "src/services/auditService.ts",
+        "line": 37,
+        "exported": true
+      },
+      {
+        "name": "CircuitBreakerState",
+        "kind": "enum",
+        "file": "src/types/error-handling.ts",
+        "line": 84,
+        "exported": true
+      },
+      {
+        "name": "ConnectionStatus",
+        "kind": "enum",
+        "file": "src/services/ConnectionFallbackService.ts",
+        "line": 17,
+        "exported": true
+      },
+      {
+        "name": "EntryType",
+        "kind": "enum",
+        "file": "src/types/types.ts",
+        "line": 27,
+        "exported": true
+      },
+      {
+        "name": "ErrorCategory",
+        "kind": "enum",
+        "file": "src/types/error-handling.ts",
+        "line": 7,
+        "exported": true
+      },
+      {
+        "name": "ErrorSeverity",
+        "kind": "enum",
+        "file": "src/types/error-handling.ts",
+        "line": 22,
+        "exported": true
+      },
+      {
+        "name": "ErrorType",
+        "kind": "enum",
+        "file": "src/types/types.ts",
+        "line": 340,
+        "exported": true
+      },
+      {
+        "name": "LogLevel",
+        "kind": "enum",
+        "file": "src/services/LoggingService.ts",
+        "line": 7,
+        "exported": true
+      },
+      {
+        "name": "NetworkEventType",
+        "kind": "enum",
+        "file": "src/services/networkMonitoringService.ts",
+        "line": 61,
+        "exported": true
+      },
+      {
+        "name": "ResourceType",
+        "kind": "enum",
+        "file": "src/services/auditService.ts",
+        "line": 27,
+        "exported": true
+      },
+      {
+        "name": "VacationStatus",
+        "kind": "enum",
+        "file": "src/types/types.ts",
+        "line": 35,
+        "exported": true
+      },
+      {
+        "name": "CircuitState",
+        "kind": "enum",
+        "file": "src/utils/apiRetryUtils.ts",
+        "line": 23,
+        "exported": false,
+        "description": "Estado do Circuit Breaker"
+      }
+    ]
+  },
+  "publicAPI": [
+    {
+      "name": "a",
+      "kind": "function",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/greenlet/tests/test_generator_nested.py",
+      "line": 92,
+      "exported": true
+    },
+    {
+      "name": "A",
+      "kind": "class",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/greenlet/tests/fail_initialstub_already_started.py",
+      "line": 28,
+      "exported": true
+    },
+    {
+      "name": "a_run",
+      "kind": "function",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/greenlet/tests/fail_initialstub_already_started.py",
+      "line": 18,
+      "exported": true
+    },
+    {
+      "name": "AbstractDistribution",
+      "kind": "class",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/distributions/base.py",
+      "line": 13,
+      "exported": true
+    },
+    {
+      "name": "AbstractProvider",
+      "kind": "class",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/resolvelib/providers.py",
+      "line": 21,
+      "exported": true
+    },
+    {
+      "name": "AbstractResolver",
+      "kind": "class",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/resolvelib/resolvers/abstract.py",
+      "line": 22,
+      "exported": true
+    },
+    {
+      "name": "AcceptanceMethod",
+      "kind": "type",
+      "file": "src/services/privacyPolicyService.ts",
+      "line": 41,
+      "exported": true
+    },
+    {
+      "name": "AcceptInviteResult",
+      "kind": "interface",
+      "file": "src/types/auth.ts",
+      "line": 65,
+      "exported": true
+    },
+    {
+      "name": "AcceptInviteRpcResponse",
+      "kind": "interface",
+      "file": "src/types/rpc-responses.ts",
+      "line": 11,
+      "exported": true
+    },
+    {
+      "name": "Accessibility",
+      "kind": "class",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/sync_api/_generated.py",
+      "line": 3137,
+      "exported": true
+    },
+    {
+      "name": "Accessibility",
+      "kind": "class",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/async_api/_generated.py",
+      "line": 3093,
+      "exported": true
+    },
+    {
+      "name": "Accessibility",
+      "kind": "class",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl/_accessibility.py",
+      "line": 56,
+      "exported": true
+    },
+    {
+      "name": "AccessibilityFeedbackProps",
+      "kind": "interface",
+      "file": "src/components/common/AccessibilityFeedback.tsx",
+      "line": 77,
+      "exported": true
+    },
+    {
+      "name": "AccessibilityStatesProps",
+      "kind": "interface",
+      "file": "src/components/common/AccessibilityStates.tsx",
+      "line": 50,
+      "exported": true
+    },
+    {
+      "name": "ActionButtonProps",
+      "kind": "interface",
+      "file": "src/components/ui/action-button.tsx",
+      "line": 40,
+      "exported": true
+    },
+    {
+      "name": "ActionButtonToken",
+      "kind": "type",
+      "file": "src/styles/tokens.ts",
+      "line": 158,
+      "exported": true
+    },
+    {
+      "name": "add_dict_to_cookiejar",
+      "kind": "function",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/requests/utils.py",
+      "line": 468,
+      "exported": true
+    },
+    {
+      "name": "add_metaclass",
+      "kind": "function",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/packages/six.py",
+      "line": 953,
+      "exported": true
+    },
+    {
+      "name": "add_move",
+      "kind": "function",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/packages/six.py",
+      "line": 544,
+      "exported": true
+    },
+    {
+      "name": "add_source_url_to_script",
+      "kind": "function",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/playwright/_impl/_js_handle.py",
+      "line": 335,
+      "exported": true
+    },
+    {
+      "name": "add_stderr_logger",
+      "kind": "function",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/__init__.py",
+      "line": 63,
+      "exported": true
+    },
+    {
+      "name": "add_target_python_options",
+      "kind": "function",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/cli/cmdoptions.py",
+      "line": 697,
+      "exported": true
+    },
+    {
+      "name": "address_in_network",
+      "kind": "function",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/requests/utils.py",
+      "line": 672,
+      "exported": true
+    },
+    {
+      "name": "adjacent_tmp_file",
+      "kind": "function",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/utils/filesystem.py",
+      "line": 46,
+      "exported": true
+    },
+    {
+      "name": "AdjacentTempDirectory",
+      "kind": "class",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/utils/temp_dir.py",
+      "line": 224,
+      "exported": true
+    },
+    {
+      "name": "AdminSimulationProps",
+      "kind": "interface",
+      "file": "src/types/smart-translation-demo.ts",
+      "line": 59,
+      "exported": true
+    },
+    {
+      "name": "AdvancedToastOptions",
+      "kind": "interface",
+      "file": "src/hooks/useAdvancedToast.ts",
+      "line": 5,
+      "exported": true
+    },
+    {
+      "name": "AgeBasedRule",
+      "kind": "interface",
+      "file": "src/models/VacationRulesConfig.ts",
+      "line": 6,
+      "exported": true
+    },
+    {
+      "name": "alabel",
+      "kind": "function",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/idna/core.py",
+      "line": 284,
+      "exported": true
+    },
+    {
+      "name": "AlertProps",
+      "kind": "interface",
+      "file": "src/components/common/Alert.tsx",
+      "line": 19,
+      "exported": true
+    },
+    {
+      "name": "AlertThresholds",
+      "kind": "interface",
+      "file": "src/utils/supabasePerformanceMonitor.ts",
+      "line": 58,
+      "exported": true
+    },
+    {
+      "name": "Align",
+      "kind": "class",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/rich/align.py",
+      "line": 17,
+      "exported": true
+    },
+    {
+      "name": "allexcept",
+      "kind": "function",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/pygments/unistring.py",
+      "line": 86,
+      "exported": true
+    },
+    {
+      "name": "allowed_gai_family",
+      "kind": "function",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/urllib3/util/connection.py",
+      "line": 108,
+      "exported": true
+    },
+    {
+      "name": "AlreadyInstalledCandidate",
+      "kind": "class",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_internal/resolution/resolvelib/candidates.py",
+      "line": 356,
+      "exported": true
+    },
+    {
+      "name": "Android",
+      "kind": "class",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/platformdirs/android.py",
+      "line": 14,
+      "exported": true
+    },
+    {
+      "name": "android_platforms",
+      "kind": "function",
+      "file": "testsprite_tests/venv/lib/python3.14/site-packages/pip/_vendor/packaging/tags.py",
+      "line": 533,
+      "exported": true
+    },
+    {
+      "name": "AnimatedAuthElementProps",
+      "kind": "interface",
+      "file": "src/components/auth/AuthAnimations.tsx",
+      "line": 167,
+      "exported": true
+    },
+    {
+      "name": "AnimatedAuthWrapperProps",
+      "kind": "interface",
+      "file": "src/components/auth/AuthAnimations.tsx",
+      "line": 156,
+      "exported": true
+    },
+    {
+      "name": "AnimatedButtonProps",
+      "kind": "interface",
+      "file": "src/types/animations.ts",
+      "line": 85,
+      "exported": true
+    },
+    {
+      "name": "AnimatedCardProps",
+      "kind": "interface",
+      "file": "src/types/animations.ts",
+      "line": 98,
+      "exported": true
+    },
+    {
+      "name": "AnimatedCardProps",
+      "kind": "interface",
+      "file": "src/components/ui/animated-card.tsx",
+      "line": 29,
+      "exported": true
+    },
+    {
+      "name": "AnimatedElementProps",
+      "kind": "interface",
+      "file": "src/types/animations.ts",
+      "line": 44,
+      "exported": true
+    },
+    {
+      "name": "AnimatedListProps",
+      "kind": "interface",
+      "file": "src/types/animations.ts",
+      "line": 66,
+      "exported": true
+    },
+    {
+      "name": "AnimationConfig",
+      "kind": "interface",
+      "file": "src/types/animations.ts",
+      "line": 26,
+      "exported": true
+    },
+    {
+      "name": "AnimationTheme",
+      "kind": "type",
+      "file": "src/components/auth/AuthAnimations.tsx",
+      "line": 132,
+      "exported": true
+    },
+    {
+      "name": "AnimationTrigger",
+      "kind": "type",
+      "file": "src/types/animations.ts",
+      "line": 39,
+      "exported": true
+    },
+    {
+      "name": "AnimationType",
+      "kind": "type",
+      "file": "src/types/animations.ts",
+      "line": 8,
+      "exported": true
+    },
+    {
+      "name": "AnimationVariant",
+      "kind": "type",
+      "file": "src/components/auth/AuthAnimations.tsx",
+      "line": 127,
+      "exported": true
+    },
+    {
+      "name": "announceToScreenReader",
+      "kind": "function",
+      "file": "src/utils/accessibility.ts",
+      "line": 270,
+      "exported": true
+    }
+  ],
+  "dependencies": {
+    "mostImported": [
+      {
+        "file": "src/types/index.ts",
+        "importedBy": 62
+      },
+      {
+        "file": "src/services/ErrorHandlingService.ts",
+        "importedBy": 53
+      },
+      {
+        "file": "src/components/ui/button.tsx",
+        "importedBy": 50
+      },
+      {
+        "file": "src/utils/supabaseClient.ts",
+        "importedBy": 45
+      },
+      {
+        "file": "src/utils/logger.ts",
+        "importedBy": 29
+      },
+      {
+        "file": "src/contexts/NotificationContext.tsx",
+        "importedBy": 25
+      },
+      {
+        "file": "src/hooks/useAuth.ts",
+        "importedBy": 25
+      },
+      {
+        "file": "src/components/ui/card.tsx",
+        "importedBy": 25
+      },
+      {
+        "file": "src/lib/utils.ts",
+        "importedBy": 25
+      },
+      {
+        "file": "testsprite_tests/venv/lib/python3.14/site-packages/greenlet/tests",
+        "importedBy": 24
+      },
+      {
+        "file": "src/error/index.ts",
+        "importedBy": 23
+      },
+      {
+        "file": "src/contexts/RobustTranslationContext.tsx",
+        "importedBy": 23
+      },
+      {
+        "file": "src/types/supabase.ts",
+        "importedBy": 22
+      },
+      {
+        "file": "src/hooks/useDashboardCustomization.ts",
+        "importedBy": 22
+      },
+      {
+        "file": "src/types/error-handling.ts",
+        "importedBy": 15
+      },
+      {
+        "file": "src/components/common/SectionCard.tsx",
+        "importedBy": 14
+      },
+      {
+        "file": "src/types/types.ts",
+        "importedBy": 13
+      },
+      {
+        "file": "src/components/ui/alert.tsx",
+        "importedBy": 12
+      },
+      {
+        "file": "src/utils/timeUtils.ts",
+        "importedBy": 11
+      },
+      {
+        "file": "src/hooks/useSmartTranslation.ts",
+        "importedBy": 11
+      }
+    ]
+  },
+  "stats": {
+    "totalSymbols": 4733,
+    "exportedSymbols": 2714,
+    "analysisTimeMs": 3040
+  }
+}

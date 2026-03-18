@@ -1,78 +1,74 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Transaction, parseTransactions } from '@/lib/parser';
+import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import { Transaction } from '@/lib/parser';
+import { Category } from '@/lib/db/schema';
 
 interface TransactionContextType {
   transactions: Transaction[];
-  revenue: number;
-  addTransaction: (t: Omit<Transaction, 'id'>) => void;
-  updateTransaction: (id: string, t: Omit<Transaction, 'id'>) => void;
-  deleteTransaction: (id: string) => void;
-  updateRevenue: (amount: number) => void;
+  categories: Category[];
+  totalIncome: number;
+  totalExpense: number;
+  addTransaction: (t: Omit<Transaction, 'id'>) => Promise<void>;
+  updateTransaction: (id: string, t: Omit<Transaction, 'id'>) => Promise<void>;
+  deleteTransaction: (id: string) => Promise<void>;
+  getCategoryColor: (id: string) => string;
 }
 
 const TransactionContext = createContext<TransactionContextType | undefined>(undefined);
 
 export function TransactionProvider({ 
   children, 
-  initialData = [] 
+  initialData = [],
+  initialCategories = []
 }: { 
   children: React.ReactNode, 
-  initialData?: Transaction[] 
+  initialData?: Transaction[],
+  initialCategories?: Category[]
 }) {
   const [transactions, setTransactions] = useState<Transaction[]>(initialData);
-  const [revenue, setRevenue] = useState(19141.35);
+  const [categories, setCategories] = useState<Category[]>(initialCategories);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const savedRev = localStorage.getItem('finance_revenue');
-    if (savedRev) {
-      setRevenue(parseFloat(savedRev));
-    }
-
-    if (initialData && initialData.length > 0) {
-      setTransactions(initialData);
-      setIsLoaded(true);
-      return;
-    }
-
-    const savedTx = localStorage.getItem('finance_transactions');
-    if (savedTx) {
-      try {
-        const parsed = JSON.parse(savedTx).map((t: any) => ({
-          ...t, 
-          date: new Date(t.date)
-        }));
-        setTransactions(parsed);
-      } catch (e) {
-        setTransactions(parseTransactions());
-      }
-    } else {
-      setTransactions(parseTransactions());
-    }
-    
+    setTransactions(initialData.map(t => ({ ...t, date: new Date(t.date) })));
+    setCategories(initialCategories);
     setIsLoaded(true);
-  }, [initialData]);
+  }, [initialData, initialCategories]);
 
-  useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem('finance_transactions', JSON.stringify(transactions));
-      localStorage.setItem('finance_revenue', revenue.toString());
-    }
-  }, [transactions, revenue, isLoaded]);
+  const totalIncome = useMemo(() => 
+    transactions
+      .filter(t => t.type === 'income')
+      .reduce((acc, t) => acc + t.amount, 0)
+  , [transactions]);
+
+  const totalExpense = useMemo(() => 
+    transactions
+      .filter(t => t.type === 'expense')
+      .reduce((acc, t) => acc + t.amount, 0)
+  , [transactions]);
+
+  const getCategoryColor = (id: string) => {
+    const category = categories.find(c => c.id === id);
+    return category?.color || '#64748b'; // Default to slate-500
+  };
 
   const addTransaction = async (t: Omit<Transaction, 'id'>) => {
     const { addTransactionAction } = await import('@/services/transaction/transaction.actions');
     const result = await addTransactionAction(t);
     if (result && result.length > 0) {
-      setTransactions(prev => [result[0], ...prev].sort((a, b) => b.date.getTime() - a.date.getTime()));
+      const newTx = { ...result[0], date: new Date(result[0].date) };
+      setTransactions(prev => [newTx, ...prev].sort((a, b) => b.date.getTime() - a.date.getTime()));
     }
   };
 
-  const updateTransaction = (id: string, t: Omit<Transaction, 'id'>) => {
-    // For now, keep local if not implemented in server yet
-    setTransactions(prev => prev.map(tx => tx.id === id ? { ...t, id } : tx).sort((a, b) => b.date.getTime() - a.date.getTime()));
+  const updateTransaction = async (id: string, t: Omit<Transaction, 'id'>) => {
+    const { updateTransactionAction } = await import('@/services/transaction/transaction.actions');
+    const result = await updateTransactionAction(id, t);
+    if (result && result.length > 0) {
+      const updatedTx = { ...result[0], date: new Date(result[0].date) };
+      setTransactions(prev => prev.map(tx => tx.id === id ? updatedTx : tx).sort((a, b) => b.date.getTime() - a.date.getTime()));
+    }
   };
 
   const deleteTransaction = async (id: string) => {
@@ -84,11 +80,24 @@ export function TransactionProvider({
   };
 
   if (!isLoaded) {
-    return <div className="min-h-screen flex items-center justify-center bg-slate-50"><div className="animate-pulse text-slate-500">Carregando dados...</div></div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="animate-pulse text-slate-500 text-lg">Carregando dados...</div>
+      </div>
+    );
   }
 
   return (
-    <TransactionContext.Provider value={{ transactions, revenue, addTransaction, updateTransaction, deleteTransaction, updateRevenue: setRevenue }}>
+    <TransactionContext.Provider value={{ 
+      transactions,
+      categories,
+      totalIncome, 
+      totalExpense, 
+      addTransaction, 
+      updateTransaction, 
+      deleteTransaction,
+      getCategoryColor
+    }}>
       {children}
     </TransactionContext.Provider>
   );

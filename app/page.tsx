@@ -2,12 +2,16 @@ import { Home } from 'lucide-react';
 import { TransactionProvider } from '@/components/transaction-context';
 import { Dashboard } from '@/components/dashboard';
 import { getTransactionsAction } from '@/services/transaction/transaction.actions';
+import { getCategoriesAction } from '@/services/category/category.actions';
 
 export default async function Page() {
-  const transactions = await getTransactionsAction();
+  const [transactions, categories] = await Promise.all([
+    getTransactionsAction(),
+    getCategoriesAction(),
+  ]);
 
   return (
-    <TransactionProvider initialData={transactions}>
+    <TransactionProvider initialData={transactions} initialCategories={categories}>
       <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
         {/* Header */}
         <header className="bg-white border-b border-slate-200 sticky top-0 z-10">

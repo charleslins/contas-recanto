@@ -1,0 +1,10 @@
+# Workflow: Auditoria Completa de Segurança (Supabase + RLS + App)
+
+**Contexto**: O projeto está hospedado na Cloudflare e usa Supabase. Precisamos garantir que não há vazamento de dados entre empresas (tenants).
+
+**Instruções para a IA**:
+1. Use o MCP `user-supabase` para listar as tabelas principais (`users`, `daily_logs`, `vacations`).
+2. Analise as políticas RLS ativas para garantir que o acesso está restrito ao `company_id` ou `auth.uid()`.
+3. Busque no código em `src/services/` e `src/hooks/` por chamadas ao Supabase que não estejam tratando erros corretamente ou expondo chaves indevidas.
+4. Verifique as configurações de cache da Cloudflare (no nível do código, se há headers sendo passados que possam vazar dados de sessão).
+5. Gere um relatório indicando: Vulnerabilidades Críticas, Avisos de Performance (falta de índices) e Código inseguro.
