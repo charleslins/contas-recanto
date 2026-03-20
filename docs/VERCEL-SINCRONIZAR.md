@@ -65,3 +65,9 @@ Se continuar `ab10415`, o push não foi para o repositório que a Vercel usa (re
 | GitHub     | SHA no topo da `main`   |
 | Vercel     | SHA no deploy (deve bater) |
 | Erro build | Se SHA = `ab10415`, ignore o erro até o SHA mudar |
+
+## Variáveis de ambiente (Neon)
+
+- Em **Vercel** e no **GitHub Actions**, use `DATABASE_URL` com string Postgres do Neon.
+- `DATABASE_AUTH_TOKEN` era da configuração Turso/LibSQL e não é usado na configuração Neon deste projeto.
+- Se aparecer `password authentication failed for user 'neondb_owner'`, a senha/URL da `DATABASE_URL` está incorreta.

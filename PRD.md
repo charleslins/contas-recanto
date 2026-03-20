@@ -65,7 +65,7 @@ Aplicação web para **registrar, classificar e visualizar receitas e despesas**
 | RF4 | Importar CSV/OFX com prévia e soma antes de confirmar | Alta |
 | RF5 | Exportar relatório em PDF | Média |
 | RF6 | Valores monetários com máscara pt-BR consistente | Alta |
-| RF7 | Persistência em banco relacional (SQLite local / LibSQL remoto) | Alta |
+| RF7 | Persistência em banco relacional Postgres (Neon) | Alta |
 
 ---
 
@@ -83,7 +83,7 @@ Aplicação web para **registrar, classificar e visualizar receitas e despesas**
 |--------|------------|
 | UI | Next.js App Router, React, Tailwind |
 | Estado cliente | React Context (`TransactionProvider`) |
-| Dados | Drizzle ORM + LibSQL (`file:local.db` ou Turso) |
+| Dados | Drizzle ORM + Postgres serverless (Neon) |
 | Ações servidor | Server Actions (`services/*/*.actions.ts`) |
 
 Estrutura principal:
@@ -101,7 +101,7 @@ Estrutura principal:
 |---------|------|
 | Idioma / locale UI | pt-BR |
 | Segurança | Sem expor `.env`, tokens ou `*.db` no repositório público |
-| Deploy | Compatível com Vercel + banco Turso (LibSQL remoto) |
+| Deploy | Compatível com Vercel + banco Neon Postgres |
 
 ---
 

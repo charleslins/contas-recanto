@@ -1,9 +1,9 @@
-# Sincroniza o schema Drizzle com o banco LibSQL (ex.: Turso).
+# Sincroniza o schema Drizzle com o banco Neon Postgres.
 #
 # OBRIGATÓRIO — secrets do REPOSITÓRIO (não use .env no repositório):
 #   GitHub → repositório → Settings → Secrets and variables → Actions
 #   → aba "Repository secrets" → New repository secret
-#   Nomes exatos: DATABASE_URL  e  DATABASE_AUTH_TOKEN
+#   Nome exato: DATABASE_URL
 #   (arquivo .env.local na sua máquina NÃO alimenta o Actions.)
 #
 # Depois: Actions → "Drizzle — push schema" → Run workflow.
@@ -47,19 +47,9 @@ jobs:
       - name: Drizzle Kit push
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }}
         run: |
           if [ -z "$DATABASE_URL" ]; then
-            echo "::error::Secret DATABASE_URL ausente. No GitHub: Settings → Secrets and variables → Actions → Repository secrets → New repository secret (nome: DATABASE_URL, valor: URL libsql:// da Turso). Repita DATABASE_AUTH_TOKEN com o token."
+            echo "::error::Secret DATABASE_URL ausente. Cadastre em: Settings → Secrets and variables → Actions → Repository secrets (URL postgres do Neon)."
             exit 1
           fi
-          # Sem token, o push em Turso falha em "Pulling schema" sem mensagem clara.
-          case "$DATABASE_URL" in
-            libsql://*)
-              if [ -z "$DATABASE_AUTH_TOKEN" ]; then
-                echo "::error::Para URL libsql:// é obrigatório o secret DATABASE_AUTH_TOKEN (token da Turso). Cadastre em Settings → Secrets → Actions."
-                exit 1
-              fi
-              ;;
-          esac
           npx drizzle-kit push --verbose

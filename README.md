@@ -1,39 +1,41 @@
 # Recanto — Dashboard financeiro
 
-Aplicação **Next.js** para gestão de **receitas e despesas** (transações, categorias com subcategorias, importação CSV/OFX, gráficos e exportação PDF). Interface em **pt-BR**, com máscara monetária estilo app bancário.
+Aplicação **Next.js** para gestão de **receitas e despesas** (transações, categorias, importação CSV/OFX, gráficos e exportação PDF), com interface em **pt-BR**.
 
 ## Stack
 
-- **Next.js 15** (App Router) · **React 19** · **TypeScript**
-- **Tailwind CSS 4** · componentes **Radix** / padrão shadcn
-- **Drizzle ORM** + **LibSQL** (`@libsql/client`) — SQLite local ou **Turso** na nuvem
-- **date-fns**, **papaparse** (CSV), **ofx-js** (OFX), **jspdf** (PDF), **recharts**
+- **Next.js 15** · **React 19** · **TypeScript**
+- **Tailwind CSS 4** · componentes base Radix/shadcn
+- **Drizzle ORM** + **Neon Postgres** (`@neondatabase/serverless`)
+- `date-fns`, `papaparse`, `ofx-js`, `jspdf`, `recharts`
 
 ## Requisitos
 
 - Node.js **20+**
-- Conta gratuita (opcional para produção): [Vercel](https://vercel.com) + [Turso](https://turso.tech) (banco LibSQL)
+- Banco Postgres (recomendado: [Neon](https://neon.tech))
 
-## Rodar localmente
+## Configuração local
+
+1. Instale dependências:
 
 ```bash
 npm install
 ```
 
-Crie `.env.local` (veja [`.env.example`](./.env.example)):
+2. Crie `.env.local` a partir de [`.env.example`](./.env.example):
 
 ```env
-DATABASE_URL="file:local.db"
+DATABASE_URL="postgresql://user:password@ep-xxxxxx-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require"
 ```
 
-Aplicar schema no SQLite local e semear categorias padrão:
+3. Aplique schema e seed:
 
 ```bash
 npm run db:push
 npm run db:seed
 ```
 
-Subir o app:
+4. Rode o projeto:
 
 ```bash
 npm run dev
@@ -43,99 +45,46 @@ Abra [http://localhost:3000](http://localhost:3000).
 
 ## Scripts
 
-| Comando        | Descrição                          |
-|----------------|-------------------------------------|
-| `npm run dev`  | Servidor de desenvolvimento         |
-| `npm run build` / `npm run start` | Build e produção local |
-| `npm run lint` | ESLint                              |
-| `npm run db:push` | Sincroniza schema (Drizzle → DB) |
-| `npm run db:seed` | Insere categorias padrão (apaga transações/categorias antes — use com cuidado) |
+| Comando | Descrição |
+|---|---|
+| `npm run dev` | Desenvolvimento |
+| `npm run build` / `npm run start` | Build e execução de produção |
+| `npm run lint` | Lint |
+| `npm run db:push` | Sincroniza schema Drizzle com o banco |
+| `npm run db:seed` | Seed de categorias padrão (limpa categorias/transações antes) |
 
-## Banco de dados
+## Deploy na Vercel
 
-- **Local:** `DATABASE_URL=file:local.db` (arquivo ignorado pelo Git — ver `.gitignore`).
-- **Produção (recomendado):** banco **Turso** (plano free). Variáveis:
-  - `DATABASE_URL` — URL `libsql://...` fornecida pelo Turso
-  - `DATABASE_AUTH_TOKEN` — token de acesso
+1. Vercel → **Add New Project** → importar repositório GitHub.
+2. Em **Environment Variables**, configurar apenas:
+   - `DATABASE_URL` (connection string do Neon)
+3. Deploy.
 
-Depois de criar o banco na Turso, rode **`npm run db:push`** e **`npm run db:seed`** apontando para essa URL (via `.env` local ou CI), para criar tabelas e categorias iniciais.
+> A Vercel compila o código que está no GitHub. Se corrigiu localmente, precisa `git push` para gerar novo deploy.
 
-O `drizzle.config.ts` usa automaticamente **`dialect: turso`** e **`authToken`** quando `DATABASE_URL` começa com `libsql://`. Sem o token, o `drizzle-kit push` costuma falhar no passo *Pulling schema* no GitHub Actions.
+Se a Vercel continuar em commit antigo (ex.: `ab10415`), siga [docs/VERCEL-SINCRONIZAR.md](./docs/VERCEL-SINCRONIZAR.md).
 
-> **Importante:** em hospedagem serverless (ex.: Vercel), **não** use apenas `file:...` — o filesystem é efêmero. Use Turso (ou outro LibSQL remoto).
+## GitHub Actions (`db:push`)
 
-## Publicar online (grátis, prático)
+O workflow [`.github/workflows/drizzle-push.yml`](./.github/workflows/drizzle-push.yml) roda `drizzle-kit push`:
 
-### 1. Repositório no GitHub
+- manualmente via **Actions → Run workflow**, ou
+- em push para `main`/`master` quando muda `lib/db/schema.ts` ou `drizzle.config.ts`.
 
-```bash
-gh repo create recanto --public --source=. --remote=origin --push
-```
+### Secret obrigatório no GitHub
 
-(Ajuste o nome do repositório. Faça commit das alterações antes.)
+| Secret | Uso |
+|---|---|
+| `DATABASE_URL` | conexão Postgres do Neon |
 
-**Não commite** dados sensíveis: `*.db`, CSVs com valores reais, `.env*`.
+Não use `.env.local` do seu computador para CI: GitHub Actions lê apenas **Repository secrets**.
 
-### 2. Vercel
+## Notas de migração
 
-1. Acesse [vercel.com](https://vercel.com) → **Add New Project** → importe o repositório.
-2. Em **Environment Variables**, adicione `DATABASE_URL` e `DATABASE_AUTH_TOKEN` (Turso).
-3. **Deploy.** Na primeira vez, rode `db:push` e `db:seed` contra o banco Turso (no seu PC com as mesmas variáveis, ou via workflow — ver abaixo).
+- O projeto foi migrado de Turso/SQLite para Neon/Postgres.
+- Dados antigos em arquivo SQLite/local não migram automaticamente para Neon.
 
-**A Vercel compila o que está no GitHub, não a pasta só no seu Mac.** Depois de corrigir o código localmente, é obrigatório:
+## Documentação
 
-```bash
-git add -A && git commit -m "fix: …" && git push origin main
-```
-
-Confira no GitHub (aba **Code**) se `lib/import-utils.ts` no **último commit** é o mesmo que no seu Cursor. Se o deploy mostrar erro antigo (`parseString`), o `push` não chegou no repositório ligado ao projeto Vercel (ex.: `conta-recanto`).
-
-**Vercel ainda mostra commit `ab10415` enquanto o GitHub já está em outro SHA?** Você está só dando **Redeploy** no build velho — isso **não** puxa o código novo. Leia **[`docs/VERCEL-SINCRONIZAR.md`](./docs/VERCEL-SINCRONIZAR.md)** e faça `git push` (ou commit vazio) para disparar deploy **novo**.
-
-### 3. Turso (resumo)
-
-1. Instale a CLI: [Turso CLI](https://docs.turso.tech/cli/introduction).
-2. `turso db create recanto` → copie a URL.
-3. `turso db tokens create recanto` → copie o token → use como `DATABASE_AUTH_TOKEN`.
-
-### 4. GitHub Actions — `db:push` automático
-
-O workflow [`.github/workflows/drizzle-push.yml`](./.github/workflows/drizzle-push.yml) roda **`drizzle-kit push`** quando:
-
-- você dispara manualmente (**Actions** → *Drizzle — push schema* → **Run workflow**), ou
-- há push na branch `main` ou `master` alterando `lib/db/schema.ts` ou `drizzle.config.ts`.
-
-**Secrets do repositório** (mesmos nomes da Vercel, para copiar/colar):
-
-| Secret | Obrigatório | Descrição |
-|--------|-------------|-----------|
-| `DATABASE_URL` | Sim | URL `libsql://...` da Turso |
-| `DATABASE_AUTH_TOKEN` | Sim (Turso) | Token do banco |
-
-**Onde cadastrar (passo a passo):**
-
-1. Abra o repositório no GitHub (ex.: `conta-recanto`).
-2. Aba **Settings** (do repositório, não da sua conta).
-3. Menu lateral **Secrets and variables** → **Actions**.
-4. Aba **Repository secrets** → **New repository secret**.
-5. Crie **dois** secrets com estes **nomes exatos** (maiúsculas e underscore):
-   - `DATABASE_URL` = colar a URL `libsql://...` da Turso  
-   - `DATABASE_AUTH_TOKEN` = colar o token da Turso  
-
-Atalho direto (troque `USER/REPO`):  
-`https://github.com/USER/REPO/settings/secrets/actions`
-
-**Erro comum:** arquivo `.env.local` no seu PC ou dentro de `.github/workflows/` **não** configura o Actions — só os **Repository secrets** acima funcionam.
-
-> O workflow **não** executa `db:seed` (o seed apaga dados — rode só manualmente quando fizer sentido).
-
-### 5. Pós-deploy
-
-- Com o workflow e os secrets configurados, o schema é aplicado nos pushes relevantes ou ao rodar o workflow manualmente.
-- **Seed** (`npm run db:seed`), se precisar de categorias padrão num banco novo: rode **uma vez** na sua máquina com `DATABASE_URL` / `DATABASE_AUTH_TOKEN` da Turso (não está no CI).
-
-Documentação de produto e escopo: **[PRD.md](./PRD.md)**.
-
-## Licença
-
-Uso pessoal / projeto próprio — ajuste conforme necessário.
+- Produto: [PRD.md](./PRD.md)
+- Diagnóstico de sincronização Git/Vercel: [docs/VERCEL-SINCRONIZAR.md](./docs/VERCEL-SINCRONIZAR.md)

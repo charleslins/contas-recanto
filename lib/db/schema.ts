@@ -1,24 +1,35 @@
-import { sqliteTable, text, integer, real } from 'drizzle-orm/sqlite-core';
+import {
+  doublePrecision,
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+} from 'drizzle-orm/pg-core';
 
-export const categories = sqliteTable('categories', {
+export const categoryTypeEnum = pgEnum('category_type', ['income', 'expense', 'both']);
+export const transactionTypeEnum = pgEnum('transaction_type', ['income', 'expense']);
+
+export const categories = pgTable('categories', {
   id: text('id').primaryKey(),
   name: text('name').notNull().unique(),
-  color: text('color').notNull().default('#64748b'), // Default slate-500
-  type: text('type', { enum: ['income', 'expense', 'both'] }).notNull().default('expense'),
-  createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
+  color: text('color').notNull().default('#64748b'),
+  type: categoryTypeEnum('type').notNull().default('expense'),
+  createdAt: timestamp('created_at', { mode: 'date' }).notNull().defaultNow(),
 });
 
-export const transactions = sqliteTable('transactions', {
+export const transactions = pgTable('transactions', {
   id: text('id').primaryKey(),
-  type: text('type', { enum: ['income', 'expense'] }).notNull().default('expense'),
-  categoryId: text('category_id').notNull().references(() => categories.id),
+  type: transactionTypeEnum('type').notNull().default('expense'),
+  categoryId: text('category_id')
+    .notNull()
+    .references(() => categories.id),
   categoryName: text('category_name').notNull(),
-  date: integer('date', { mode: 'timestamp' }).notNull(),
+  date: timestamp('date', { mode: 'date' }).notNull(),
   dateStr: text('date_str').notNull(),
   history: text('history').notNull(),
-  amount: real('amount').notNull(),
+  amount: doublePrecision('amount').notNull(),
   description: text('description').notNull(),
-  createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
+  createdAt: timestamp('created_at', { mode: 'date' }).notNull().defaultNow(),
 });
 
 export type Category = typeof categories.$inferSelect;
