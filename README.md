@@ -82,6 +82,14 @@ gh repo create recanto --public --source=. --remote=origin --push
 2. Em **Environment Variables**, adicione `DATABASE_URL` e `DATABASE_AUTH_TOKEN` (Turso).
 3. **Deploy.** Na primeira vez, rode `db:push` e `db:seed` contra o banco Turso (no seu PC com as mesmas variáveis, ou via workflow — ver abaixo).
 
+**A Vercel compila o que está no GitHub, não a pasta só no seu Mac.** Depois de corrigir o código localmente, é obrigatório:
+
+```bash
+git add -A && git commit -m "fix: …" && git push origin main
+```
+
+Confira no GitHub (aba **Code**) se `lib/import-utils.ts` no **último commit** é o mesmo que no seu Cursor. Se o deploy mostrar erro antigo (`parseString`), o `push` não chegou no repositório ligado ao projeto Vercel (ex.: `conta-recanto`).
+
 ### 3. Turso (resumo)
 
 1. Instale a CLI: [Turso CLI](https://docs.turso.tech/cli/introduction).

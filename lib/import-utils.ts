@@ -2,7 +2,20 @@ import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import { Transaction } from '@/lib/parser';
 import { format } from 'date-fns';
-import { parse as parseOfx } from 'ofx-js';
+
+/** ofx-js é CJS (`module.exports.parse`). Import dinâmico evita erro de named export no Webpack/Vercel. */
+async function parseOfxString(content: string): Promise<unknown> {
+  const mod = await import('ofx-js');
+  const m = mod as typeof mod & {
+    parse?: (s: string) => Promise<unknown>;
+    default?: { parse?: (s: string) => Promise<unknown> };
+  };
+  const fn = typeof m.parse === 'function' ? m.parse : m.default?.parse;
+  if (typeof fn !== 'function') {
+    throw new Error('ofx-js: função parse indisponível neste bundle.');
+  }
+  return fn(content);
+}
 
 export async function exportToPDF(transactions: Transaction[], title: string) {
   const doc = new jsPDF();
@@ -32,7 +45,13 @@ export async function exportToPDF(transactions: Transaction[], title: string) {
 
 export async function parseOFX(fileContent: string): Promise<Partial<Transaction>[]> {
   try {
-    const data = await parseOfx(fileContent);
+    const data = (await parseOfxString(fileContent)) as {
+      OFX: {
+        BANKMSGSRSV1: {
+          STMTTRNRS: { STMTRS: { BANKTRANLIST: { STMTTRN: unknown } } };
+        };
+      };
+    };
     const stmtTrn = data.OFX.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN;
     
     // OFX structures vary, handle array or single object
