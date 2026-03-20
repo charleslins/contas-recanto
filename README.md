@@ -90,6 +90,8 @@ git add -A && git commit -m "fix: …" && git push origin main
 
 Confira no GitHub (aba **Code**) se `lib/import-utils.ts` no **último commit** é o mesmo que no seu Cursor. Se o deploy mostrar erro antigo (`parseString`), o `push` não chegou no repositório ligado ao projeto Vercel (ex.: `conta-recanto`).
 
+**Vercel ainda mostra commit `ab10415` enquanto o GitHub já está em outro SHA?** Você está só dando **Redeploy** no build velho — isso **não** puxa o código novo. Leia **[`docs/VERCEL-SINCRONIZAR.md`](./docs/VERCEL-SINCRONIZAR.md)** e faça `git push` (ou commit vazio) para disparar deploy **novo**.
+
 ### 3. Turso (resumo)
 
 1. Instale a CLI: [Turso CLI](https://docs.turso.tech/cli/introduction).
