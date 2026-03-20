@@ -73,7 +73,7 @@ export function ExpenseCharts({ transactions }: ExpenseChartsProps) {
         fill="#fff" 
         textAnchor="end" 
         dominantBaseline="middle"
-        className="text-[10px] font-black"
+        className="text-[10px] font-medium"
       >
         {formatCurrency(value)}
       </text>
@@ -85,8 +85,8 @@ export function ExpenseCharts({ transactions }: ExpenseChartsProps) {
       {/* Category Chart - Only Horizontal Bars as requested */}
       <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-100/50">
         <div className="mb-6">
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Gastos por Categoria</h4>
-          <p className="text-xl font-black text-slate-900 tracking-tight">Análise Setorial</p>
+          <h4 className="text-xs font-semibold uppercase tracking-widest text-slate-500">Gastos por Categoria</h4>
+          <p className="text-lg font-semibold text-slate-900">Analise setorial</p>
         </div>
         <div className="h-[200px] w-full">
           <ResponsiveContainer width="100%" height="100%">
@@ -102,13 +102,13 @@ export function ExpenseCharts({ transactions }: ExpenseChartsProps) {
                 axisLine={false}
                 tickLine={false}
                 width={110}
-                tick={{ fill: '#64748b', fontSize: 10, fontWeight: 900 }}
+                tick={{ fill: '#64748b', fontSize: 11, fontWeight: 500 }}
               />
               <Tooltip 
                 cursor={{ fill: '#f1f5f9' }}
                 formatter={(value: any) => formatCurrency(Number(value))}
                 contentStyle={{ borderRadius: '20px', border: 'none', boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)', padding: '12px 16px' }}
-                itemStyle={{ fontSize: '12px', fontWeight: '900', color: '#1e293b' }}
+                itemStyle={{ fontSize: '12px', fontWeight: '500', color: '#1e293b' }}
               />
               <Bar dataKey="value" radius={[0, 10, 10, 0]} barSize={26}>
                 {categoryData.map((entry, index) => (
@@ -124,8 +124,8 @@ export function ExpenseCharts({ transactions }: ExpenseChartsProps) {
       {/* Monthly Evolution - Area Chart as established before */}
       <div className="relative overflow-hidden rounded-3xl border border-indigo-100 bg-white p-6 shadow-xl shadow-indigo-50/20">
         <div className="mb-6">
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-indigo-400">Evolução Financeira</h4>
-          <p className="text-xl font-black text-slate-900 tracking-tight">Histórico de Despesas</p>
+          <h4 className="text-xs font-semibold uppercase tracking-widest text-indigo-400">Evolucao financeira</h4>
+          <p className="text-lg font-semibold text-slate-900">Historico de despesas</p>
         </div>
         <div className="h-[200px] w-full">
           <ResponsiveContainer width="100%" height="100%">
@@ -141,19 +141,19 @@ export function ExpenseCharts({ transactions }: ExpenseChartsProps) {
                 dataKey="name" 
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 800 }}
+                tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 500 }}
                 dy={12}
               />
               <YAxis 
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 800 }}
+                tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 500 }}
                 tickFormatter={(value) => value >= 1000 ? `${value/1000}k` : value}
               />
               <Tooltip
                 formatter={(value: any) => formatCurrency(Number(value))}
                 contentStyle={{ borderRadius: '20px', border: 'none', boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.2)', padding: '12px 16px' }}
-                itemStyle={{ fontSize: '13px', fontWeight: '900', color: '#4f46e5' }}
+                itemStyle={{ fontSize: '13px', fontWeight: '500', color: '#4f46e5' }}
               />
               <Area 
                 type="monotone" 

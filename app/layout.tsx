@@ -6,13 +6,13 @@ import { cn } from "@/lib/utils";
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
-  title: 'My Google AI Studio App',
-  description: 'My Google AI Studio App',
+  title: 'Dashboard Financeiro - Recanto',
+  description: 'Controle de receitas e despesas do Recanto',
 };
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
-    <html lang="en" className={cn("font-sans", inter.variable)}>
+    <html lang="pt-BR" className={cn("font-sans", inter.variable)} suppressHydrationWarning>
       <body suppressHydrationWarning>{children}</body>
     </html>
   );

@@ -9,7 +9,7 @@ import { TransactionModal } from './transaction-modal';
 import { Transaction } from '@/lib/parser';
 
 export function Dashboard() {
-  const { transactions, addTransaction, updateTransaction } = useTransactions();
+  const { transactions, addTransaction, updateTransaction, resetTransactionsByType } = useTransactions();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTx, setEditingTx] = useState<Transaction | null>(null);
   const [defaultType, setDefaultType] = useState<'income' | 'expense'>('expense');
@@ -36,7 +36,7 @@ export function Dashboard() {
 
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
-      <DashboardCards onAdd={handleAdd} />
+      <DashboardCards onResetType={resetTransactionsByType} />
       <ExpenseCharts transactions={transactions} />
       <TransactionTable onAdd={handleAdd} onEdit={handleEdit} />
       

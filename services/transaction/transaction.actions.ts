@@ -1,6 +1,6 @@
 'use server';
 
-import { getTransactions, addTransaction, deleteTransaction, updateTransaction } from './transaction.service';
+import { getTransactions, addTransaction, deleteTransaction, updateTransaction, clearTransactions, clearTransactionsByType } from './transaction.service';
 import { revalidatePath } from 'next/cache';
 
 export async function getTransactionsAction() {
@@ -21,5 +21,15 @@ export async function updateTransactionAction(id: string, data: any) {
 
 export async function deleteTransactionAction(id: string) {
   await deleteTransaction(id);
+  revalidatePath('/');
+}
+
+export async function clearTransactionsAction() {
+  await clearTransactions();
+  revalidatePath('/');
+}
+
+export async function clearTransactionsByTypeAction(type: 'income' | 'expense') {
+  await clearTransactionsByType(type);
   revalidatePath('/');
 }

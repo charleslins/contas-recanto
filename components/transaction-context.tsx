@@ -12,6 +12,11 @@ interface TransactionContextType {
   addTransaction: (t: Omit<Transaction, 'id'>) => Promise<void>;
   updateTransaction: (id: string, t: Omit<Transaction, 'id'>) => Promise<void>;
   deleteTransaction: (id: string) => Promise<void>;
+  resetTransactions: () => Promise<void>;
+  resetTransactionsByType: (type: 'income' | 'expense') => Promise<void>;
+  addCategory: (category: { name: string; color: string; type: 'income' | 'expense' | 'both' }) => Promise<void>;
+  updateCategory: (id: string, data: { name?: string; color?: string; type?: 'income' | 'expense' | 'both' }) => Promise<void>;
+  deleteCategory: (id: string) => Promise<void>;
   getCategoryColor: (id: string) => string;
 }
 
@@ -79,6 +84,72 @@ export function TransactionProvider({
     }
   };
 
+  const resetTransactions = async () => {
+    const { clearTransactionsAction } = await import('@/services/transaction/transaction.actions');
+    await clearTransactionsAction();
+    setTransactions([]);
+  };
+
+  const resetTransactionsByType = async (type: 'income' | 'expense') => {
+    const { clearTransactionsByTypeAction } = await import('@/services/transaction/transaction.actions');
+    await clearTransactionsByTypeAction(type);
+    setTransactions(prev => prev.filter(transaction => transaction.type !== type));
+  };
+
+  const addCategory = async (category: { name: string; color: string; type: 'income' | 'expense' | 'both' }) => {
+    const { addCategoryAction } = await import('@/services/category/category.actions');
+    const payload = {
+      id: crypto.randomUUID(),
+      name: category.name.trim(),
+      color: category.color,
+      type: category.type,
+    };
+    const result = await addCategoryAction(payload);
+    if (result && result.length > 0) {
+      setCategories(prev => [...prev, result[0]].sort((a, b) => a.name.localeCompare(b.name)));
+    }
+  };
+
+  const updateCategory = async (id: string, data: { name?: string; color?: string; type?: 'income' | 'expense' | 'both' }) => {
+    const { updateCategoryAction } = await import('@/services/category/category.actions');
+    const payload = {
+      ...(data.name ? { name: data.name.trim() } : {}),
+      ...(data.color ? { color: data.color } : {}),
+      ...(data.type ? { type: data.type } : {}),
+    };
+    const result = await updateCategoryAction(id, payload);
+    if (result && result.length > 0) {
+      const updatedCategory = result[0];
+      setCategories(prev =>
+        prev
+          .map(category => (category.id === id ? updatedCategory : category))
+          .sort((a, b) => a.name.localeCompare(b.name))
+      );
+      setTransactions(prev =>
+        prev.map(transaction =>
+          transaction.categoryId === id
+            ? { ...transaction, categoryName: updatedCategory.name }
+            : transaction
+        )
+      );
+    }
+  };
+
+  const deleteCategory = async (id: string) => {
+    if (id === 'income' || id === '5') {
+      throw new Error('Categorias padrão não podem ser removidas.');
+    }
+
+    const categoryInUse = transactions.some(transaction => transaction.categoryId === id);
+    if (categoryInUse) {
+      throw new Error('Esta categoria possui transações associadas. Reclassifique antes de remover.');
+    }
+
+    const { deleteCategoryAction } = await import('@/services/category/category.actions');
+    await deleteCategoryAction(id);
+    setCategories(prev => prev.filter(category => category.id !== id));
+  };
+
   if (!isLoaded) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
@@ -96,6 +167,11 @@ export function TransactionProvider({
       addTransaction, 
       updateTransaction, 
       deleteTransaction,
+      resetTransactions,
+      resetTransactionsByType,
+      addCategory,
+      updateCategory,
+      deleteCategory,
       getCategoryColor
     }}>
       {children}

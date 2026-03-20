@@ -9,7 +9,11 @@ export async function getTransactions() {
 }
 
 export async function addTransaction(data: any) {
-  return await db.insert(transactions).values(data).returning();
+  const payload = {
+    ...data,
+    id: data?.id || crypto.randomUUID(),
+  };
+  return await db.insert(transactions).values(payload).returning();
 }
 
 export async function updateTransaction(id: string, data: any) {
@@ -18,4 +22,12 @@ export async function updateTransaction(id: string, data: any) {
 
 export async function deleteTransaction(id: string) {
   return await db.delete(transactions).where(eq(transactions.id, id));
+}
+
+export async function clearTransactions() {
+  return await db.delete(transactions);
+}
+
+export async function clearTransactionsByType(type: 'income' | 'expense') {
+  return await db.delete(transactions).where(eq(transactions.type, type));
 }
