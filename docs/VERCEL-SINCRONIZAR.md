@@ -19,11 +19,23 @@ Se ainda for, faça push do seu código corrigido antes de qualquer coisa.
 
 Isso **recompila o `ab10415` de novo**. Não resolve.
 
+### Nome do projeto na Vercel ≠ nome do repo no GitHub
+
+Na Vercel o projeto pode chamar **`conta-recanto`** (sem “s”) mesmo que no GitHub seja **`contas-recanto`**. Isso **não importa**.
+
+O que importa é **Settings → Git → Connected Git Repository**: tem que ser exatamente  
+`charleslins/contas-recanto` (o repo onde sua `main` e o Actions rodam).  
+Se estiver `charleslins/conta-recanto`, a Vercel compila **outro** repositório — daí commit antigo e erros que “nunca somem”.
+
+**Correção:** Git → **Disconnect** → **Connect Git Repository** → escolha **`contas-recanto`**. Depois um `git push` na `main` desse repo.
+
+---
+
 ### 3) Force um deploy **novo** a partir do Git
 
 **Opção A — recomendada (1 comando)**
 
-Na pasta do repo que aponta para `charleslins/conta-recanto`:
+Na pasta do repo que aponta para **`charleslins/contas-recanto`** (o mesmo conectado na Vercel):
 
 ```bash
 git pull origin main
@@ -35,9 +47,9 @@ Abra a Vercel → **Deployments**: o próximo item deve mostrar um **SHA novo** 
 
 **Opção B — integração Git**
 
-1. Vercel → projeto **conta-recanto** → **Settings** → **Git**  
-2. Confira **Connected Repository** = `charleslins/conta-recanto` e **Production Branch** = `main`.  
-3. Se estiver tudo certo e mesmo assim não dispara: **Disconnect** e conecte de novo o mesmo repo (reativa o webhook do GitHub).
+1. Vercel → projeto (nome na Vercel pode ser **conta-recanto**) → **Settings** → **Git**  
+2. Confira **Connected Repository** = `charleslins/contas-recanto` e **Production Branch** = `main`.  
+3. Se estiver `conta-recanto` (sem “s”): **Disconnect** e conecte **`contas-recanto`**. Se já estiver certo e não dispara deploy: **Disconnect** e conecte de novo (reativa webhook).
 
 ### 4) Checagem final
 
