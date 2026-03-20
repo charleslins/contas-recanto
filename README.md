@@ -100,7 +100,20 @@ O workflow [`.github/workflows/drizzle-push.yml`](./.github/workflows/drizzle-pu
 | `DATABASE_URL` | Sim | URL `libsql://...` da Turso |
 | `DATABASE_AUTH_TOKEN` | Sim (Turso) | Token do banco |
 
-Onde configurar: **GitHub → Settings → Secrets and variables → Actions → New repository secret**.
+**Onde cadastrar (passo a passo):**
+
+1. Abra o repositório no GitHub (ex.: `conta-recanto`).
+2. Aba **Settings** (do repositório, não da sua conta).
+3. Menu lateral **Secrets and variables** → **Actions**.
+4. Aba **Repository secrets** → **New repository secret**.
+5. Crie **dois** secrets com estes **nomes exatos** (maiúsculas e underscore):
+   - `DATABASE_URL` = colar a URL `libsql://...` da Turso  
+   - `DATABASE_AUTH_TOKEN` = colar o token da Turso  
+
+Atalho direto (troque `USER/REPO`):  
+`https://github.com/USER/REPO/settings/secrets/actions`
+
+**Erro comum:** arquivo `.env.local` no seu PC ou dentro de `.github/workflows/` **não** configura o Actions — só os **Repository secrets** acima funcionam.
 
 > O workflow **não** executa `db:seed` (o seed apaga dados — rode só manualmente quando fizer sentido).
 

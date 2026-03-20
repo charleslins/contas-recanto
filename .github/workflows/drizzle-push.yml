@@ -1,9 +1,18 @@
 # Sincroniza o schema Drizzle com o banco LibSQL (ex.: Turso).
-# Configure em: Settings → Secrets and variables → Actions
-#   - DATABASE_URL        (ex.: libsql://recanto-xxx.turso.io)
-#   - DATABASE_AUTH_TOKEN (token Turso; obrigatório para URL remota)
+#
+# OBRIGATÓRIO — secrets do REPOSITÓRIO (não use .env no repositório):
+#   GitHub → repositório → Settings → Secrets and variables → Actions
+#   → aba "Repository secrets" → New repository secret
+#   Nomes exatos: DATABASE_URL  e  DATABASE_AUTH_TOKEN
+#   (arquivo .env.local na sua máquina NÃO alimenta o Actions.)
+#
+# Depois: Actions → "Drizzle — push schema" → Run workflow.
 
 name: Drizzle — push schema
+
+env:
+  # Evita aviso de depreciação Node 20 nos actions oficiais (changelog GitHub 2025).
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 on:
   workflow_dispatch:
@@ -29,7 +38,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: npm
 
       - name: Install dependencies
@@ -41,7 +50,7 @@ jobs:
           DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }}
         run: |
           if [ -z "$DATABASE_URL" ]; then
-            echo "::error::Secret DATABASE_URL não definido. GitHub → Settings → Secrets and variables → Actions."
+            echo "::error::Secret DATABASE_URL ausente. No GitHub: Settings → Secrets and variables → Actions → Repository secrets → New repository secret (nome: DATABASE_URL, valor: URL libsql:// da Turso). Repita DATABASE_AUTH_TOKEN com o token."
             exit 1
           fi
           npx drizzle-kit push --verbose
