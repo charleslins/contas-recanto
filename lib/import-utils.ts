@@ -2,7 +2,7 @@ import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import { Transaction } from '@/lib/parser';
 import { format } from 'date-fns';
-import { parseString } from 'ofx-js';
+import { parse as parseOfx } from 'ofx-js';
 
 export async function exportToPDF(transactions: Transaction[], title: string) {
   const doc = new jsPDF();
@@ -32,7 +32,7 @@ export async function exportToPDF(transactions: Transaction[], title: string) {
 
 export async function parseOFX(fileContent: string): Promise<Partial<Transaction>[]> {
   try {
-    const data = await parseString(fileContent);
+    const data = await parseOfx(fileContent);
     const stmtTrn = data.OFX.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN;
     
     // OFX structures vary, handle array or single object
