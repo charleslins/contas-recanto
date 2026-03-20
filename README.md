@@ -60,6 +60,8 @@ Abra [http://localhost:3000](http://localhost:3000).
 
 Depois de criar o banco na Turso, rode **`npm run db:push`** e **`npm run db:seed`** apontando para essa URL (via `.env` local ou CI), para criar tabelas e categorias iniciais.
 
+O `drizzle.config.ts` usa automaticamente **`dialect: turso`** e **`authToken`** quando `DATABASE_URL` começa com `libsql://`. Sem o token, o `drizzle-kit push` costuma falhar no passo *Pulling schema* no GitHub Actions.
+
 > **Importante:** em hospedagem serverless (ex.: Vercel), **não** use apenas `file:...` — o filesystem é efêmero. Use Turso (ou outro LibSQL remoto).
 
 ## Publicar online (grátis, prático)

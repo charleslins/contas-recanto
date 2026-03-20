@@ -53,4 +53,13 @@ jobs:
             echo "::error::Secret DATABASE_URL ausente. No GitHub: Settings → Secrets and variables → Actions → Repository secrets → New repository secret (nome: DATABASE_URL, valor: URL libsql:// da Turso). Repita DATABASE_AUTH_TOKEN com o token."
             exit 1
           fi
+          # Sem token, o push em Turso falha em "Pulling schema" sem mensagem clara.
+          case "$DATABASE_URL" in
+            libsql://*)
+              if [ -z "$DATABASE_AUTH_TOKEN" ]; then
+                echo "::error::Para URL libsql:// é obrigatório o secret DATABASE_AUTH_TOKEN (token da Turso). Cadastre em Settings → Secrets → Actions."
+                exit 1
+              fi
+              ;;
+          esac
           npx drizzle-kit push --verbose
