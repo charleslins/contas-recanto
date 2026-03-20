@@ -1,0 +1,47 @@
+# Sincroniza o schema Drizzle com o banco LibSQL (ex.: Turso).
+# Configure em: Settings → Secrets and variables → Actions
+#   - DATABASE_URL        (ex.: libsql://recanto-xxx.turso.io)
+#   - DATABASE_AUTH_TOKEN (token Turso; obrigatório para URL remota)
+
+name: Drizzle — push schema
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'lib/db/schema.ts'
+      - 'drizzle.config.ts'
+
+concurrency:
+  group: drizzle-push-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  push-schema:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Drizzle Kit push
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }}
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "::error::Secret DATABASE_URL não definido. GitHub → Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+          npx drizzle-kit push --verbose
