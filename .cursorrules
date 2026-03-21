@@ -1,0 +1,64 @@
+---
+description: Recanto — gestão financeira pessoal (Next.js, Drizzle, Neon, shadcn/ui)
+alwaysApply: true
+---
+
+# Recanto — Regras para IA
+
+> **Stack:** Next.js 15 (App Router), React 19, TypeScript strict, Tailwind, shadcn/ui (Radix), Drizzle ORM + Neon (Postgres).  
+> **Documentação canónica:** `.context/docs/project-overview.md`, `.context/docs/architecture.md`  
+> **Workflows genéricos:** `.agent/workflows/` (adaptar ao Recanto quando citarem Vite/Supabase).
+
+## 1. Perfil
+
+- **Idioma:** Português Brasileiro nas respostas ao utilizador.
+- **Papel:** Arquiteto/desenvolvedor sénior — mudanças mínimas e alinhadas ao código existente.
+- **Servidor dev:** `npm run dev` (porta padrão Next.js, tipicamente 3000).
+
+## 2. Estrutura do repositório (fonte de verdade)
+
+```
+app/           # Rotas e layout (App Router)
+components/    # UI e features; components/ui/ = primitivos shadcn
+lib/           # Utilitários, parsers, db (Drizzle schema + cliente)
+services/      # Acesso a dados e server actions (*.actions.ts) por domínio
+hooks/         # Hooks React partilhados
+```
+
+- **Alias:** `@/*` → raiz do projeto (`tsconfig.json`).
+- **Não** assumir `src/`, Vite, react-router ou Supabase — isto não é o Heure C2.
+
+## 3. Dados e API
+
+- **Schema:** `lib/db/schema.ts`; migrações/sync: `drizzle.config.ts`, `npm run db:push`, workflow `.github/workflows/drizzle-push.yml`.
+- **Segredos:** `DATABASE_URL` no `.env` (local) e no GitHub Actions; nunca commitar `.env`.
+- Preferir **queries parametrizadas** via Drizzle; evitar SQL interpolado com input do utilizador.
+
+## 4. TypeScript e React
+
+- `strict: true` — evitar `any`; tipar props com **interface nomeada**.
+- Componentes funcionais; hooks no topo, sem condicionais.
+- Lógica de negócio pesada: `services/` ou `lib/`, não acoplada a JSX desnecessariamente.
+
+## 5. UI
+
+- Reutilizar `@/components/ui/*` (shadcn) em vez de reinventar primitivos.
+- **DOM válido:** filhos de `<tbody>` só `<tr>`; overlays fora da `<table>` (wrapper `relative`).
+- Evitar `opacity-0` sem transição/animacao comprovada no projeto.
+
+## 6. Qualidade
+
+- `npm run lint` antes de concluir alterações relevantes.
+- Evitar `console.log` em código de app; scripts CLI (ex.: seed) podem usar `console` para feedback.
+- Commits: mensagens em **português**, formato convencional quando possível (`tipo(área): descrição`).
+
+## 7. Contexto e ferramentas
+
+- Skills: `.context/skills/` (ver `README.md`).
+- Agentes: `.context/agents/` — inventário completo em **`.context/INVENTARIO_IA_RECANTO.md`**.
+- Workflows: `.agent/workflows/registry.json`.
+- Hooks Cursor: `.cursor/hooks.json` (context-mode, se instalado).
+
+## 8. Documentação
+
+- Fonte principal: `.context/docs/project-overview.md` e `architecture.md`. Em dúvida, prevalecem estes ficheiros e o presente documento.

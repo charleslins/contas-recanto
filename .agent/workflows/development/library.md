@@ -1,63 +1,64 @@
 ---
-description: Create publishable packages and libraries
+description: Criar pacotes e bibliotecas publicáveis
 ---
 
-# Library
+# Biblioteca / pacote
 
-I will help you create a publishable library or package.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Detect existing package setup before starting
-- Follow platform conventions (npm, PyPI, etc.)
-- Include proper documentation
-- Set up testing and CI
+Este workflow ajuda a criar uma biblioteca publicável (npm, PyPI, etc.).
 
-## Steps
+## Limites e cuidados
 
-### 1. Understand Requirements
-Ask clarifying questions:
-- What will the library do?
-- What platform? (npm, PyPI, etc.)
-- TypeScript or JavaScript? Python version?
-- Any similar libraries to reference?
+- Detectar se já existe monorepo ou pacote no repo
+- Seguir convenções da plataforma de publicação
+- Documentação e exemplos
+- Testes e CI
 
-### 2. Set Up Project
-Initialize properly:
-- Package configuration (package.json, setup.py)
-- TypeScript/build config
-- Testing framework
-- Linting/formatting
+## Passos
 
-### 3. Design API
-Plan the public interface:
-- What functions/classes to export
-- What options to accept
-- Error handling approach
-- Versioning strategy
+### 1. Requisitos
 
-### 4. Implement
-Build the library:
-- Core functionality
-- Input validation
-- Error messages
-- TypeScript types or type hints
+- Finalidade da biblioteca
+- Plataforma (npm, PyPI…)
+- TypeScript/JavaScript ou Python…
 
-### 5. Document
-Create comprehensive docs:
-- README with examples
-- API reference
-- Installation guide
-- Changelog
+### 2. Configurar projecto
 
-### 6. Prepare for Publishing
-Final steps:
-- Set up CI/CD
-- Configure package bundling
-- Add license
-- Test installation locally
+- `package.json`, `setup.py` ou equivalente
+- Build e tipos
+- Testes e lint
 
-## Principles
-- Small API surface
-- Sensible defaults
-- Comprehensive error messages
-- Versioning with semver
+### 3. Desenhar API pública
+
+- Exportações
+- Opções e configuração
+- Erros e versão semântica
+
+### 4. Implementar
+
+- Funcionalidade central
+- Validação
+- Tipos ou *type hints*
+
+### 5. Documentar
+
+- README com exemplos
+- Referência de API
+- Instalação e *changelog*
+
+### 6. Publicar
+
+- CI/CD
+- *Bundling* se necessário
+- Licença
+- Teste de `npm install` / `pip install` local
+
+## Princípios
+
+- API superficial pequena
+- *Defaults* sensatos
+- Mensagens de erro úteis
+- Semver

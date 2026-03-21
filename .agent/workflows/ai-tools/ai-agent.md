@@ -1,63 +1,81 @@
 ---
-description: Create AI agents with tools and capabilities
+description: Criar agentes de IA com ferramentas e capacidades
 ---
 
-# AI Agent
+# Agente de IA
 
-I will help you build an AI agent with tools and capabilities.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Define clear boundaries for agent actions
-- Implement proper error handling
-- Log agent decisions for debugging
-- Add safety checks for destructive actions
+Este workflow ajuda a construir um agente de IA com ferramentas e capacidades definidas.
 
-## Steps
+## Limites e cuidados
 
-### 1. Understand Requirements
-Ask clarifying questions:
-- What should the agent do?
-- What tools does it need?
-- What LLM will power it?
-- Any safety constraints?
+- Definir limites claros para as acções do agente
+- Implementar tratamento de erros adequado
+- Registar decisões do agente para depuração
+- Incluir verificações de segurança para acções destrutivas
 
-### 2. Design Agent
-Plan the architecture:
-- Agent type (ReAct, Chain-of-Thought, etc.)
-- Available tools
-- Memory/context handling
-- Output format
+## Passos
 
-### 3. Define Tools
-For each capability:
-- Name and description
-- Input parameters
-- Implementation
-- Error handling
+### 1. Perceber requisitos
 
-### 4. Implement Agent
-Build core components:
-- LLM integration
-- Tool execution
-- Response parsing
-- Context management
+Perguntas de clarificação:
 
-### 5. Add Safety
-Implement guardrails:
-- Input validation
-- Action confirmation for destructive ops
-- Rate limiting
-- Error recovery
+- O que o agente deve fazer?
+- De que ferramentas precisa?
+- Qual LLM o alimenta?
+- Há restrições de segurança?
 
-### 6. Test
-Verify behavior:
-- Happy path scenarios
-- Edge cases
-- Error handling
-- Safety constraints
+### 2. Desenhar o agente
 
-## Principles
-- Start simple, add complexity
-- Log everything for debugging
-- Fail gracefully
-- Human in the loop for critical actions
+Planear a arquitectura:
+
+- Tipo de agente (ReAct, cadeia de raciocínio, etc.)
+- Ferramentas disponíveis
+- Memória e contexto
+- Formato de saída
+
+### 3. Definir ferramentas
+
+Para cada capacidade:
+
+- Nome e descrição
+- Parâmetros de entrada
+- Implementação
+- Tratamento de erros
+
+### 4. Implementar o agente
+
+Construir os componentes centrais:
+
+- Integração com o LLM
+- Execução de ferramentas
+- Parsing de respostas
+- Gestão de contexto
+
+### 5. Adicionar segurança
+
+Implementar salvaguardas:
+
+- Validação de entrada
+- Confirmação para operações destrutivas
+- Limitação de taxa (rate limiting)
+- Recuperação de erros
+
+### 6. Testar
+
+Verificar comportamento:
+
+- Cenários de caminho feliz
+- Casos extremos
+- Tratamento de erros
+- Restrições de segurança
+
+## Princípios
+
+- Começar simples e aumentar complexidade gradualmente
+- Registar tudo para depuração
+- Falhar de forma controlada
+- Humano no ciclo para acções críticas

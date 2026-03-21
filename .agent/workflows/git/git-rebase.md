@@ -1,58 +1,66 @@
 ---
-description: Interactive rebase assistance for cleaning git history
+description: Assistência a rebase interactivo para limpar o histórico Git
 ---
 
-# Git Rebase
+# Git rebase
 
-I will help you perform interactive rebases to clean up your git history.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Never rebase already pushed/shared commits without warning
-- Create backup branch before rebasing
-- Understand each step before proceeding
-- Resolve conflicts carefully
+Este workflow ajuda a fazer *rebase* interactivo para organizar o histórico.
 
-## Steps
+## Limites e cuidados
 
-### 1. Understand the Goal
-Ask clarifying questions:
-- What do you want to achieve? (squash, reorder, edit)
-- How many commits to include?
-- Has this been pushed/shared?
+- **Não** fazer rebase de commits já partilhados/pushados sem avisar a equipa
+- Criar branch de *backup* antes
+- Entender cada passo
+- Resolver conflitos com cuidado
 
-### 2. Prepare
-Before rebasing:
-- Ensure working directory is clean
-- Create backup branch
-- Identify base commit
+## Passos
 
-### 3. Start Interactive Rebase
+### 1. Objectivo
+
+- Squash, reordenar, editar mensagens?
+- Quantos commits?
+- Já foram enviados ao remoto?
+
+### 2. Preparar
+
+- Working tree limpa
+- `git branch backup/nome` opcional
+- Identificar commit base
+
+### 3. Iniciar rebase interactivo
+
 ```bash
-git rebase -i HEAD~[n]  # or specific commit
+git rebase -i HEAD~n
+# ou até um commit específico
 ```
 
-### 4. Choose Actions
-For each commit, choose:
-- `pick`: Keep as-is
-- `squash`: Combine with previous
-- `reword`: Change message
-- `edit`: Stop to amend
-- `drop`: Remove commit
+### 4. Acções por commit
 
-### 5. Resolve Conflicts
-If conflicts occur:
-- Resolve each conflict
-- Stage resolved files
-- Continue rebase
+- `pick` — manter
+- `squash` — fundir com o anterior
+- `reword` — alterar mensagem
+- `edit` — parar para amend
+- `drop` — remover
 
-### 6. Verify
-After rebasing:
-- Check commit history
-- Run tests
-- Force push if needed (with care)
+### 5. Conflitos
 
-## Principles
-- Don't rebase public branches
-- Squash related commits
-- Write clear commit messages
-- Test after rebasing
+- Resolver ficheiros
+- `git add`
+- `git rebase --continue`
+
+### 6. Verificar
+
+- `git log --oneline`
+- Testes / build
+- `git push --force-with-lease` só se acordado (branch não partilhada ou equipa alinhada)
+
+## Princípios
+
+- Evitar rebase em histórico público sem coordenação
+- Agrupar commits relacionados
+- Mensagens claras
+- Testar após rebase

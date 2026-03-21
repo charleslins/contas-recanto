@@ -1,67 +1,61 @@
 ---
-description: Manage environment variables securely
+description: Gerir variáveis de ambiente de forma segura
 ---
 
-# Env Config
+# Configuração de ambiente
 
-I will help you manage environment variables securely across environments.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Never commit secrets to git
-- Use .env.example for documentation
-- Validate required variables on startup
-- Use different values per environment
+Este workflow ajuda a gerir variáveis de ambiente de forma segura entre ambientes.
 
-## Steps
+## Limites e cuidados
 
-### 1. Audit Current Setup
-Check existing configuration:
-- `.env` files present
-- `.env.example` exists
-- Variables in code
+- Nunca commitar *secrets* no Git
+- Usar `.env.example` para documentação (sem valores secretos)
+- Validar variáveis obrigatórias no arranque
+- Valores distintos por ambiente (dev/*staging*/produção)
 
-### 2. Organize Variables
-Group by purpose:
-- **App Config**: PORT, NODE_ENV
-- **Database**: DATABASE_URL
-- **API Keys**: External service keys
-- **Secrets**: JWT_SECRET, encryption keys
+## Passos
 
-### 3. Create .env.example
-Document all variables:
-```
-# App
-NODE_ENV=development
-PORT=3000
+### 1. Auditoria
 
-# Database
-DATABASE_URL=postgresql://...
+- Ficheiros `.env*` presentes
+- Existência de `.env.example`
+- Variáveis hardcoded no código (eliminar)
 
-# External APIs
-API_KEY=your-api-key-here
-```
+### 2. Organizar por finalidade
 
-### 4. Secure Secrets
-Best practices:
-- Add `.env` to `.gitignore`
-- Use secrets manager in production
-- Rotate keys regularly
-- Limit access to production values
+- **App:** `PORT`, `NODE_ENV`
+- **Base de dados:** `DATABASE_URL` (Neon no Recanto)
+- **APIs externas:** chaves de serviços
+- **Segredos:** JWT, encriptação, etc.
 
-### 5. Validate on Startup
-Check required variables:
-- Fail fast if missing
-- Log which are missing
-- Provide helpful error messages
+### 3. Manter `.env.example`
 
-### 6. Configure CI/CD
-Set up for deployment:
-- Use platform's secrets management
-- Different values per environment
-- Secure injection into builds
+Documentar todas as chaves necessárias (com valores fictícios ou vazios).
 
-## Principles
-- Never commit secrets
-- Document all variables
-- Validate early, fail fast
-- Different values per environment
+### 4. Proteger segredos
+
+- `.env` e `.env.local` no `.gitignore`
+- Gestor de *secrets* em produção (plataforma de hosting / Vault)
+- Rotação periódica de chaves
+- Acesso restrito a valores de produção
+
+### 5. Validar no arranque
+
+- Falhar cedo se faltar variável crítica
+- Mensagens de erro úteis (sem expor segredos)
+
+### 6. CI/CD
+
+- *Secrets* da plataforma (GitHub Actions, Vercel, etc.)
+- Valores por ambiente
+- Injeção segura nos *builds*
+
+## Princípios
+
+- Documentar todas as variáveis
+- Falhar cedo se config incompleta
+- Ambientes isolados

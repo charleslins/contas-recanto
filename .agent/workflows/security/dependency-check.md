@@ -1,106 +1,88 @@
 ---
-description: Check for vulnerable dependencies and suggest upgrades
+description: Verificar dependências vulneráveis e sugerir actualizações
 ---
 
-# Dependency Check
+# Verificação de dependências
 
-I will help you identify vulnerable dependencies and safely upgrade them.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Don't auto-upgrade without user confirmation
-- Check for breaking changes before suggesting upgrades
-- Prioritize by severity
-- Test after upgrades
+Este workflow ajuda a identificar dependências vulneráveis e actualizá-las com segurança.
 
-## Steps
+## Limites e cuidados
 
-### 1. Detect Package Manager
-Check which package manager is used:
+- Não actualizar automaticamente sem confirmação
+- Verificar *breaking changes* em major versions
+- Priorizar por gravidade
+- Testar após upgrades
+
+## Passos
+
+### 1. Gestor de pacotes
+
 - `package-lock.json` → npm
 - `yarn.lock` → yarn
 - `pnpm-lock.yaml` → pnpm
-- `bun.lockb` → bun
-- `requirements.txt` / `Pipfile` → Python
-- `go.mod` → Go
+- Python / Go conforme ficheiros do repo
 
-### 2. Run Security Audit
+### 2. Auditoria
 
-**JavaScript/Node.js:**
+**Node:**
+
 ```bash
 npm audit
-# or
-yarn audit
-# or
-pnpm audit
+# ou yarn audit / pnpm audit
 ```
 
-**Python:**
+**Python:** `pip-audit`, `safety`, etc.
+
+### 3. Analisar resultados
+
+- Pacote e versão
+- Gravidade
+- CVE se existir
+- Versão corrigida
+
+### 4. Priorizar
+
+| Prioridade | Acção |
+|------------|--------|
+| Crítica / alta | Corrigir rapidamente |
+| Média | Corrigir em breve |
+| Baixa | Quando conveniente |
+
+### 5. Breaking changes
+
+- *Changelog* do pacote
+- Major version?
+- Dependência directa vs transitiva
+
+### 6. Sugerir upgrades
+
+- Versão actual vs recomendada
+- Notas de migração
+
+### 7. Aplicar
+
 ```bash
-pip-audit
-# or
-safety check
+npm audit fix
+# ou actualizar package.json manualmente + npm install
 ```
 
-### 3. Analyze Results
-For each vulnerability:
-- Package name and version
-- Severity (critical, high, moderate, low)
-- CVE identifier if available
-- Fixed version
+### 8. Verificar
 
-### 4. Prioritize Fixes
+- `npm audit` de novo
+- Testes e `npm run build`
 
-| Priority | Action |
-|----------|--------|
-| Critical/High | Fix immediately |
-| Moderate | Fix soon |
-| Low | Fix when convenient |
+## Princípios
 
-### 5. Check for Breaking Changes
-Before upgrading:
-- Check package changelog
-- Look for major version bumps
-- Review migration guides if available
-- Check if direct or transitive dependency
+- Manter dependências actualizadas
+- *Lockfile* para builds reprodutíveis
+- Rever o que se instala
+- Preferir pacotes mantidos activamente
 
-### 6. Suggest Safe Upgrades
-For each vulnerable package:
+## Referência
 
-**Direct dependencies:**
-- Show current vs fixed version
-- Highlight if major version change
-- Note any breaking changes
-
-**Transitive dependencies:**
-- Identify which direct dependency pulls it in
-- Suggest upgrading the parent package
-
-### 7. Apply Fixes
-
-**For npm:**
-```bash
-npm audit fix           # safe fixes only
-npm audit fix --force   # all fixes (may break)
-```
-
-**For manual updates:**
-- Update package.json
-- Run install
-- Test the application
-
-### 8. Verify Fixes
-After upgrading:
-- Run audit again to confirm fixes
-- Run tests to catch breakages
-- Check application functionality
-
-## Principles
-- Keep dependencies updated regularly
-- Use lockfiles for reproducible builds
-- Review what you're installing
-- Prefer packages with active maintenance
-
-## Reference
-- npm/yarn/pnpm audit documentation
-- CVE database for vulnerability details
-- Package changelogs for upgrade notes
+- Documentação `npm audit` / equivalente
+- Base CVE e *changelogs*

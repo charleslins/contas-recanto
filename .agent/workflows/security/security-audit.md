@@ -1,96 +1,85 @@
 ---
-description: Scan code for vulnerabilities, secrets, and security issues
+description: Varrimento de código à procura de vulnerabilidades, secrets e más práticas
 ---
 
-# Security Audit
+# Auditoria de segurança
 
-I will help you scan your codebase for security vulnerabilities, exposed secrets, and security best practice violations.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Never expose found secrets in output
-- Check for false positives before alerting
-- Prioritize high-severity issues
-- Suggest fixes, not just problems
+Este workflow orienta uma revisão de segurança do codebase.
 
-## Steps
+## Limites e cuidados
 
-### 1. Understand Scope
-Ask clarifying questions:
-- Full codebase or specific files/directories?
-- Any known areas of concern?
-- What type of application (web, API, CLI)?
-- Are there existing security tools configured?
+- Não expor *secrets* encontrados em logs ou PRs públicos
+- Reduzir falsos positivos
+- Priorizar gravidade alta
+- Sugerir correcções, não só listar problemas
 
-### 2. Check for Exposed Secrets
-Search for patterns that indicate secrets:
+## Passos
 
-**Common patterns:**
-- API keys: `api_key`, `apiKey`, `API_KEY`
-- Passwords: `password`, `passwd`, `secret`
-- Tokens: `token`, `auth`, `bearer`
-- Private keys: `-----BEGIN.*PRIVATE KEY-----`
-- Connection strings with credentials
+### 1. Âmbito
 
-**Files to check:**
-- `.env` files (should be gitignored)
-- Config files
-- Source code with hardcoded values
-- Test files with real credentials
+- Todo o repo ou pastas específicas?
+- Tipo de aplicação (web, API, CLI)?
+- Ferramentas de segurança já configuradas?
 
-### 3. Review Authentication/Authorization
-Check for common auth issues:
-- Hardcoded credentials
-- Missing authentication on routes
-- Improper session handling
-- Weak password requirements
-- Missing CSRF protection
+### 2. Secrets expostos
 
-### 4. Check Input Validation
-Look for injection vulnerabilities:
-- SQL injection (unparameterized queries)
-- XSS (unsanitized user input in HTML)
-- Command injection (shell commands with user input)
-- Path traversal (file paths with user input)
+Padrões comuns: `API_KEY`, `password`, tokens, chaves privadas PEM, *connection strings*.
 
-### 5. Review Dependencies
-Check for vulnerable dependencies:
-- Run `npm audit` / `yarn audit` / `pnpm audit`
-- Check for outdated packages
-- Look for known CVEs
+Ficheiros: `.env` (deve estar no `.gitignore`), configs, código com valores hardcoded.
 
-### 6. Generate Report
-Summarize findings:
+### 3. Autenticação e autorização
 
-| Severity | Issue | Location | Recommendation |
-|----------|-------|----------|----------------|
-| High | Exposed API key | config.js:15 | Move to env var |
-| Medium | No input validation | api/users.js:42 | Add sanitization |
-| Low | Outdated dependency | package.json | Update lodash |
+- Credenciais fixas no código
+- Rotas sem protecção
+- Sessões mal configuradas
+- CSRF em formulários sensíveis
 
-### 7. Suggest Fixes
-For each issue:
-- Explain the vulnerability
-- Show the problematic code
-- Provide the fixed code
-- Link to relevant documentation
+### 4. Validação de entrada
 
-## Severity Guidelines
+- SQL injection (queries não parametrizadas)
+- XSS (HTML com input do utilizador)
+- *Command injection*
+- Path traversal
 
-| Severity | Criteria |
-|----------|----------|
-| **Critical** | Exposed secrets, RCE, SQL injection |
-| **High** | Auth bypass, XSS, sensitive data exposure |
-| **Medium** | CSRF, missing headers, weak config |
-| **Low** | Info disclosure, outdated deps (no CVE) |
+### 5. Dependências
 
-## Principles
-- Assume all user input is malicious
-- Never trust client-side validation alone
-- Keep secrets out of code
-- Use parameterized queries always
-- Sanitize output, not just input
+- `npm audit` / equivalente
+- Pacotes desactualizados com CVE
 
-## Reference
-- OWASP Top 10
-- `npm audit` / `yarn audit`
-- Check for .env.example patterns
+### 6. Relatório
+
+Tabela: gravidade, problema, localização, recomendação.
+
+### 7. Correcções
+
+- Explicar o risco
+- Trecho problemático
+- Proposta segura
+- Ligações a documentação (OWASP, etc.)
+
+## Gravidade
+
+| Nível | Exemplos |
+|-------|-----------|
+| **Crítica** | Secrets expostos, RCE, SQL injection explorável |
+| **Alta** | Bypass de auth, XSS persistente, exposição de dados sensíveis |
+| **Média** | CSRF, cabeçalhos em falta, config fraca |
+| **Baixa** | Informação menor, deps sem CVE crítico |
+
+## Princípios
+
+- Tratar input de utilizador como não confiável
+- Não confiar só em validação no cliente
+- *Secrets* fora do código
+- Queries parametrizadas (Drizzle/ORM)
+- Sanitizar saída quando renderizar HTML
+
+## Referência
+
+- [OWASP Top 10](https://owasp.org/www-project-top-ten/)
+- `npm audit`
+- `.env.example` como documentação segura de variáveis

@@ -1,67 +1,73 @@
 ---
-description: Create reusable UI components for any frontend framework
+description: Criar componentes UI reutilizáveis para qualquer framework frontend
 ---
 
-# New Component
+# Novo componente
 
-I will help you create a well-structured, reusable UI component.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Never assume a specific framework — detect it first
-- Follow the project's existing component patterns and styling
-- Don't generate code until the stack is understood
-- Single responsibility — one component, one purpose
+Este workflow ajuda a criar um componente de UI reutilizável e bem estruturado.
 
-## Steps
+## Limites e cuidados
 
-### 1. Understand Requirements
-Ask clarifying questions:
-- What is the component's name and purpose?
-- What props/inputs does it need?
-- Does it need internal state?
-- Are there similar components in the codebase to reference?
+- Não assumir framework — detectar primeiro
+- Seguir padrões de componentes e estilos do projecto
+- Não gerar código até a stack estar clara
+- Uma responsabilidade por componente
 
-### 2. Analyze Project Stack
-Detect the existing setup:
-- **Framework**: Check for React, Vue, Angular, Svelte, etc.
-- **Language**: TypeScript or JavaScript?
-- **Styling**: Tailwind, CSS Modules, Styled Components, Sass, vanilla CSS?
-- **Component Location**: Where do existing components live?
+## Passos
 
-Look at `package.json`, config files, and existing components.
-If unclear, ask the user.
+### 1. Perceber requisitos
 
-### 3. Study Existing Patterns
-Before creating:
-- Find 1-2 similar components in the codebase
-- Note their file structure, naming conventions, and prop patterns
-- Match the existing export style (named vs default)
-- Follow existing typing patterns if TypeScript is used
+- Nome e propósito do componente?
+- Props necessárias?
+- Estado interno?
+- Componentes semelhantes no repo para referência?
 
-### 4. Create Component
-Based on detected stack and existing patterns:
-- Create the component file in the appropriate directory
-- Use the project's styling approach
-- Include proper typing if TypeScript is used
-- Add accessibility attributes (ARIA) where appropriate
-- Export the component following project conventions
+### 2. Analisar a stack
 
-### 5. Export Component
-If the project uses barrel files (index.ts), update them to include the new component.
+- **Framework:** React, Vue, Angular, Svelte…
+- **Linguagem:** TypeScript ou JavaScript
+- **Estilos:** Tailwind, CSS Modules, Styled Components, Sass…
+- **Localização:** onde vivem os componentes existentes?
 
-### 6. Verify
-- Component renders without errors
-- Props work as expected
-- Styling is consistent with existing components
-- Accessibility is maintained
+Consultar `package.json` e componentes actuais. Se não estiver claro, perguntar.
 
-## Principles
-- Match existing patterns — consistency over personal preference
-- Keep it simple — start minimal, expand if needed
-- Accessibility first — keyboard navigation, screen reader support
-- Type safety — use proper types if TypeScript is present
+### 3. Estudar padrões
 
-## Reference
-- Check `package.json` for framework and styling dependencies
-- Look at existing components for patterns to follow
-- Use `rg` to find similar components in the codebase
+- 1–2 componentes semelhantes como referência
+- Nomenclatura, export default vs named
+- Tipagem em TypeScript
+
+### 4. Criar o componente
+
+- Ficheiro no directório correcto (`components/` ou `components/ui/` no Recanto)
+- Abordagem de estilos do projecto
+- Tipos/interfaces para props
+- Acessibilidade (ARIA, foco, teclado)
+- Export conforme convenção
+
+### 5. *Barrel files*
+
+Se o projecto usa `index.ts` de re-export, actualizar.
+
+### 6. Verificar
+
+- Render sem erros
+- Props funcionam
+- Estilo consistente
+- Acessibilidade mantida
+
+## Princípios
+
+- Consistência com o código existente
+- Começar mínimo; expandir se necessário
+- Acessibilidade desde o início
+- Tipos correctos em TypeScript
+
+## Referência
+
+- `package.json`
+- Componentes existentes; pesquisa por nome ou padrão semelhante

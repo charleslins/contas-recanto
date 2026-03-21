@@ -1,53 +1,55 @@
 ---
-description: Technology migrations like JS to TS or framework upgrades
+description: Migrações tecnológicas (ex.: JS→TS, upgrades de framework)
 ---
 
-# Migrate
+# Migração tecnológica
 
-I will help you migrate your codebase to new technologies safely.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Never migrate everything at once
-- Maintain backwards compatibility during migration
-- Test thoroughly at each step
-- Have a rollback plan
+Este workflow ajuda a migrar o codebase com segurança.
 
-## Steps
+## Limites e cuidados
 
-### 1. Understand Migration
-Ask clarifying questions:
-- What are you migrating from/to?
-- What's the scope? (full codebase or incremental)
-- Are there breaking changes to handle?
-- What's the timeline?
+- Não migrar tudo de uma vez
+- Manter compatibilidade durante a transição quando possível
+- Testar em cada etapa
+- Plano de *rollback*
 
-### 2. Analyze Current State
-Before migrating:
-- Document current dependencies
-- Identify affected files
-- Check for known migration issues
-- Review migration guides
+## Passos
 
-### 3. Create Migration Plan
-Common migrations:
-- **JS → TypeScript**: Add tsconfig, rename files, add types
-- **Framework upgrade**: Check changelog, update deps, fix breaking changes
-- **CSS → Tailwind**: Install, configure, convert styles
-- **REST → GraphQL**: Add schema, create resolvers, update clients
+### 1. Perceber a migração
 
-### 4. Execute Migration
-Incremental approach:
-- Start with low-risk files
-- Migrate in logical batches
-- Test after each batch
-- Fix issues as they arise
+- De quê para quê?
+- Âmbito total ou incremental?
+- *Breaking changes*?
+- Prazo?
 
-### 5. Verify
-- All tests pass
-- Application works correctly
-- No regressions
+### 2. Estado actual
 
-## Principles
-- Migrate incrementally, not all at once
-- Keep the application working throughout
-- Document breaking changes
+- Dependências e versões
+- Ficheiros afectados
+- Guias oficiais de migração
+
+### 3. Plano
+
+Exemplos: JS→TS; upgrade Next/React; CSS→Tailwind; REST→GraphQL.
+
+### 4. Execução incremental
+
+- Lotes lógicos
+- Testar após cada lote
+- Corrigir problemas à medida
+
+### 5. Verificar
+
+- Testes e build
+- App funcional
+- Sem regressões críticas
+
+## Princípios
+
+- Incremental
+- Manter o sistema utilizável durante o processo
+- Documentar *breaking changes*

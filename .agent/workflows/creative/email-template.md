@@ -1,112 +1,79 @@
 ---
-description: Create responsive HTML email templates that render correctly across email clients
+description: Criar templates HTML de email responsivos compatíveis com vários clientes
 ---
 
-# HTML Email Template Creation
+# Template de email HTML
 
-I will help you create responsive, cross-client compatible HTML email templates.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Use table-based layouts for maximum compatibility
-- Inline all CSS styles
-- Test across major email clients (Gmail, Outlook, Apple Mail)
-- Keep total email size under 100KB
+Este workflow ajuda a criar templates HTML de email responsivos e compatíveis com vários clientes.
 
-## Steps
+## Limites e cuidados
 
-### 1. Determine Requirements
-Ask clarifying questions:
-- What type of email? (transactional, marketing, newsletter)
-- What content sections are needed?
-- Brand colors and logo?
-- Any interactive elements (buttons, links)?
+- Layout baseado em **tabelas** para máxima compatibilidade
+- CSS **inline** na maior parte dos estilos
+- Testar em Gmail, Outlook, Apple Mail, etc.
+- Manter o email abaixo de ~100KB quando possível
 
-### 2. Create Base Template Structure
+## Passos
 
-Create `emails/<template-name>.html`:
+### 1. Definir requisitos
+
+- Tipo: transaccional, marketing, newsletter?
+- Secções de conteúdo?
+- Cores de marca e logótipo?
+- Botões e ligações?
+
+### 2. Estrutura base
+
+Criar `emails/<nome-template>.html` (ou pasta acordada). Incluir:
+
+- `<!DOCTYPE html>` e meta viewport
+- Blocos condicionais para **Outlook** (`<!--[if mso]>`) quando necessário
+- Tabela exterior `width="100%"` e contentor central (~600px)
+- Estilos inline nos elementos; `<style>` no `<head>` apenas para media queries simples
+
+Exemplo mínimo de estrutura (adaptar textos e URLs):
+
 ```html
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="x-apple-disable-message-reformatting">
-  <title>Email Title</title>
-  <!--[if mso]>
-  <noscript>
-    <xml>
-      <o:OfficeDocumentSettings>
-        <o:PixelsPerInch>96</o:PixelsPerInch>
-      </o:OfficeDocumentSettings>
-    </xml>
-  </noscript>
-  <![endif]-->
+  <title>Assunto do email</title>
   <style>
-    /* Reset styles */
-    body, table, td, p, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
-    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
-    img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
-    body { height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important; }
-
-    /* Responsive styles */
     @media screen and (max-width: 600px) {
       .responsive-table { width: 100% !important; }
       .mobile-padding { padding: 20px !important; }
-      .mobile-stack { display: block !important; width: 100% !important; }
     }
   </style>
 </head>
-<body style="margin: 0; padding: 0; background-color: #f4f4f4;">
-  <!-- Email wrapper -->
-  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #f4f4f4;">
+<body style="margin:0;padding:0;background-color:#f4f4f4;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
     <tr>
-      <td align="center" style="padding: 40px 10px;">
-        <!-- Email container -->
-        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" class="responsive-table" style="background-color: #ffffff; border-radius: 8px; overflow: hidden;">
-
-          <!-- Header -->
+      <td align="center" style="padding:40px 10px;">
+        <table role="presentation" width="600" class="responsive-table" cellspacing="0" cellpadding="0" border="0" style="background:#fff;border-radius:8px;">
           <tr>
-            <td style="padding: 30px; text-align: center; background-color: #4F46E5;">
-              <img src="https://via.placeholder.com/150x50" alt="Logo" width="150" style="display: block; margin: 0 auto;">
-            </td>
-          </tr>
-
-          <!-- Content -->
-          <tr>
-            <td class="mobile-padding" style="padding: 40px 30px;">
-              <h1 style="margin: 0 0 20px; font-family: Arial, sans-serif; font-size: 24px; line-height: 30px; color: #1a1a1a;">
-                Your Email Heading
-              </h1>
-              <p style="margin: 0 0 20px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color: #666666;">
-                This is your email content. Keep it concise and focused on the main message.
-              </p>
-
-              <!-- CTA Button -->
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 30px 0;">
+            <td class="mobile-padding" style="padding:40px 30px;font-family:Arial,sans-serif;font-size:16px;color:#333;">
+              <h1 style="margin:0 0 16px;font-size:24px;">Título</h1>
+              <p style="margin:0 0 24px;line-height:1.5;">Corpo da mensagem.</p>
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0">
                 <tr>
-                  <td style="border-radius: 6px; background-color: #4F46E5;">
-                    <a href="https://example.com" target="_blank" style="display: inline-block; padding: 14px 30px; font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none;">
-                      Call to Action
-                    </a>
+                  <td style="border-radius:6px;background:#4F46E5;">
+                    <a href="https://exemplo.com" style="display:inline-block;padding:14px 30px;color:#fff;text-decoration:none;font-weight:bold;">Chamada à ação</a>
                   </td>
                 </tr>
               </table>
             </td>
           </tr>
-
-          <!-- Footer -->
           <tr>
-            <td style="padding: 30px; text-align: center; background-color: #f8f8f8; border-top: 1px solid #eeeeee;">
-              <p style="margin: 0 0 10px; font-family: Arial, sans-serif; font-size: 12px; color: #999999;">
-                © 2024 Your Company. All rights reserved.
-              </p>
-              <p style="margin: 0; font-family: Arial, sans-serif; font-size: 12px; color: #999999;">
-                <a href="#" style="color: #666666;">Unsubscribe</a> | <a href="#" style="color: #666666;">Privacy Policy</a>
-              </p>
+            <td style="padding:24px;text-align:center;font-size:12px;color:#999;background:#f8f8f8;">
+              © Recanto — <a href="#">Cancelar subscrição</a>
             </td>
           </tr>
-
         </table>
       </td>
     </tr>
@@ -115,78 +82,38 @@ Create `emails/<template-name>.html`:
 </html>
 ```
 
-### 3. Add Common Components
+### 3. Componentes comuns
 
-**Two-Column Layout:**
-```html
-<tr>
-  <td style="padding: 0 30px;">
-    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-      <tr>
-        <td class="mobile-stack" width="48%" valign="top" style="padding-right: 2%;">
-          <h3 style="margin: 0 0 10px; font-family: Arial, sans-serif; font-size: 18px; color: #1a1a1a;">Feature One</h3>
-          <p style="margin: 0; font-family: Arial, sans-serif; font-size: 14px; color: #666666;">Description text here.</p>
-        </td>
-        <td class="mobile-stack" width="48%" valign="top" style="padding-left: 2%;">
-          <h3 style="margin: 0 0 10px; font-family: Arial, sans-serif; font-size: 18px; color: #1a1a1a;">Feature Two</h3>
-          <p style="margin: 0; font-family: Arial, sans-serif; font-size: 14px; color: #666666;">Description text here.</p>
-        </td>
-      </tr>
-    </table>
-  </td>
-</tr>
-```
+- **Duas colunas:** tabela interior com `width="48%"` e classe para empilhar em mobile (`display:block;width:100%`)
+- **Imagens:** `width` explícito, `style="display:block;max-width:100%;height:auto;"`
 
-**Image with Text:**
-```html
-<tr>
-  <td style="padding: 30px;">
-    <img src="https://via.placeholder.com/540x200" alt="Image" width="540" style="display: block; width: 100%; max-width: 540px; height: auto; border-radius: 4px;">
-  </td>
-</tr>
-```
+### 4. Outlook
 
-### 4. Outlook-Specific Fixes
+- Fundos complexos: considerar VML (`v:rect`) conforme documentação Microsoft
+- Testar sempre no Outlook desktop
 
-For background images in Outlook:
-```html
-<!--[if mso]>
-<v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;height:300px;">
-  <v:fill type="tile" src="https://example.com/bg.jpg" color="#333333"/>
-  <v:textbox inset="0,0,0,0">
-<![endif]-->
-<div style="background-image: url('https://example.com/bg.jpg'); background-size: cover;">
-  <!-- Content here -->
-</div>
-<!--[if mso]>
-  </v:textbox>
-</v:rect>
-<![endif]-->
-```
+### 5. Testar
 
-### 5. Test Email
+- Ferramentas: Litmus, Email on Acid, Mailtrap (sandbox)
+- [Can I Email](https://www.caniemail.com/) — suporte CSS
 
-Use these tools to test:
-- [Litmus](https://litmus.com) - Cross-client testing
-- [Email on Acid](https://emailonacid.com) - Preview across clients
-- [Mailtrap](https://mailtrap.io) - Email sandbox
+## Clientes de email
 
-## Email Client Considerations
+| Cliente | Notas |
+|---------|--------|
+| **Outlook** | Motor tipo Word; CSS limitado |
+| **Gmail** | Pode remover `<style>`; preferir inline |
+| **Apple Mail** | Geralmente bom suporte |
+| **Yahoo** | Testar bem |
 
-| Client | Key Issues |
-|--------|-----------|
-| **Outlook** | Uses Word rendering engine, limited CSS support |
-| **Gmail** | Strips `<style>` tags, requires inline styles |
-| **Apple Mail** | Generally good support |
-| **Yahoo** | Strips some CSS, test thoroughly |
+## Orientações
 
-## Guidelines
-- Always include plain-text version
-- Use web-safe fonts (Arial, Georgia, Times New Roman)
-- Keep subject lines under 50 characters
-- Include preheader text
-- Test on mobile devices
+- Disponibilizar versão **texto simples**
+- Fontes seguras (Arial, Georgia, Times)
+- Linha de assunto curta; texto de pré-visualização (preheader)
+- Testar em telemóvel
 
-## Reference
-- [Can I Email](https://www.caniemail.com/) - CSS support reference
-- [Email Client Market Share](https://www.litmus.com/email-client-market-share)
+## Referência
+
+- [Can I Email](https://www.caniemail.com/)
+- Partilha de mercado: ver estatísticas actuais nos sites das ferramentas de teste

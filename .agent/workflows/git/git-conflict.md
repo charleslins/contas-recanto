@@ -1,70 +1,74 @@
 ---
-description: Help resolve merge conflicts with context-aware suggestions
+description: Resolver conflitos de merge com sugestões contextualizadas
 ---
 
-# Git Conflict Resolution
+# Resolução de conflitos Git
 
-I will help you understand and resolve merge conflicts by analyzing both sides of the conflict.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Never auto-resolve without user confirmation
-- Explain what each side of the conflict represents
-- Preserve intended functionality from both branches
-- Run tests after resolution if available
+Este workflow ajuda a entender e resolver conflitos de *merge*.
 
-## Steps
+## Limites e cuidados
 
-### 1. Identify Conflicts
-Check current conflict status:
-- Run `git status` to see conflicted files
-- List all files with conflicts
+- Não resolver automaticamente sem confirmação
+- Explicar cada lado do conflito
+- Preservar a intenção de ambas as branches quando possível
+- Correr testes / build após resolver
 
-### 2. Analyze Each Conflict
-For each conflicted file:
-- Show the conflict markers and surrounding context
-- Explain what the `HEAD` (current) version contains
-- Explain what the incoming version contains
-- Identify if changes overlap or are independent
+## Passos
 
-### 3. Understand Intent
-Ask clarifying questions:
-- What was the goal of YOUR changes?
-- What feature/fix does the incoming branch contain?
-- Should both changes be kept, or one preferred?
+### 1. Identificar
 
-### 4. Suggest Resolution
-For each conflict, recommend one of:
+- `git status` — ficheiros em conflito
 
-| Strategy | When to Use |
-|----------|-------------|
-| Keep ours | Your changes should take precedence |
-| Keep theirs | Incoming changes should take precedence |
-| Merge both | Both changes are needed and compatible |
-| Manual rewrite | Changes conflict semantically, need new approach |
+### 2. Analisar cada ficheiro
 
-### 5. Resolve Conflicts
-After user confirms the approach:
-- Remove conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`)
-- Apply the agreed resolution
-- Stage the resolved file
+- Marcadores `<<<<<<<`, `=======`, `>>>>>>>`
+- Versão actual (*ours*) vs versão entrante (*theirs*)
+- Sobreposição ou mudanças independentes?
 
-### 6. Verify Resolution
-- Run `git diff --staged` to review changes
-- Run tests if available
-- Ensure the code compiles/runs
+### 3. Intenção
 
-### 7. Complete Merge
-Once all conflicts are resolved:
-- Run `git status` to confirm no remaining conflicts
-- Commit the merge
+- Objectivo das tuas alterações?
+- O que a outra branch introduz?
+- Manter ambas, uma delas, ou reescrever?
 
-## Principles
-- Understand before resolving
-- When in doubt, ask
-- Test after resolving
-- Document complex resolutions in commit message
+### 4. Estratégia
 
-## Reference
-- `git log --merge` shows commits involved in the conflict
-- `git diff` shows current conflicts
-- `git checkout --ours/--theirs <file>` for bulk resolution
+| Estratégia | Quando |
+|------------|--------|
+| Manter a nossa | A nossa versão deve prevalecer |
+| Manter a deles | A entrada deve prevalecer |
+| Fundir ambas | Compatíveis e ambas necessárias |
+| Reescrita manual | Conflito semântico |
+
+### 5. Aplicar
+
+- Remover marcadores
+- Editar o resultado final
+- `git add` nos ficheiros resolvidos
+
+### 6. Verificar
+
+- `git diff --staged`
+- Testes / compilação
+
+### 7. Concluir
+
+- `git status` sem conflitos
+- `git commit` (merge ou continuar fluxo)
+
+## Princípios
+
+- Entender antes de escolher
+- Em dúvida, perguntar
+- Testar depois de resolver
+- Mensagem de commit pode descrever resoluções complexas
+
+## Referência
+
+- `git log --merge`
+- `git diff`
+- `git checkout --ours/--theirs <ficheiro>` (uso consciente)

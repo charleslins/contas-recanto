@@ -27,6 +27,7 @@ export const transactions = pgTable('transactions', {
   date: timestamp('date', { mode: 'date' }).notNull(),
   dateStr: text('date_str').notNull(),
   history: text('history').notNull(),
+  credor: text('credor').notNull().default(''),
   amount: doublePrecision('amount').notNull(),
   description: text('description').notNull(),
   createdAt: timestamp('created_at', { mode: 'date' }).notNull().defaultNow(),

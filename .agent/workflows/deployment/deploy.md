@@ -1,59 +1,66 @@
 ---
-description: Deploy applications to any platform
+description: Fazer deploy de aplicações em qualquer plataforma
 ---
 
 # Deploy
 
-I will help you deploy your application to any platform.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Detect existing deployment config before suggesting
-- Never deploy to production without confirmation
-- Check for environment variables
-- Ensure build completes successfully first
+Este workflow ajuda a fazer *deploy* da aplicação na plataforma escolhida.
 
-## Steps
+## Limites e cuidados
 
-### 1. Understand Requirements
-Ask clarifying questions:
-- Where do you want to deploy? (Vercel, AWS, Railway, etc.)
-- Is this production or staging?
-- Any special requirements? (region, scaling, etc.)
-- Existing CI/CD setup?
+- Detectar configuração de deploy existente antes de sugerir
+- Nunca deploy para produção sem confirmação explícita
+- Verificar variáveis de ambiente
+- Garantir que o *build* passa localmente (ou em CI) primeiro
 
-### 2. Detect Platform
-Check existing configuration:
+## Passos
+
+### 1. Perceber requisitos
+
+- Destino? (Vercel, AWS, Railway, etc.)
+- Produção ou *staging*?
+- Requisitos especiais? (região, escala)
+- CI/CD já ligado ao repo?
+
+### 2. Detectar plataforma
+
 - `vercel.json` → Vercel
 - `railway.json` → Railway
-- `Dockerfile` → Container platforms
-- `.github/workflows` → GitHub Actions
+- `Dockerfile` → plataformas de contentores
+- `.github/workflows` → automação GitHub
 
-### 3. Prepare for Deployment
-Ensure everything is ready:
-- Build passes locally
-- Environment variables configured
-- Database migrations ready
-- Static assets optimized
+### 3. Preparar o deploy
 
-### 4. Configure Platform
-Set up deployment:
-- Connect repository
-- Set environment variables
-- Configure build commands
-- Set up domains
+- Build a passar
+- Variáveis de ambiente definidas
+- Migrações/schema alinhados (ex.: Drizzle + Neon)
+- Assets estáticos optimizados
 
-### 5. Deploy
-Execute deployment:
-- Run deployment command
-- Monitor build logs
-- Verify deployment succeeded
+### 4. Configurar a plataforma
 
-### 6. Verify
-- Check application is accessible
-- Test critical functionality
-- Monitor for errors
+- Ligar repositório
+- Definir variáveis de ambiente
+- Comandos de build/start
+- Domínios
 
-## Principles
-- Always test before production
-- Use environment variables for secrets
-- Set up previews for PRs
+### 5. Executar o deploy
+
+- Comando ou push que dispara o deploy
+- Acompanhar logs
+- Confirmar sucesso
+
+### 6. Verificar
+
+- URL acessível
+- Fluxos críticos da app
+- Monitorização de erros
+
+## Princípios
+
+- Testar antes de produção
+- *Secrets* só em variáveis de ambiente
+- *Previews* de PR quando a plataforma suportar

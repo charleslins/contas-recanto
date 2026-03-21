@@ -1,78 +1,78 @@
 ---
-description: Generate conventional commit messages from staged changes
+description: Gerar mensagens de commit convencionais a partir das alterações em stage
 ---
 
-# Git Commit
+# Git commit
 
-I will help you generate clear, conventional commit messages based on your staged changes.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Only analyze staged changes (`git diff --staged`)
-- Follow Conventional Commits format
-- Keep subject line under 72 characters
-- Don't commit if no changes are staged
+> **Recanto:** o `.cursorrules` pede mensagens de commit em **português**; pode combinar com o formato Conventional Commits, ex.: `feat(ui): adicionar filtro na tabela`.
 
-## Steps
+Este workflow ajuda a gerar mensagens de commit claras com base em `git diff --staged`.
 
-### 1. Analyze Staged Changes
-First, check what's staged:
-- Run `git diff --staged` to see changes
-- Run `git diff --staged --stat` for a summary
-- Identify the type and scope of changes
+## Limites e cuidados
 
-### 2. Determine Commit Type
-Based on the changes, select the appropriate type:
+- Analisar só o que está em *stage* (`git diff --staged`)
+- Formato [Conventional Commits](https://www.conventionalcommits.org/) (tipo e âmbito opcional)
+- Linha de assunto até ~72 caracteres
+- Não fazer commit se não houver alterações em *stage*
 
-| Type | When to Use |
-|------|-------------|
-| `feat` | New feature |
-| `fix` | Bug fix |
-| `docs` | Documentation only |
-| `style` | Formatting, no code change |
-| `refactor` | Code change that neither fixes nor adds |
-| `perf` | Performance improvement |
-| `test` | Adding or updating tests |
-| `chore` | Build, tooling, dependencies |
-| `ci` | CI/CD changes |
+## Passos
 
-### 3. Identify Scope (Optional)
-Determine if a scope applies:
-- Component name (e.g., `auth`, `api`, `ui`)
-- Feature area (e.g., `login`, `dashboard`)
-- File type (e.g., `deps`, `config`)
+### 1. Analisar o *stage*
 
-### 4. Write Commit Message
-Format: `<type>(<scope>): <description>`
+- `git diff --staged`
+- `git diff --staged --stat` para resumo
+- Identificar tipo e âmbito das mudanças
 
-**Rules:**
-- Use imperative mood ("add" not "added")
-- Don't capitalize first letter
-- No period at the end
-- Be specific but concise
+### 2. Escolher o tipo
 
-**Examples:**
-- `feat(auth): add OAuth2 login flow`
-- `fix: resolve null pointer in user service`
-- `docs: update API documentation`
-- `refactor(api): extract validation logic`
+| Tipo | Uso |
+|------|-----|
+| `feat` | Nova funcionalidade |
+| `fix` | Correção de bug |
+| `docs` | Só documentação |
+| `style` | Formatação, sem mudança de lógica |
+| `refactor` | Refactor sem fix nem feature |
+| `perf` | Desempenho |
+| `test` | Testes |
+| `chore` | Build, tooling, dependências |
+| `ci` | CI/CD |
 
-### 5. Add Body (If Needed)
-For complex changes, add a body:
-- Leave blank line after subject
-- Explain WHAT and WHY, not HOW
-- Wrap at 72 characters
+### 3. Âmbito (opcional)
 
-### 6. Execute Commit
-Present the suggested commit message and ask if user wants to:
-- Commit with this message
-- Modify the message
-- Add more details in body
+- Módulo (`auth`, `api`, `db`, `ui`…)
+- Área da feature
 
-## Principles
-- One commit = one logical change
-- If you need "and" in the message, consider splitting
-- Reference issues when relevant (e.g., `fixes #123`)
+### 4. Mensagem
 
-## Reference
+Formato: `<tipo>(<âmbito>): <descrição>`
+
+- Modo imperativo (“adicionar” em PT ou “add” se preferir EN)
+- Sem ponto final na primeira linha
+- Específico e curto
+
+Exemplos (PT): `feat(transacoes): permitir filtro por categoria`, `fix: corrigir importação CSV com linha vazia`
+
+### 5. Corpo (opcional)
+
+- Linha em branco após o assunto
+- Explicar O QUÊ e PORQUÊ
+- ~72 colunas por linha
+
+### 6. Executar
+
+Sugerir a mensagem e confirmar com o utilizador antes de `git commit`.
+
+## Princípios
+
+- Um commit = uma mudança lógica
+- Se precisar de “e” no título, considerar dividir
+- Referenciar issues: `fixes #123`
+
+## Referência
+
 - [Conventional Commits](https://www.conventionalcommits.org/)
-- Run `git log --oneline -10` to see recent commit style
+- `git log --oneline -10` para ver o estilo do repo

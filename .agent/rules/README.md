@@ -1,23 +1,22 @@
-# Agent Rules — Heure C2
+# Regras do agente — Recanto
 
-## Hierarquia de Regras
+## Hierarquia
 
-As regras do projeto estão organizadas hierarquicamente:
+1. **`.cursorrules`** (raiz) — Regras que o Cursor aplica por defeito.
+2. **`.agent/REGRAS_CONSOLIDADAS.md`** — Complemento (TypeScript, Drizzle, Next, qualidade).
+3. **`.context/docs/`** — Documentação técnica (`project-overview.md`, `architecture.md`, …).
 
-1. **`.cursorrules`** (raiz) — Regras consolidadas, aplicadas automaticamente pelo Cursor.
-2. **`.agent/REGRAS_CONSOLIDADAS.md`** — Documento detalhado com logging, autenticação, roadmap, e regras específicas.
-3. **`.cursor/rules/regras-projeto.md`** — Resumo rápido para referência.
-4. **`.context/docs/`** — Documentação técnica (arquitetura, segurança, glossário).
+## Stack (referência rápida)
 
-## Stack do Projeto
-
-- **Build**: Vite (NÃO Next.js)
-- **Frontend**: React 18 + TypeScript + Tailwind CSS + Shadcn UI
-- **Backend**: Supabase (Auth, PostgreSQL, RLS, Realtime)
-- **Roteamento**: react-router-dom v6
-- **Arquitetura**: MVC Adaptada com Presenters
-- **i18n**: react-i18next (pt, fr, en, es)
+- **Next.js 15** (App Router), React 19, TypeScript, Tailwind.
+- **Drizzle ORM** + **Neon** (Postgres).
+- **shadcn/ui** em `components/ui/`.
 
 ## Workflows
 
-Consulte `.agent/workflows/registry.json` para lista completa de 45 workflows disponíveis.
+- Índice: `.agent/workflows/registry.json` (44 entradas).
+- Ficheiros extra na mesma pasta (não listados no registry): `pwa-setup.md`, `ui-ux-homogenize.md`.
+
+## Inventário
+
+- Ver `.context/INVENTARIO_IA_RECANTO.md`.

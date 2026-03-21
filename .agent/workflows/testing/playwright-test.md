@@ -1,30 +1,36 @@
 ---
-description: Write robust Playwright browser automation tests for web applications
+description: Escrever testes de automação no browser com Playwright
 ---
 
-# Playwright Browser Testing
+# Testes com Playwright
 
-I will help you set up Playwright and write effective browser tests.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Always wait for elements before interacting with them
-- Use semantic selectors (role, text) over CSS selectors when possible
-- Keep tests isolated and independent
-- Use `data-testid` attributes for stable element selection
+Este workflow ajuda a configurar o Playwright e a escrever testes de browser.
 
-## Steps
+## Limites e cuidados
 
-### 1. Check/Install Playwright
-// turbo
+- Esperar elementos antes de clicar/escrever
+- Preferir selectores semânticos (`role`, texto) a CSS frágil
+- Testes isolados
+- `data-testid` para elementos difíceis de alvoar
+
+## Passos
+
+### 1. Instalar / verificar Playwright
+
 ```bash
 npm init playwright@latest
 ```
 
-If already installed, skip to step 2.
+Se já estiver instalado, avançar.
 
-### 2. Configure Playwright
+### 2. Configurar (`playwright.config.ts`)
 
-Verify `playwright.config.ts` has these key settings:
+Exemplo típico (ajustar `baseURL` e `webServer` ao Recanto):
+
 ```typescript
 import { defineConfig, devices } from '@playwright/test';
 
@@ -35,7 +41,7 @@ export default defineConfig({
   reporter: 'html',
   use: {
     baseURL: 'http://localhost:3000',
-    trace: 'on-first-retry',
+    trace: 'on-first-retry', // rastreio só no primeiro retry
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
@@ -43,102 +49,82 @@ export default defineConfig({
   webServer: {
     command: 'npm run dev',
     url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: !process.env.CI, // em CI, sempre arrancar servidor novo
   },
 });
 ```
 
-### 3. Create Test File
+### 3. Criar ficheiro de teste
 
-Create a new test in `tests/<feature>.spec.ts`:
+`tests/<funcionalidade>.spec.ts`:
+
 ```typescript
 import { test, expect } from '@playwright/test';
 
-test.describe('Feature Name', () => {
+test.describe('Nome da feature', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
   });
 
-  test('should display the main heading', async ({ page }) => {
+  test('deve mostrar o título principal', async ({ page }) => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-  });
-
-  test('should navigate to about page', async ({ page }) => {
-    await page.getByRole('link', { name: 'About' }).click();
-    await expect(page).toHaveURL('/about');
   });
 });
 ```
 
-### 4. Add Common Selectors
-
-For stable tests, use these selector strategies (in order of preference):
+### 4. Selectores (ordem de preferência)
 
 ```typescript
-// Best: Role-based
-page.getByRole('button', { name: 'Submit' })
-page.getByRole('textbox', { name: 'Email' })
-
-// Good: Data-testid
+page.getByRole('button', { name: 'Enviar' })
 page.getByTestId('submit-button')
-
-// Good: Label-based
-page.getByLabel('Email address')
-
-// Acceptable: Text-based
-page.getByText('Welcome back')
-
-// Last resort: CSS selector
-page.locator('.submit-btn')
+page.getByLabel('Email')
+page.getByText('Bem-vindo')
+page.locator('.classe-so-last-resort')
 ```
 
-### 5. Run Tests
-// turbo
+### 5. Executar
+
 ```bash
 npx playwright test
-```
-
-Run with UI mode for debugging:
-```bash
 npx playwright test --ui
-```
-
-### 6. View Report
-// turbo
-```bash
 npx playwright show-report
 ```
 
-## Common Patterns
+## Padrões comuns
 
-### Wait for Network Idle
+### Esperar rede
+
 ```typescript
 await page.goto('/', { waitUntil: 'networkidle' });
 ```
 
-### Fill Form and Submit
+### Formulário
+
 ```typescript
 await page.getByLabel('Email').fill('test@example.com');
-await page.getByLabel('Password').fill('password123');
-await page.getByRole('button', { name: 'Sign In' }).click();
+await page.getByRole('button', { name: 'Entrar' }).click();
 ```
 
-### Assert Toast/Notification
+### Notificação
+
 ```typescript
-await expect(page.getByRole('alert')).toContainText('Success');
+await expect(page.getByRole('alert')).toContainText('Sucesso');
 ```
 
-### Take Screenshot
+### Screenshot
+
 ```typescript
 await page.screenshot({ path: 'screenshot.png', fullPage: true });
 ```
 
-## Guidelines
-- Name tests descriptively: "should [action] when [condition]"
-- Use `test.describe` blocks to group related tests
-- Avoid hardcoded waits (`page.waitForTimeout`) — use proper assertions
-- Run tests in CI/CD pipeline
+## Orientações
 
-## Reference
-- [Playwright Docs](https://playwright.dev/docs/intro)
-- Use `npx playwright codegen` to generate test code interactively
+- Nomes descritivos: deve [comportamento] quando [condição]
+- Agrupar com `test.describe`
+- Evitar `page.waitForTimeout` fixo — usar asserções e auto-wait do Playwright
+- Integrar no CI quando a suíte existir
+
+## Referência
+
+- [Documentação Playwright](https://playwright.dev/docs/intro)
+- `npx playwright codegen` para gerar passos

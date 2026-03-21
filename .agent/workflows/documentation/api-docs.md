@@ -1,54 +1,61 @@
 ---
-description: Generate API documentation (OpenAPI, JSDoc, etc.)
+description: Gerar documentação de API (OpenAPI, JSDoc, etc.)
 ---
 
-# API Docs
+# Documentação de API
 
-I will help you generate API documentation for your project.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Document from actual code, not assumptions
-- Keep docs in sync with implementation
-- Use standard formats (OpenAPI, JSDoc)
-- Include examples for all endpoints
+> **Recanto:** muitas operações passam por **server actions**; documentar contratos (entrada/saída) e, se existirem, **Route Handlers** em `app/api/`.
 
-## Steps
+Este workflow ajuda a gerar documentação de API alinhada ao código.
 
-### 1. Analyze API
-Gather information:
-- List all endpoints/functions
-- Identify request/response formats
-- Note authentication requirements
-- Find existing documentation
+## Limites e cuidados
 
-### 2. Choose Format
-Based on project type:
-- **REST API**: OpenAPI/Swagger
-- **GraphQL**: Schema + descriptions
-- **Libraries**: JSDoc, TSDoc, docstrings
-- **CLI**: Man pages or markdown
+- Documentar a partir do código real
+- Manter docs sincronizadas com a implementação
+- Formatos standard (OpenAPI, JSDoc/TSDoc)
+- Exemplos por endpoint ou função pública
 
-### 3. Document Endpoints
-For each endpoint/function:
-- Method and path
-- Description of what it does
-- Request parameters and body
-- Response format and codes
-- Authentication requirements
-- Example requests and responses
+## Passos
 
-### 4. Generate Docs
-Use appropriate tools:
-- OpenAPI: swagger-ui, redoc
-- JSDoc: jsdoc, typedoc
-- Python: Sphinx, mkdocs
+### 1. Inventariar a API
 
-### 5. Verify
-- All endpoints documented
-- Examples work correctly
-- Types are accurate
+- Rotas ou funções expostas
+- Formatos de pedido/resposta
+- Autenticação
+- Documentação já existente
 
-## Principles
-- Document the "why" not just the "what"
-- Include realistic examples
-- Keep docs close to code
+### 2. Escolher formato
+
+- REST: OpenAPI/Swagger
+- GraphQL: schema com descrições
+- Biblioteca: JSDoc, TSDoc
+- CLI: páginas man ou Markdown
+
+### 3. Documentar cada endpoint
+
+- Método e caminho (ou nome da action)
+- Descrição
+- Parâmetros e corpo
+- Respostas e códigos HTTP
+- Auth
+- Exemplos de pedido/resposta
+
+### 4. Gerar *site* ou export
+
+- Swagger UI, Redoc, TypeDoc, etc.
+
+### 5. Verificar
+
+- Cobertura completa dos endpoints públicos
+- Exemplos executáveis
+- Tipos correctos
+
+## Princípios
+
+- Explicar o “porquê”, não só o “o quê”
+- Exemplos realistas
+- Docs próximas do código (comentários ou ficheiros colaterais)

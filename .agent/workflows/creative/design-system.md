@@ -1,71 +1,88 @@
 ---
-description: Create and analyze design system tokens
+description: Criar e analisar tokens de design system
 ---
 
-# Design System
+# Design system
 
-I will help you create or analyze a design system for your project.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Analyze existing styles before creating new
-- Keep tokens consistent and documented
-- Use semantic naming
-- Consider accessibility
+Este workflow ajuda a criar ou analisar um design system para o projecto.
 
-## Steps
+## Limites e cuidados
 
-### 1. Understand Scope
-Ask clarifying questions:
-- Creating new or analyzing existing?
-- What components are needed?
-- Brand guidelines to follow?
-- Accessibility requirements?
+- Analisar estilos existentes antes de criar novos
+- Manter tokens consistentes e documentados
+- Usar nomenclatura semântica
+- Considerar acessibilidade
 
-### 2. Analyze Existing
-If updating:
-- Review current colors, typography, spacing
-- Identify inconsistencies
-- Note pain points
+## Passos
 
-### 3. Define Tokens
-Create core tokens:
+### 1. Perceber o âmbito
 
-**Colors:**
-- Primary, secondary, accent
-- Semantic (success, warning, error)
-- Neutrals (gray scale)
+Perguntas:
 
-**Typography:**
-- Font families
-- Size scale
-- Weight scale
-- Line heights
+- Criar novo ou analisar existente?
+- Que componentes são necessários?
+- Guidelines de marca?
+- Requisitos de acessibilidade?
 
-**Spacing:**
-- Base unit (4px or 8px)
-- Scale (xs, sm, md, lg, xl)
+### 2. Analisar o existente
 
-**Other:**
-- Border radius
-- Shadows
+Se for actualização:
+
+- Rever cores, tipografia, espaçamentos
+- Identificar inconsistências
+- Registar pontos de fricção
+
+### 3. Definir tokens
+
+Tokens centrais:
+
+**Cores:**
+
+- Primária, secundária, destaque
+- Semânticas (sucesso, aviso, erro)
+- Neutros (escala de cinza)
+
+**Tipografia:**
+
+- Famílias de fonte
+- Escala de tamanhos
+- Pesos
+- Alturas de linha
+
+**Espaçamento:**
+
+- Unidade base (4px ou 8px)
+- Escala (xs, sm, md, lg, xl)
+
+**Outros:**
+
+- Raio de borda
+- Sombras
 - Breakpoints
 
-### 4. Create Components
-Build primitives:
-- Button (variants, sizes)
-- Input (states)
+### 4. Criar componentes
+
+Primitives:
+
+- Botão (variantes, tamanhos)
+- Input (estados)
 - Card
-- Typography components
+- Componentes de tipografia
 
-### 5. Document
-Create documentation:
-- Token reference
-- Component examples
-- Usage guidelines
-- Do's and don'ts
+### 5. Documentar
 
-## Principles
-- Consistency over perfection
-- Semantic naming
+- Referência de tokens
+- Exemplos de componentes
+- Guidelines de uso
+- Boas práticas e anti-padrões
+
+## Princípios
+
+- Consistência vale mais que perfeição abstracta
+- Nomes semânticos
 - Mobile-first
-- Accessibility built-in
+- Acessibilidade desde o início

@@ -1,56 +1,60 @@
 ---
-description: End-to-end browser tests with detected framework
+description: Testes end-to-end no browser com framework detectado
 ---
 
-# E2E Test
+# Testes E2E
 
-I will help you write end-to-end tests that adapt to your testing framework.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Detect existing E2E setup before writing tests
-- Test user flows, not implementation
-- Keep tests reliable and not flaky
-- Use proper waiting strategies
+Este workflow ajuda a escrever testes end-to-end alinhados ao framework em uso.
 
-## Steps
+## Limites e cuidados
 
-### 1. Understand What to Test
-Ask clarifying questions:
-- What user flow needs testing?
-- What are the critical paths?
-- Any known flaky areas?
-- What browsers need support?
+- Detectar Playwright/Cypress/etc. antes de escrever
+- Testar fluxos de utilizador, não implementação interna
+- Evitar testes instáveis (*flaky*)
+- Esperas explícitas (elemento visível, rede) em vez de `sleep` fixo
 
-### 2. Detect E2E Framework
-Check existing setup:
+## Passos
+
+### 1. O que testar
+
+- Fluxo de utilizador crítico?
+- Caminhos que não podem regredir?
+- Browsers alvo?
+
+### 2. Detectar framework
+
 - Playwright: `playwright.config.ts`
-- Cypress: `cypress.config.js`
-- Selenium: webdriver setup
-- Puppeteer: puppeteer usage
+- Cypress: `cypress.config.*`
+- Selenium / Puppeteer conforme o repo
 
-If none, recommend Playwright for new projects.
+Se não houver nada, Playwright é boa escolha para projectos novos.
 
-### 3. Write Test Cases
-Structure tests around user flows:
-- Describe the scenario clearly
-- Set up preconditions
-- Perform user actions
-- Assert expected outcomes
+### 3. Casos de teste
 
-### 4. Handle Async Operations
-Use proper waiting:
-- Wait for elements to be visible
-- Wait for network requests
-- Avoid arbitrary timeouts
-- Use retry mechanisms
+- Cenário claro
+- Pré-condições
+- Acções do utilizador
+- Resultado esperado na UI ou URL
 
-### 5. Run and Verify
-- Execute tests in headed mode first
-- Debug any failures
-- Run in CI environment
+### 4. Operações assíncronas
 
-## Principles
-- Test what users do, not how code works
-- Make tests deterministic
-- Isolate test data
-- Clean up after tests
+- Esperar visibilidade / conteúdo
+- Esperar rede quando necessário
+- Evitar timeouts arbitrários longos
+- Retries no CI se configurado
+
+### 5. Executar
+
+- Modo *headed* para depuração
+- Depois CI
+
+## Princípios
+
+- O que o utilizador faz, não como o código faz
+- Testes determinísticos
+- Dados de teste isolados
+- Limpeza após testes

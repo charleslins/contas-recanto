@@ -1,84 +1,77 @@
 ---
-description: Deploy applications to Railway with database and environment configuration
+description: Deploy na Railway com base de dados e variáveis de ambiente
 ---
 
-# Railway Deployment
+# Deploy na Railway
 
-I will help you deploy your application to Railway with proper configuration.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Never commit secrets to the repository
-- Use Railway's environment variables for all sensitive data
-- Set up proper health checks
-- Configure resource limits appropriately
+## Recanto
 
-## Steps
+- O Recanto usa **Neon** para Postgres; em Railway pode usar Postgres da Railway **ou** manter Neon e definir `DATABASE_URL` apontando para Neon.
+- Scripts típicos: `npm run build`, `npm run start` (Next.js).
 
-### 1. Pre-Deployment Checklist
-- Ensure your app has a `package.json` with a `start` script
-- Add a `Procfile` if needed for custom start commands
-- Verify `.gitignore` includes sensitive files
+Este workflow ajuda a fazer *deploy* na Railway com configuração adequada.
 
-### 2. Install Railway CLI (Optional)
-// turbo
+## Limites e cuidados
+
+- Nunca commitar *secrets*
+- Variáveis sensíveis só nas variáveis de ambiente da Railway
+- Configurar *health checks* quando a plataforma exigir
+- Limites de recursos adequados ao tráfego
+
+## Passos
+
+### 1. Checklist pré-deploy
+
+- `package.json` com script `start` (e `build` se aplicável)
+- `Procfile` ou comando de arranque definido na plataforma, se necessário
+- `.gitignore` a cobrir ficheiros sensíveis
+
+### 2. CLI da Railway (opcional)
+
 ```bash
 npm install -g @railway/cli
-```
-
-Login to Railway:
-```bash
 railway login
 ```
 
-### 3. Initialize Railway Project
+### 3. Inicializar projecto
 
-**Option A: Via CLI**
+**Opção A — CLI**
+
 ```bash
 railway init
 ```
 
-**Option B: Via Dashboard**
-1. Go to [railway.app](https://railway.app)
-2. Click "New Project"
-3. Select "Deploy from GitHub repo"
-4. Authorize and select your repository
+**Opção B — Dashboard**
 
-### 4. Configure Environment Variables
+1. [railway.app](https://railway.app) → New Project  
+2. Deploy from GitHub → autorizar e escolher o repositório  
 
-Via CLI:
+### 4. Variáveis de ambiente
+
+**CLI:**
+
 ```bash
-railway variables set DATABASE_URL="your-database-url"
+railway variables set DATABASE_URL="sua-connection-string"
 railway variables set NODE_ENV="production"
-railway variables set SECRET_KEY="your-secret-key"
 ```
 
-Via Dashboard:
-1. Select your project
-2. Go to "Variables" tab
-3. Add key-value pairs
+**Dashboard:** separador Variables → pares chave/valor.
 
-### 5. Add Database (if needed)
+### 5. Base de dados (se na Railway)
 
-**PostgreSQL:**
 ```bash
 railway add --plugin postgresql
+# ou redis, mongodb, conforme necessidade
 ```
 
-**Redis:**
-```bash
-railway add --plugin redis
-```
+A Railway injeta URLs de ligação como variáveis de ambiente.
 
-**MongoDB:**
-```bash
-railway add --plugin mongodb
-```
+### 6. Build (`railway.toml` opcional)
 
-Railway automatically injects database connection URLs as environment variables.
-
-### 6. Configure Build Settings
-
-Create `railway.toml` in project root:
 ```toml
 [build]
 builder = "nixpacks"
@@ -92,9 +85,12 @@ restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
 ```
 
-### 7. Configure for Specific Frameworks
+(Ajustar `healthcheckPath` ao endpoint real — ver secção abaixo.)
 
-**Next.js** - Add to `package.json`:
+### 7. Next.js (App Router)
+
+Em `package.json`:
+
 ```json
 {
   "scripts": {
@@ -104,84 +100,71 @@ restartPolicyMaxRetries = 3
 }
 ```
 
-**Express.js** - Use PORT environment variable:
-```javascript
-const port = process.env.PORT || 3000
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`)
-})
-```
+(`$PORT` é comum na Railway.)
 
 ### 8. Deploy
-// turbo
+
 ```bash
 railway up
 ```
 
-Or push to your connected GitHub branch for automatic deployment.
+Ou *push* para o branch ligado ao deploy automático.
 
-### 9. Set Up Custom Domain
+### 9. Domínio personalizado
 
 ```bash
 railway domain
 ```
 
-Or via Dashboard:
-1. Go to project settings
-2. Click "Add Custom Domain"
-3. Add your domain and configure DNS
+Ou no Dashboard → Settings → Domains.
 
-### 10. View Logs
+### 10. Logs
 
 ```bash
 railway logs
 ```
 
-Or view in the Railway dashboard under "Deployments" → "View Logs"
+Ou Deployments → View Logs.
 
-## Health Check Endpoint
+## Endpoint de health check
 
-Create `pages/api/health.ts` (Next.js) or equivalent:
+Next.js 15 (App Router), exemplo `app/api/health/route.ts`:
+
 ```typescript
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { NextResponse } from 'next/server'
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() })
+// Resposta mínima para health checks (Railway, load balancers, etc.)
+export function GET() {
+  return NextResponse.json({ status: 'ok', timestamp: new Date().toISOString() })
 }
 ```
 
-## Troubleshooting
+## Resolução de problemas
 
-### Build Failures
+### Falhas de build
+
 ```bash
-# Check build logs
 railway logs --build
-
-# Rebuild with clear cache
 railway up --clear-build-cache
 ```
 
-### Memory Issues
-Update `railway.toml`:
-```toml
-[deploy]
-numReplicas = 1
-```
+### Memória
 
-Or upgrade your Railway plan for more resources.
+Ajustar réplicas ou plano na Railway; rever `railway.toml`.
 
-### Database Connection Issues
-- Verify DATABASE_URL is set correctly
-- Check if database plugin is running
-- Ensure connection pooling for serverless environments
+### Ligação à base de dados
 
-## Guidelines
-- Use preview environments for PRs
-- Set up notifications for failed deployments
-- Monitor resource usage in dashboard
-- Enable automatic deploys from main branch
+- Confirmar `DATABASE_URL`
+- Plugin da BD activo
+- *Pooling* adequado em ambientes *serverless*
 
-## Reference
-- [Railway Docs](https://docs.railway.app)
-- [Railway Templates](https://railway.app/templates)
-- [Nixpacks](https://nixpacks.com/docs) - Build system documentation
+## Orientações
+
+- Ambientes de pré-visualização para PRs
+- Notificações para falhas de deploy
+- Monitorizar uso no dashboard
+
+## Referência
+
+- [Documentação Railway](https://docs.railway.app)
+- [Nixpacks](https://nixpacks.com/docs)

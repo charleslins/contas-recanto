@@ -1,138 +1,68 @@
 ---
 name: style-review
-description: Use ao revisar código para conformidade com o guia de estilo, quando um desenvolvedor pede para checar o estilo do código, ou para enforçar convenções do time no projeto Heure C2
+description: Revisão de estilo e convenções alinhada ao Recanto (ESLint, TS, Next, estrutura de pastas)
 ---
 
-# Style Guide Enforcer
+# Style review — Recanto
 
-Revisar código contra o guia de estilo e convenções de codificação do projeto Heure C2.
+## Quando usar
 
-## Quando Usar
+- Pedidos explícitos de revisão de estilo ou consistência com o repo.
 
-- Desenvolvedor pede para checar conformidade de estilo
-- Revisando código de um novo contribuidor
-- Enforçando convenções do time em um PR
-- Antes de um merge para garantir consistência
-
-## Steps
-
-### 1. Detectar o guia de estilo do projeto
-
-Verificar arquivos de configuração:
+## 1. Config do projeto
 
 ```bash
-cat .eslintrc.* 2>/dev/null || cat eslint.config.* 2>/dev/null
-cat .prettierrc.* 2>/dev/null
+cat eslint.config.* 2>/dev/null || cat .eslintrc.* 2>/dev/null
+cat .prettierrc* 2>/dev/null
 cat .editorconfig 2>/dev/null
 ```
 
-Para o Heure C2, as convenções principais estão em:
-- `.cursorrules` — regras raiz do projeto
-- `.agent/REGRAS_CONSOLIDADAS.md` — regras detalhadas complementares
-- `.cursor/rules/regras-projeto.md` — resumo das regras para o Cursor
+**Convenções canónicas:** `.cursorrules`, `.context/docs/architecture.md`.
 
-### 2. Obter arquivos alterados e revisar
+## 2. Diff
 
 ```bash
 git diff --name-only HEAD~1
 git diff HEAD~1
 ```
 
-### 3. Aplicar checagem de estilo específica do Heure C2
+(Ajuste o range ao conjunto real de commits/PR.)
 
----
+## 3. TypeScript / React
 
-#### TypeScript / React
+- `const` por defeito; sem `var`
+- Props com **interface** nomeada
+- Evitar `enum`; preferir unions ou `as const`
+- Componentes funcionais; hooks no topo
 
-- [ ] `const` em vez de `let` onde possível, nunca `var`
-- [ ] Arrow functions para callbacks e componentes funcionais
-- [ ] Template literals em vez de concatenação de strings
-- [ ] Destructuring onde apropriado
-- [ ] Sem `any` — usar tipos explícitos ou `unknown`
-- [ ] Sem `enum` — usar `const` objects ou union types
-- [ ] Interfaces obrigatórias para props de componentes e retorno de functions
-- [ ] Exportações: seguir o padrão existente no módulo (default vs named)
+## 4. Estrutura Recanto
 
----
+- UI em `components/`; primitivos em `components/ui/`
+- Dados em `services/*/*.service.ts` e `*.actions.ts`
+- Schema Drizzle só em `lib/db/schema.ts`
+- Alias `@/` para imports da raiz
 
-#### Componentes React
+## 5. UI / marcação
 
-- [ ] Componentes funcionais com TypeScript (`React.FC<Props>` ou tipagem inline)
-- [ ] Props tipadas em interface separada acima do componente
-- [ ] 4 estados de UI implementados onde aplicável: loading, error, empty, data
-- [ ] Sem lógica de negócio diretamente no componente
-- [ ] Hooks customizados para lógica complexa de estado
-- [ ] Sem chamadas diretas ao Supabase dentro de componentes
+- Tabelas HTML válidas (`tbody` → `tr` → `td`/`th`)
+- Evitar `opacity-0` sem transição definida no projeto
 
----
+## 6. Logging
 
-#### Internacionalização (i18n)
+- Evitar `console.log` em código de app; scripts (`seed`, etc.) podem usar `console`.
 
-- [ ] **Zero strings hardcoded** na UI — todas as strings passam por `t("chave")`
-- [ ] Chaves de tradução seguem o padrão: `componente.subSecao.label`
-- [ ] Sem texto em português/francês/inglês hardcoded nos arquivos `.tsx`/`.ts`
+## 7. i18n
 
-```bash
-# Quick check para strings hardcoded
-npm run check:hardcode
-```
+- O projeto **não** impõe `t()` globalmente ainda; se existir política futura, alinhar nessa altura.
 
----
+## Saída sugerida
 
-#### Logging e Erros
-
-- [ ] **Zero `console.log`** — usar `logger` do projeto:
-  ```ts
-  import { logger } from "../utils/logger";
-  logger.info("mensagem", { contexto });
-  ```
-- [ ] Erros tratados com `ErrorHandlingService` ou `ErrorFactory`
-- [ ] Blocos `try/catch` presentes em todas as operações assíncronas com Supabase
-
----
-
-#### Nomenclatura
-
-- [ ] Componentes: `PascalCase`
-- [ ] Funções/variáveis: `camelCase`
-- [ ] Constantes: `UPPER_SNAKE_CASE` para valores verdadeiramente constantes
-- [ ] Arquivos de componente: `PascalCase.tsx`
-- [ ] Arquivos de service/util: `camelCase.ts`
-- [ ] Arquivos de hook: `use[Nome].ts`
-
----
-
-#### Arquitetura
-
-- [ ] Camadas respeitadas: `Components → Hooks → Presenters → Services → Supabase`
-- [ ] Services seguem padrão com `withRetryAndCircuitBreaker` onde aplicável
-- [ ] Queries ao Supabase incluem filtro `company_id` (multi-tenancy)
-- [ ] RLS policies consideradas — não confiar apenas em filtros do client
-
----
-
-### 4. Formato de saída
-
-**Score de Conformidade de Estilo:** X/10
-
-**Violações:**
-```
-arquivo:linha — O que está errado → Como deve ser
-```
-
-**Notas Positivas:** O que segue bem o guia de estilo.
-
-**Itens auto-corrigíveis** (formatação Prettier):
-- [lista]
-
-**Itens de correção manual** (nomenclatura, padrões, arquitetura):
-- [lista]
-
----
+- **Score** opcional X/10  
+- **Violações:** `ficheiro:linha` — problema → sugestão  
+- **Positivos:** o que está alinhado  
+- Separar **auto-fix** (Prettier/format) vs **manual**
 
 ## Regras
 
-- Enforçar apenas regras que estão efetivamente configuradas no projeto.
-- Não sinalizar problemas de estilo em código que não foi alterado neste diff.
-- Distinguir entre problemas auto-corrigíveis (formatação) e de correção manual (nomenclatura, padrões).
-- Para o Heure C2, as violações mais críticas são: `console.log`, strings hardcoded sem `t()`, e `any` sem justificativa.
+- Só reportar problemas **no diff** em revisão de PR, salvo pedido explícito de auditoria completa.
+- Não exigir padrões de **outros** projetos (Vite, Supabase, `src/presenters/`).

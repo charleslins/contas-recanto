@@ -1,41 +1,57 @@
 ---
-description: Create a new Next.js application with TypeScript, Tailwind CSS, ESLint, and modern best practices
+description: Criar aplicação Next.js com TypeScript, Tailwind, ESLint e boas práticas actuais
 ---
 
-# New Next.js Application
+# Nova aplicação Next.js
 
-I will help you create a new Next.js application with the latest best practices and a solid foundation.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Always use TypeScript for type safety
-- Use App Router (not Pages Router) unless explicitly requested otherwise
-- Prefer server components where possible
-- Keep dependencies minimal and purposeful
 
-## Steps
+Este workflow cobre a criação ou alinhamento de um projecto Next.js às boas práticas actuais.
 
-### 1. Initialize Project
-// turbo
+## Limites e cuidados
+
+- TypeScript para segurança de tipos
+- App Router (não Pages Router) salvo pedido explícito
+- Preferir Server Components quando possível
+- Dependências mínimas e justificadas
+
+## Recanto (repositório actual)
+
+O **Recanto** já é Next.js 15 com `app/`, `components/`, `lib/`, `services/`, alias `@/*` na **raiz** (sem pasta `src/`). Use este workflow para **novos** projectos ou para alinhar um scaffold ao mesmo padrão.
+
+## Passos
+
+### 1. Inicializar o projeto (greenfield)
+
+Para projeto novo na raiz (sem `src/`, alinhado ao Recanto):
+
 ```bash
-npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias "@/*"
+npx create-next-app@latest . --typescript --tailwind --eslint --app --import-alias "@/*"
 ```
 
-If the project already exists, skip this step.
+(Se o wizard perguntar pela pasta `src/`, escolher **não**, para ficar alinhado ao Recanto: `app/` na raiz.)
 
-### 2. Install Essential Dependencies
-// turbo
+Se o repositório **já existir** (como o Recanto), **não** correr `create-next-app` por cima — apenas comparar estrutura com os passos seguintes.
+
+### 2. Instalar dependências essenciais
+
 ```bash
 npm install clsx tailwind-merge lucide-react
 ```
 
-Optional but recommended:
+Opcional (o Recanto já usa Zod noutros contextos):
+
 ```bash
-npm install @tanstack/react-query zod
+npm install zod
 ```
 
 ### 3. Set Up Utilities
 
-Create `src/lib/utils.ts`:
+Criar ou manter `lib/utils.ts` na raiz (não em `src/lib/`):
+
 ```typescript
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
@@ -45,75 +61,51 @@ export function cn(...inputs: ClassValue[]) {
 }
 ```
 
-### 4. Configure Tailwind (Optional Enhancements)
+### 4. Configurar Tailwind (`content`)
 
-Update `tailwind.config.ts` with custom theme extensions:
+Garantir que `tailwind.config` inclui caminhos **sem** `src/`:
+
 ```typescript
-import type { Config } from "tailwindcss"
-
-const config: Config = {
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
-  theme: {
-    extend: {
-      fontFamily: {
-        sans: ["var(--font-geist-sans)"],
-        mono: ["var(--font-geist-mono)"],
-      },
-    },
-  },
-  plugins: [],
-}
-export default config
+content: [
+  "./app/**/*.{js,ts,jsx,tsx,mdx}",
+  "./components/**/*.{js,ts,jsx,tsx,mdx}",
+  "./lib/**/*.{js,ts,jsx,tsx,mdx}",
+],
 ```
 
-### 5. Clean Up Default Page
+### 5. App Router
 
-Replace `src/app/page.tsx` content with:
-```tsx
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <h1 className="text-4xl font-bold">Hello, World!</h1>
-    </main>
-  )
-}
-```
+Ficheiros em `app/layout.tsx`, `app/page.tsx`, estilos globais em `app/globals.css` (ou equivalente do template).
 
-### 6. Create Folder Structure
+### 6. Estrutura alvo (como o Recanto)
 
 ```
-src/
-├── app/
-│   ├── layout.tsx
-│   ├── page.tsx
-│   └── globals.css
-├── components/
-│   └── ui/           # Reusable UI components
-├── lib/
-│   └── utils.ts      # Utility functions
-├── hooks/            # Custom React hooks
-└── types/            # TypeScript type definitions
+app/
+components/
+  ui/
+lib/
+  db/
+services/
+hooks/
 ```
 
-### 7. Verify Setup
-// turbo
+### 7. Verificar a configuração
+
 ```bash
 npm run dev
 ```
 
-Open http://localhost:3000 to verify the app is running.
+Abrir http://localhost:3000 para confirmar que a app está a correr.
 
-## Guidelines
-- Use `@/` import alias for clean imports
-- Keep components small and focused
-- Use TypeScript strict mode
-- Prefer CSS Modules or Tailwind over CSS-in-JS
-- Use Next.js built-in features (Image, Link, Font optimization)
+## Orientações
 
-## Reference
-- [Next.js Docs](https://nextjs.org/docs)
-- [Tailwind CSS Docs](https://tailwindcss.com/docs)
+- Alias `@/` para imports limpos
+- Componentes pequenos e focados
+- TypeScript em modo `strict`
+- Preferir Tailwind ou CSS Modules a CSS-in-JS pesado
+- Usar recursos nativos do Next.js (`Image`, `Link`, optimização de fontes)
+
+## Referência
+
+- [Documentação Next.js](https://nextjs.org/docs)
+- [Documentação Tailwind](https://tailwindcss.com/docs)

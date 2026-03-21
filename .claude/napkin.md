@@ -1,4 +1,6 @@
-# Napkin Runbook
+# Napkin Runbook — Recanto
+
+> Stack: Next.js 15, Drizzle, Neon, shadcn. Regras Cursor: `.cursorrules`. Docs: `.context/docs/project-overview.md`.
 
 ## Curation Rules
 - Re-prioritize on every read.

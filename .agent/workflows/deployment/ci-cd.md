@@ -1,58 +1,66 @@
 ---
-description: Set up CI/CD pipelines for any platform
+description: Configurar pipelines de CI/CD para qualquer plataforma
 ---
 
 # CI/CD
 
-I will help you set up continuous integration and deployment pipelines.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Detect existing CI/CD before adding new
-- Start simple, iterate as needed
-- Keep secrets secure
-- Test pipelines in branches first
+Este workflow ajuda a configurar integração e *deployment* contínuos.
 
-## Steps
+## Limites e cuidados
 
-### 1. Understand Requirements
-Ask clarifying questions:
-- What platform? (GitHub Actions, GitLab CI, etc.)
-- What should the pipeline do? (test, build, deploy)
-- Any existing CI/CD setup?
-- Multiple environments? (staging, production)
+- Detectar CI/CD existente antes de acrescentar novo
+- Começar simples; iterar depois
+- Manter *secrets* seguros
+- Testar pipelines em branches primeiro
 
-### 2. Detect Platform
-Check existing configuration:
+## Passos
+
+### 1. Perceber requisitos
+
+- Plataforma? (GitHub Actions, GitLab CI, etc.)
+- O que o pipeline deve fazer? (lint, testes, build, deploy)
+- Já existe CI/CD?
+- Vários ambientes? (*staging*, produção)
+
+### 2. Detectar a plataforma
+
 - `.github/workflows/` → GitHub Actions
 - `.gitlab-ci.yml` → GitLab CI
 - `Jenkinsfile` → Jenkins
 - `bitbucket-pipelines.yml` → Bitbucket
 
-### 3. Design Pipeline
-Plan stages:
-- **CI**: Lint, test, build
-- **CD**: Deploy to staging/production
-- **Conditions**: When to run each stage
+### 3. Desenhar o pipeline
 
-### 4. Create Pipeline
-Configure jobs:
-- Set triggers (push, PR, schedule)
-- Define steps
-- Add caching for speed
-- Set up secrets
+- **CI:** lint, testes, build
+- **CD:** deploy para *staging*/produção
+- Condições: quando corre cada etapa
 
-### 5. Test Pipeline
-- Run on a branch first
-- Verify all steps pass
-- Check deployment works
+### 4. Criar o pipeline
 
-### 6. Verify
-- Pipeline runs on expected triggers
-- Deployments succeed
-- Notifications work
+- *Triggers* (push, PR, agendamento)
+- Passos dos *jobs*
+- *Cache* de dependências
+- *Secrets*
 
-## Principles
-- Fail fast (run quick checks first)
-- Cache dependencies
-- Keep pipelines DRY
-- Use reusable workflows
+### 5. Testar
+
+- Correr numa branch de teste
+- Verificar que todos os passos passam
+- Validar deploy se aplicável
+
+### 6. Verificar
+
+- *Triggers* correctos
+- Deployments bem-sucedidos
+- Notificações (se configuradas)
+
+## Princípios
+
+- Falhar cedo (checks rápidos primeiro)
+- *Cache* de dependências
+- Pipelines DRY
+- Workflows reutilizáveis quando possível

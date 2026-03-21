@@ -1,54 +1,58 @@
 ---
-description: Scaffold any project with detected or chosen stack
+description: Gerar scaffold de projecto com stack detectada ou escolhida
 ---
 
-# New Project
+# Novo projecto
 
-I will help you scaffold a new project that adapts to your preferred tech stack.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Never assume a specific framework
-- Ask about requirements before scaffolding
-- Use official project generators when available
-- Set up proper project structure from the start
+Este workflow ajuda a criar um novo projecto alinhado à stack escolhida.
 
-## Steps
+> **Nota:** o repositório **Recanto** já existe; use este fluxo para **outros** projectos ou para comparar boas práticas com `create-next-app`.
 
-### 1. Understand Requirements
-Ask clarifying questions:
-- What type of project? (web app, API, CLI, library)
-- Any framework preferences? (React, Vue, Django, Express, etc.)
-- TypeScript or JavaScript?
-- What features are needed initially?
+## Limites e cuidados
 
-### 2. Choose Stack
-Based on requirements, suggest appropriate stack:
-- Frontend: React, Vue, Angular, Svelte, or static
-- Backend: Node/Express, Python/FastAPI, Go, etc.
-- Database: PostgreSQL, MongoDB, SQLite
-- Styling: Tailwind, CSS Modules, styled-components
+- Não assumir framework sem perguntar
+- Recolher requisitos antes do scaffold
+- Preferir geradores oficiais
+- Estrutura e ferramentas base desde o primeiro dia
 
-### 3. Scaffold Project
-Use official generators:
-- React: `npx create-react-app` or `npx create-vite`
-- Next.js: `npx create-next-app`
-- Vue: `npm create vue@latest`
-- Express: manual setup or generator
-- Python: `pip install` + virtual env
+## Passos
 
-### 4. Configure Essentials
-Set up:
-- Git initialization
-- Editor config (.editorconfig, .prettierrc)
-- Linting (ESLint, Pylint)
-- TypeScript config if applicable
+### 1. Requisitos
 
-### 5. Verify
-- Run the development server
-- Confirm project structure is correct
-- Test basic functionality
+- Tipo: web, API, CLI, biblioteca?
+- Preferências de framework?
+- TypeScript ou JavaScript?
+- Funcionalidades iniciais?
 
-## Principles
-- Start minimal, add complexity as needed
-- Follow framework conventions
-- Set up proper tooling from day one
+### 2. Escolher stack
+
+Sugestão coerente com os requisitos (frontend, backend, BD, estilos).
+
+### 3. Scaffold
+
+- Next.js: `npx create-next-app@latest`
+- React/Vite: `npm create vite@latest`
+- Vue, Express, Python/FastAPI, etc. — geradores oficiais
+
+### 4. Configurar o essencial
+
+- Git
+- `.editorconfig`, Prettier
+- ESLint ou equivalente
+- `tsconfig` se aplicável
+
+### 5. Verificar
+
+- Servidor de desenvolvimento
+- Estrutura de pastas
+- Funcionalidade mínima
+
+## Princípios
+
+- Começar enxuto; complexidade depois
+- Seguir convenções do framework
+- Tooling desde o primeiro dia

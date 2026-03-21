@@ -1,59 +1,70 @@
 ---
-description: Full feature implementation from design to deployment
+description: Implementação completa de feature desde o desenho até ao deploy
 ---
 
-# New Feature
+# Nova feature
 
-I will help you implement a complete feature from start to finish.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Understand requirements before coding
-- Follow existing patterns in the codebase
-- Include tests with the feature
-- Document as you build
+## Recanto (pipeline típico)
 
-## Steps
+1. `lib/db/schema.ts` se o modelo mudar → `npm run db:push` / CI.
+2. `services/<domínio>/*.service.ts` + `*.actions.ts`.
+3. UI em `components/` + `app/`; `npm run lint` e `npm run build`.
 
-### 1. Understand Requirements
-Ask clarifying questions:
-- What should this feature do?
-- Who will use it?
-- Any mockups or specifications?
-- What's the acceptance criteria?
+Este workflow ajuda a implementar uma feature completa.
 
-### 2. Plan Implementation
-Break down the work:
-- Database changes needed
-- API endpoints to create
-- UI components to build
-- Integration points
+## Limites e cuidados
 
-### 3. Implement Backend
-Build the foundation:
-- Database schema/migrations
-- API endpoints
-- Business logic
-- Input validation
+- Perceber requisitos antes de codar
+- Seguir padrões do codebase
+- Incluir testes quando a suíte existir
+- Documentar enquanto se constrói
 
-### 4. Implement Frontend
-Build the UI:
-- Components
-- State management
-- API integration
-- Error handling
+## Passos
 
-### 5. Add Tests
-Cover the feature:
-- Unit tests for logic
-- Integration tests for API
-- E2E tests for critical paths
+### 1. Perceber requisitos
 
-### 6. Verify
-- Feature works as expected
-- Tests pass
-- No regressions
+- O que a feature deve fazer?
+- Quem usa?
+- *Mockups* ou especificação?
+- Critérios de aceitação?
 
-## Principles
-- Build vertically (full slice) not horizontally
-- Get something working before polishing
-- Commit frequently with clear messages
+### 2. Planear
+
+- Alterações de base de dados
+- Endpoints ou server actions
+- Componentes de UI
+- Pontos de integração
+
+### 3. Camada de dados / servidor
+
+- Schema e migrações/push
+- Actions ou rotas API
+- Regras e validação
+
+### 4. Frontend
+
+- Componentes e estado
+- Integração com servidor
+- Erros e estados vazios
+
+### 5. Testes (quando existirem)
+
+- Lógica unitária
+- Integração
+- E2E nos fluxos críticos
+
+### 6. Verificar
+
+- Comportamento conforme aceitação
+- Testes a passar
+- Sem regressões óbvias
+
+## Princípios
+
+- *Fatias verticais* (ponta a ponta) em vez de só uma camada isolada
+- Ter algo funcional antes de polir
+- *Commits* frequentes com mensagens claras

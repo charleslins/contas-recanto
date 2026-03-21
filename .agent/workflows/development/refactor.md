@@ -1,54 +1,61 @@
 ---
-description: Improve code quality, extract functions, reduce duplication
+description: Melhorar qualidade de código, extrair funções, reduzir duplicação
 ---
 
 # Refactor
 
-I will help you refactor code to improve quality while preserving functionality.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Never change behavior, only structure
-- Make small, incremental changes
-- Ensure tests pass after each change
-- Preserve public APIs unless explicitly asked
+Este workflow ajuda a refatorar código mantendo o comportamento.
 
-## Steps
+## Limites e cuidados
 
-### 1. Understand Scope
-Ask clarifying questions:
-- Which files or functions to refactor?
-- What problems are you seeing? (duplication, complexity, etc.)
-- Are there tests covering this code?
-- Any constraints to be aware of?
+- Não alterar comportamento observável — só estrutura
+- Mudanças pequenas e incrementais
+- Garantir que testes (e `lint`/`build`) passam após cada passo
+- Preservar APIs públicas salvo pedido explícito
 
-### 2. Analyze Code
-Identify issues:
-- Code duplication
-- Long functions/methods
-- Deep nesting
-- Unclear naming
-- Mixed responsibilities
+## Passos
 
-### 3. Plan Refactoring
-Common patterns:
-- **Extract Function**: Pull out reusable logic
-- **Rename**: Improve clarity of names
-- **Inline**: Remove unnecessary abstractions
-- **Move**: Relocate to better location
-- **Simplify Conditionals**: Reduce complexity
+### 1. Perceber o âmbito
 
-### 4. Execute Refactoring
-Make changes incrementally:
-- One refactoring at a time
-- Run tests after each change
-- Commit frequently
+- Que ficheiros ou funções?
+- Problema: duplicação, complexidade, nomes…
+- Existem testes?
+- Restrições?
 
-### 5. Verify
-- All tests still pass
-- Code is more readable
-- No behavior changes
+### 2. Analisar
 
-## Principles
-- Refactor in small steps
-- Make the change easy, then make the easy change
-- If it hurts, do it more often
+- Código duplicado
+- Funções longas
+- Aninhamento profundo
+- Nomes pouco claros
+- Responsabilidades misturadas
+
+### 3. Planear
+
+- **Extrair função:** lógica reutilizável
+- **Renomear:** clareza
+- **Inline:** abstracções desnecessárias
+- **Mover:** melhor localização de módulo
+- **Simplificar condicionais**
+
+### 4. Executar
+
+- Um tipo de refactor de cada vez
+- Validar após cada alteração
+- *Commits* frequentes
+
+### 5. Verificar
+
+- Testes / build / lint
+- Legibilidade melhorada
+- Comportamento inalterado
+
+## Princípios
+
+- Passos pequenos
+- Tornar a mudança fácil, depois fazer a mudança fácil
+- Se doer, fazer com mais frequência (em passos menores)

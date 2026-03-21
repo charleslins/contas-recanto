@@ -1,56 +1,71 @@
 ---
-description: Design and optimize prompts for LLM applications
+description: Desenhar e optimizar prompts para aplicações com LLM
 ---
 
-# Prompt Engineering
+# Engenharia de prompts
 
-I will help you design and optimize prompts for LLM applications.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Test prompts with various inputs
-- Consider edge cases and misuse
-- Keep prompts maintainable
-- Version control your prompts
+Este workflow ajuda a desenhar e optimizar prompts para aplicações baseadas em LLM.
 
-## Steps
+## Limites e cuidados
 
-### 1. Understand the Task
-Ask clarifying questions:
-- What should the LLM do?
-- What inputs will it receive?
-- What format should output be in?
-- Any constraints or guardrails needed?
+- Testar prompts com várias entradas
+- Considerar casos extremos e uso indevido
+- Manter prompts legíveis e sustentáveis
+- Versionar os prompts (controlo de versões)
 
-### 2. Design Prompt Structure
-Include key elements:
-- **Role**: Define who the AI is
-- **Context**: Provide background
-- **Instructions**: Clear task description
-- **Examples**: Few-shot learning
-- **Output Format**: Specify structure
+## Passos
 
-### 3. Write the Prompt
-Best practices:
-- Be specific and clear
-- Use delimiters for sections
-- Provide examples
-- Specify constraints
+### 1. Perceber a tarefa
 
-### 4. Test and Iterate
-- Test with various inputs
-- Check for edge cases
-- Refine based on failures
-- A/B test variations
+Perguntas de clarificação:
 
-### 5. Optimize
-Improve performance:
-- Reduce token usage
-- Improve consistency
-- Add guardrails
-- Handle errors gracefully
+- O que o LLM deve fazer?
+- Que entradas recebe?
+- Em que formato deve ser a saída?
+- Há restrições ou salvaguardas necessárias?
 
-## Principles
-- Clarity > Cleverness
-- Test with real-world examples
-- Document prompt versions
-- Consider failure modes
+### 2. Desenhar a estrutura do prompt
+
+Incluir elementos-chave:
+
+- **Papel:** quem é a IA
+- **Contexto:** informação de fundo
+- **Instruções:** descrição clara da tarefa
+- **Exemplos:** aprendizagem few-shot
+- **Formato de saída:** estrutura pretendida
+
+### 3. Escrever o prompt
+
+Boas práticas:
+
+- Ser específico e claro
+- Usar delimitadores para secções
+- Fornecer exemplos
+- Especificar restrições
+
+### 4. Testar e iterar
+
+- Testar com várias entradas
+- Verificar casos extremos
+- Refinar com base em falhas
+- Testar variantes (A/B)
+
+### 5. Optimizar
+
+Melhorar desempenho:
+
+- Reduzir uso de tokens
+- Aumentar consistência
+- Reforçar salvaguardas
+- Tratar erros de forma controlada
+
+## Princípios
+
+- Clareza vale mais que esperteza
+- Testar com exemplos reais
+- Documentar versões dos prompts
+- Considerar modos de falha

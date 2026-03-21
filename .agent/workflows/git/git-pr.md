@@ -1,80 +1,80 @@
 ---
-description: Create comprehensive pull request descriptions from commits
+description: Criar descrições completas de pull request a partir dos commits
 ---
 
 # Git PR
 
-I will help you create a comprehensive pull request description based on your branch's commits and changes.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Analyze commits on the current branch vs target branch
-- Don't modify any code, only generate PR content
-- Follow the project's PR template if one exists
+Este workflow ajuda a redigir a descrição de um pull request com base nos commits e no diff.
 
-## Steps
+## Limites e cuidados
 
-### 1. Understand Context
-Ask clarifying questions:
-- What is the target branch? (usually `main` or `develop`)
-- Is there a linked issue number?
-- Is this a feature, bug fix, or something else?
+- Analisar commits da branch actual vs branch alvo
+- Não alterar código — só conteúdo do PR
+- Seguir template do projecto se existir (`.github/PULL_REQUEST_TEMPLATE.md`)
 
-### 2. Analyze Changes
-Gather information about the PR:
-- Run `git log main..HEAD --oneline` to see commits
-- Run `git diff main --stat` for changed files summary
-- Review the actual changes for context
+## Passos
 
-### 3. Check for PR Template
-Look for existing templates:
-- `.github/PULL_REQUEST_TEMPLATE.md`
-- `.github/pull_request_template.md`
+### 1. Contexto
 
-If found, use that structure.
+- Branch alvo (`main`, `develop`…)
+- Issue ligada?
+- Feature, fix, refactor…?
 
-### 4. Generate PR Content
+### 2. Analisar mudanças
 
-**Title:**
-`<type>: <brief description>`
+- `git log main..HEAD --oneline` (ajustar `main`)
+- `git diff main --stat`
+- Rever diff para contexto
 
-**Description sections:**
+### 3. Template
+
+Procurar `.github/PULL_REQUEST_TEMPLATE.md` ou variantes.
+
+### 4. Gerar conteúdo
+
+**Título:** `<tipo>: <descrição breve>`
+
+**Corpo (exemplo):**
 
 ```markdown
-## Description
-Brief summary of what this PR does.
+## Descrição
+Resumo do que o PR faz.
 
-## Changes
-- List of specific changes made
-- Bullet points for clarity
+## Alterações
+- Lista pontual
 
-## Related Issue
-Closes #<issue-number>
+## Issue relacionada
+Closes #123
 
-## Type of Change
-- [ ] New feature
-- [ ] Bug fix
+## Tipo
+- [ ] Nova feature
+- [ ] Bugfix
 - [ ] Refactor
-- [ ] Documentation
+- [ ] Documentação
 
-## Testing
-How the changes were tested.
+## Como testar
+Passos e comandos (`npm run dev`, etc.).
 
-## Screenshots (if UI changes)
-Before/after if applicable.
+## Capturas (UI)
+Antes/depois se aplicável.
 ```
 
-### 5. Present and Refine
-Show the generated PR content and ask if user wants to:
-- Use as-is
-- Modify any section
-- Add more details
+### 5. Rever com o autor
 
-## Principles
-- Be concise but complete
-- Highlight breaking changes prominently
-- Link related issues and PRs
-- Help reviewers understand the "why"
+Ajustar secções conforme feedback.
 
-## Reference
-- Check project's existing PRs for style
-- Look at CONTRIBUTING.md for guidelines
+## Princípios
+
+- Conciso mas completo
+- Destacar *breaking changes*
+- Ligar issues/PRs relacionados
+- Explicar o “porquê”
+
+## Referência
+
+- PRs anteriores do repo
+- `CONTRIBUTING.md` se existir

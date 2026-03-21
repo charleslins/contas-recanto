@@ -1,63 +1,80 @@
 ---
-description: Build retrieval-augmented generation pipelines
+description: Construir pipelines de geração aumentada por recuperação (RAG)
 ---
 
-# RAG Pipeline
+# Pipeline RAG
 
-I will help you build a retrieval-augmented generation (RAG) pipeline.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Start simple, optimize later
-- Measure retrieval quality
-- Handle empty results gracefully
-- Consider cost and latency
+Este workflow ajuda a construir um pipeline de geração aumentada por recuperação (RAG).
 
-## Steps
+## Limites e cuidados
 
-### 1. Understand Requirements
-Ask clarifying questions:
-- What data sources need indexing?
-- What types of queries will users make?
-- Real-time or batch processing?
-- Any existing vector store setup?
+- Começar simples; optimizar depois
+- Medir a qualidade da recuperação
+- Tratar resultados vazios com elegância
+- Considerar custo e latência
 
-### 2. Design Pipeline
-Components to set up:
-- **Document Loader**: Ingest sources
-- **Text Splitter**: Chunk documents
-- **Embeddings**: Generate vectors
-- **Vector Store**: Store and query
-- **Retriever**: Find relevant chunks
-- **Generator**: Create responses
+## Passos
 
-### 3. Set Up Components
-Configure each piece:
-- Choose embedding model
-- Select vector database (Pinecone, Chroma, etc.)
-- Set chunk size and overlap
-- Configure retrieval parameters
+### 1. Perceber requisitos
 
-### 4. Implement Pipeline
-Build the flow:
-- Load and process documents
-- Generate embeddings
-- Store in vector database
-- Create retrieval chain
-- Connect to LLM for generation
+Perguntas de clarificação:
 
-### 5. Optimize
-Improve quality:
-- Tune chunk size
-- Adjust retrieval k
-- Add reranking
-- Implement hybrid search
+- Que fontes de dados precisam de indexação?
+- Que tipos de consultas os utilizadores farão?
+- Processamento em tempo real ou em lote?
+- Já existe vector store configurado?
 
-### 6. Verify
-- Test with sample queries
-- Check retrieval relevance
-- Verify generated responses
+### 2. Desenhar o pipeline
 
-## Principles
-- Quality of retrieval = quality of output
-- Start with small dataset
-- Monitor and iterate
+Componentes a definir:
+
+- **Carregador de documentos:** ingerir fontes
+- **Divisor de texto:** criar chunks
+- **Embeddings:** gerar vectores
+- **Armazém vectorial:** guardar e consultar
+- **Recuperador:** encontrar chunks relevantes
+- **Gerador:** produzir respostas
+
+### 3. Configurar componentes
+
+Configurar cada peça:
+
+- Escolher modelo de embeddings
+- Escolher base vectorial (Pinecone, Chroma, etc.)
+- Definir tamanho de chunk e sobreposição
+- Configurar parâmetros de recuperação
+
+### 4. Implementar o pipeline
+
+Construir o fluxo:
+
+- Carregar e processar documentos
+- Gerar embeddings
+- Armazenar na base vectorial
+- Criar cadeia de recuperação
+- Ligar ao LLM para geração
+
+### 5. Optimizar
+
+Melhorar qualidade:
+
+- Afinar tamanho de chunk
+- Ajustar *k* da recuperação
+- Adicionar re-ranking
+- Implementar pesquisa híbrida
+
+### 6. Verificar
+
+- Testar com consultas de exemplo
+- Verificar relevância da recuperação
+- Validar respostas geradas
+
+## Princípios
+
+- A qualidade da recuperação determina a qualidade da saída
+- Começar com conjunto de dados pequeno
+- Monitorizar e iterar

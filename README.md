@@ -28,11 +28,12 @@ npm install
 DATABASE_URL="postgresql://user:password@ep-xxxxxx-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require"
 ```
 
-3. Aplique schema e seed:
+3. Aplique o schema à base (sem dados fictícios — categorias e transações vêm dos teus dados ou importação):
 
 ```bash
 npm run db:push
-npm run db:seed
+npm run db:sync-categories   # só categorias do CSV em falta na BD
+npm run db:import-despesas   # categorias + substitui todas as despesas pelo lib/Despesas.csv (mantém receitas)
 ```
 
 4. Rode o projeto:
@@ -51,7 +52,8 @@ Abra [http://localhost:3000](http://localhost:3000).
 | `npm run build` / `npm run start` | Build e execução de produção |
 | `npm run lint` | Lint |
 | `npm run db:push` | Sincroniza schema Drizzle com o banco |
-| `npm run db:seed` | Seed de categorias padrão (limpa categorias/transações antes) |
+| `npm run db:sync-categories` | Insere categorias em falta a partir de `lib/Despesas.csv` |
+| `npm run db:import-despesas` | Alinha BD ao CSV: categorias + apaga despesas e reinsere linhas do ficheiro (receitas intactas) |
 
 ## Deploy na Vercel
 

@@ -1,65 +1,73 @@
 ---
-description: Implement authentication patterns for any stack
+description: Implementar padrões de autenticação para qualquer stack
 ---
 
-# Auth Implementation
+# Implementação de autenticação
 
-I will help you implement authentication for your application.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Never store passwords in plain text
-- Use established libraries, don't roll your own crypto
-- Detect existing auth setup before adding
-- Follow security best practices
+> **Recanto:** o núcleo actual pode não ter auth; este fluxo aplica-se quando for adicionar login/sessões.
 
-## Steps
+Este workflow ajuda a implementar autenticação de forma segura.
 
-### 1. Understand Requirements
-Ask clarifying questions:
-- What auth method? (email/password, OAuth, magic link)
-- What providers? (Google, GitHub, etc.)
-- Session or JWT-based?
-- Need role-based access control?
+## Limites e cuidados
 
-### 2. Analyze Stack
-Check existing setup:
-- NextAuth, Auth.js
-- Passport.js
-- Django auth
+- Nunca guardar palavras-passe em texto plano
+- Usar bibliotecas consolidadas — não inventar criptografia própria
+- Detectar auth existente antes de acrescentar
+- Seguir boas práticas de segurança
+
+## Passos
+
+### 1. Requisitos
+
+- Método: email/senha, OAuth, *magic link*…
+- Fornecedores (Google, GitHub…)?
+- Sessão no servidor vs JWT?
+- Papéis e permissões (RBAC)?
+
+### 2. Analisar a stack
+
+- Auth.js / NextAuth
+- Passport
+- Auth do Django
 - Firebase Auth
+- Outro
 
-### 3. Choose Strategy
-Based on requirements:
-- **Session-based**: Traditional, server-side
-- **JWT**: Stateless, API-friendly
-- **OAuth**: Social/third-party login
-- **Magic Link**: Passwordless
+### 3. Estratégia
 
-### 4. Implement
-Core components:
-- User model/table
-- Login/register flows
-- Session/token management
-- Protected routes
-- Logout functionality
+- **Sessão:** tradicional, lado servidor
+- **JWT:** stateless, APIs
+- **OAuth:** login social
+- **Magic link:** sem palavra-passe
 
-### 5. Secure
-Add protections:
-- Password hashing
-- Rate limiting
-- CSRF protection
-- Secure cookies
-- Input validation
+### 4. Implementar
 
-### 6. Verify
-Test thoroughly:
-- Happy path flows
-- Error cases
-- Session expiry
-- Protected routes
+- Modelo/tabela de utilizador
+- Fluxos de registo e login
+- Gestão de sessão ou tokens
+- Rotas protegidas
+- Logout
 
-## Principles
-- Use battle-tested libraries
-- Fail securely (deny by default)
-- Log security events
-- Regular security reviews
+### 5. Endurecer
+
+- *Hash* de palavras-passe (argon2/bcrypt…)
+- *Rate limiting*
+- Protecção CSRF
+- *Cookies* seguros (`HttpOnly`, `Secure`…)
+- Validação de entrada
+
+### 6. Verificar
+
+- Fluxos felizes e de erro
+- Expiração de sessão/token
+- Acesso negado onde deve
+
+## Princípios
+
+- Bibliotecas testadas em produção
+- Falhar de forma segura (*deny by default*)
+- Registar eventos de segurança relevantes
+- Rever segurança periodicamente

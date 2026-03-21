@@ -10,6 +10,7 @@ interface TransactionContextType {
   totalIncome: number;
   totalExpense: number;
   addTransaction: (t: Omit<Transaction, 'id'>) => Promise<void>;
+  addTransactionsBulk: (rows: Omit<Transaction, 'id'>[]) => Promise<void>;
   updateTransaction: (id: string, t: Omit<Transaction, 'id'>) => Promise<void>;
   deleteTransaction: (id: string) => Promise<void>;
   resetTransactions: () => Promise<void>;
@@ -22,6 +23,14 @@ interface TransactionContextType {
 
 const TransactionContext = createContext<TransactionContextType | undefined>(undefined);
 
+function normalizeTransactions(data: Transaction[]): Transaction[] {
+  return data.map((t) => ({
+    ...t,
+    date: t.date instanceof Date ? t.date : new Date(t.date as string | number),
+    credor: t.credor ?? '',
+  }));
+}
+
 export function TransactionProvider({ 
   children, 
   initialData = [],
@@ -31,14 +40,14 @@ export function TransactionProvider({
   initialData?: Transaction[],
   initialCategories?: Category[]
 }) {
-  const [transactions, setTransactions] = useState<Transaction[]>(initialData);
+  const [transactions, setTransactions] = useState<Transaction[]>(() =>
+    normalizeTransactions(initialData)
+  );
   const [categories, setCategories] = useState<Category[]>(initialCategories);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    setTransactions(initialData.map(t => ({ ...t, date: new Date(t.date) })));
+    setTransactions(normalizeTransactions(initialData));
     setCategories(initialCategories);
-    setIsLoaded(true);
   }, [initialData, initialCategories]);
 
   const totalIncome = useMemo(() => 
@@ -64,6 +73,18 @@ export function TransactionProvider({
     if (result && result.length > 0) {
       const newTx = { ...result[0], date: new Date(result[0].date) };
       setTransactions(prev => [newTx, ...prev].sort((a, b) => b.date.getTime() - a.date.getTime()));
+    }
+  };
+
+  const addTransactionsBulk = async (rows: Omit<Transaction, 'id'>[]) => {
+    if (rows.length === 0) return;
+    const { addTransactionsBulkAction } = await import('@/services/transaction/transaction.actions');
+    const result = await addTransactionsBulkAction(rows);
+    if (result.length > 0) {
+      const mapped = result.map((row) => ({ ...row, date: new Date(row.date) }));
+      setTransactions((prev) =>
+        [...mapped, ...prev].sort((a, b) => b.date.getTime() - a.date.getTime())
+      );
     }
   };
 
@@ -136,10 +157,6 @@ export function TransactionProvider({
   };
 
   const deleteCategory = async (id: string) => {
-    if (id === 'income' || id === '5') {
-      throw new Error('Categorias padrão não podem ser removidas.');
-    }
-
     const categoryInUse = transactions.some(transaction => transaction.categoryId === id);
     if (categoryInUse) {
       throw new Error('Esta categoria possui transações associadas. Reclassifique antes de remover.');
@@ -150,21 +167,14 @@ export function TransactionProvider({
     setCategories(prev => prev.filter(category => category.id !== id));
   };
 
-  if (!isLoaded) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <div className="animate-pulse text-slate-500 text-lg">Carregando dados...</div>
-      </div>
-    );
-  }
-
   return (
     <TransactionContext.Provider value={{ 
       transactions,
       categories,
       totalIncome, 
       totalExpense, 
-      addTransaction, 
+      addTransaction,
+      addTransactionsBulk,
       updateTransaction, 
       deleteTransaction,
       resetTransactions,

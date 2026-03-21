@@ -24,16 +24,17 @@ export async function exportToPDF(transactions: Transaction[], title: string) {
   doc.setFontSize(10);
   doc.text(`Gerado em: ${format(new Date(), 'dd/MM/yyyy HH:mm')}`, 14, 22);
 
-  const tableData = transactions.map(t => [
+  const { displayCredorColumn, displayDescricaoColumn } = await import('@/lib/transaction-fields');
+  const tableData = transactions.map((t) => [
     format(t.date, 'dd/MM/yyyy'),
-    t.history,
     t.categoryName,
+    displayCredorColumn(t) || '-',
+    displayDescricaoColumn(t) || '-',
     t.type === 'income' ? `+ R$ ${t.amount.toLocaleString('pt-BR')}` : `- R$ ${t.amount.toLocaleString('pt-BR')}`,
-    t.description || '-'
   ]);
 
   (doc as any).autoTable({
-    head: [['Data', 'Histórico', 'Categoria', 'Valor', 'Descrição']],
+    head: [['Data', 'Categoria', 'Credor', 'Descrição', 'Valor']],
     body: tableData,
     startY: 28,
     styles: { fontSize: 8 },
@@ -68,10 +69,10 @@ export async function parseOFX(fileContent: string): Promise<Partial<Transaction
         type: amount > 0 ? 'income' : 'expense',
         amount: Math.abs(amount),
         history: t.MEMO || t.NAME || 'Importado OFX',
+        credor: '',
+        description: '',
         date: new Date(year, month, day),
         dateStr: `${day}/${month + 1}/${year}`,
-        categoryId: '5', // Default to Outros
-        categoryName: 'Outros'
       };
     });
   } catch (error) {

@@ -1,58 +1,65 @@
 ---
-description: Profile and optimize slow code paths
+description: Perfilizar e optimizar caminhos de código lentos
 ---
 
-# Performance
+# Desempenho
 
-I will help you identify and fix performance issues in your code.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Measure before optimizing
-- Focus on actual bottlenecks
-- Don't sacrifice readability for micro-optimizations
-- Verify improvements with benchmarks
+Este workflow ajuda a identificar e corrigir problemas de desempenho.
 
-## Steps
+## Limites e cuidados
 
-### 1. Understand the Issue
-Ask clarifying questions:
-- What's slow? (page load, API response, etc.)
-- How slow is it currently?
-- What's the target performance?
-- Is it consistent or intermittent?
+- Medir antes de optimizar
+- Focar nos *bottlenecks* reais
+- Não sacrificar legibilidade por micro-optimizações
+- Confirmar ganhos com medições
 
-### 2. Profile the Code
-Use appropriate tools:
-- **Browser**: DevTools Performance tab
-- **Node.js**: `--inspect`, clinic.js
-- **Python**: cProfile, py-spy
-- **Database**: EXPLAIN queries
+## Passos
 
-### 3. Identify Bottlenecks
-Common issues:
-- N+1 database queries
-- Unindexed database columns
-- Large bundle sizes
-- Unnecessary re-renders
-- Synchronous blocking operations
-- Memory leaks
+### 1. Perceber o problema
 
-### 4. Optimize
-Apply targeted fixes:
-- Add database indexes
-- Batch queries
-- Add caching
-- Lazy load resources
-- Memoize expensive computations
-- Use pagination
+- O que está lento? (carregamento de página, API, render, etc.)
+- Ordem de grandeza actual?
+- Meta de desempenho?
+- Consistente ou intermitente?
 
-### 5. Verify Improvements
-- Measure again with same methodology
-- Compare before/after metrics
-- Ensure no regression in functionality
+### 2. Perfilizar
 
-## Principles
-- Don't guess, measure
-- Optimize the critical path first
-- Cache expensive operations
-- Profile in production-like conditions
+- **Browser:** separador Performance (Chrome DevTools)
+- **Node:** `--inspect`, ferramentas de profiling
+- **Python:** cProfile, py-spy
+- **Base de dados:** `EXPLAIN` nas queries lentas
+
+### 3. Identificar *bottlenecks*
+
+- Consultas N+1
+- Colunas sem índice
+- *Bundles* grandes
+- Re-renders desnecessários (React)
+- Operações bloqueantes síncronas
+- *Memory leaks*
+
+### 4. Optimizar
+
+- Índices na BD
+- *Batch* de queries
+- *Cache* onde seguro
+- *Lazy loading* de recursos
+- `useMemo` / `useCallback` com critério
+- Paginação de listas
+
+### 5. Verificar melhorias
+
+- Medir de novo com o mesmo método
+- Comparar métricas antes/depois
+- Garantir que a funcionalidade não regrediu
+
+## Princípios
+
+- Não adivinhar — medir
+- Optimizar primeiro o caminho crítico
+- *Cache* para operações caras
+- Perfilizar em condições próximas da produção

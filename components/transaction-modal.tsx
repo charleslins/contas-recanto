@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Transaction } from '@/lib/parser';
 import { X, ArrowUpCircle, ArrowDownCircle, Calendar, PlusCircle } from 'lucide-react';
 import { format } from 'date-fns';
@@ -13,13 +13,73 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Textarea } from '@/components/ui/textarea';
 import { CurrencyInput } from '@/components/currency-input';
 import { formatNumberToMoneyMask, parseMoneyToNumber } from '@/lib/money-mask';
+import { buildExpenseHistory, parseLegacyExpenseForForm } from '@/lib/transaction-fields';
+import type { Category } from '@/lib/db/schema';
+import {
+  defaultCategoryIdForType,
+  resolveCategoryIdForForm,
+} from '@/lib/category-helpers';
 
 interface TransactionModalProps {
-  isOpen: boolean;
   onClose: () => void;
   onSave: (t: Omit<Transaction, 'id'>) => void;
   initialData?: Transaction | null;
   defaultType?: 'income' | 'expense';
+}
+
+interface ModalFormState {
+  type: 'income' | 'expense';
+  date: Date;
+  history: string;
+  credor: string;
+  description: string;
+  amount: string;
+  categoryId: string;
+  incomeDetails: IncomeDetails;
+}
+
+function buildModalFormState(
+  initialData: Transaction | null | undefined,
+  defaultType: 'income' | 'expense',
+  categories: Category[]
+): ModalFormState {
+  const resolvedCat = resolveCategoryIdForForm(categories, initialData, defaultType);
+  if (initialData) {
+    if (initialData.type === 'income') {
+      const parsed = parseIncomeDescription(initialData.description || '');
+      return {
+        type: initialData.type || 'expense',
+        date: initialData.date ? new Date(initialData.date) : new Date(),
+        history: initialData.history || '',
+        credor: '',
+        description: parsed.note,
+        amount: formatNumberToMoneyMask(initialData.amount || 0),
+        categoryId: resolvedCat,
+        incomeDetails: parsed.details,
+      };
+    }
+    const { credor: c, description: d } = parseLegacyExpenseForForm(initialData);
+    return {
+      type: initialData.type || 'expense',
+      date: initialData.date ? new Date(initialData.date) : new Date(),
+      history: '',
+      credor: c,
+      description: d,
+      amount: formatNumberToMoneyMask(initialData.amount || 0),
+      categoryId: resolvedCat,
+      incomeDetails: { ...EMPTY_INCOME_DETAILS },
+    };
+  }
+  return {
+    type: defaultType,
+    date: new Date(),
+    history: '',
+    credor: '',
+    description: '',
+    amount: '0,00',
+    categoryId: defaultCategoryIdForType(categories, defaultType),
+    incomeDetails: { ...EMPTY_INCOME_DETAILS },
+  };
 }
 
 interface IncomeDetails {
@@ -85,21 +145,17 @@ const buildIncomeDescription = (details: IncomeDetails, note: string) => {
     .join(' | ');
 };
 
-export function TransactionModal({ 
-  isOpen, 
-  onClose, 
-  onSave, 
-  initialData, 
-  defaultType = 'expense' 
+export function TransactionModal({
+  onClose,
+  onSave,
+  initialData,
+  defaultType = 'expense',
 }: TransactionModalProps) {
   const { categories } = useTransactions();
-  const [type, setType] = useState<'income' | 'expense'>(defaultType);
-  const [date, setDate] = useState<Date>(new Date());
-  const [history, setHistory] = useState('');
-  const [description, setDescription] = useState('');
-  const [amount, setAmount] = useState('');
-  const [categoryId, setCategoryId] = useState('5');
-  const [incomeDetails, setIncomeDetails] = useState<IncomeDetails>(EMPTY_INCOME_DETAILS);
+  const [form, setForm] = useState<ModalFormState>(() =>
+    buildModalFormState(initialData, defaultType, categories)
+  );
+  const { type, date, history, credor, description, amount, categoryId, incomeDetails } = form;
   const incomeTotal = (
     parseMoneyToNumber(incomeDetails.advancePayment) +
     parseMoneyToNumber(incomeDetails.finalPayment) +
@@ -107,63 +163,60 @@ export function TransactionModal({
     parseMoneyToNumber(incomeDetails.water)
   );
 
-  // Reset/Initialize the form
-  useEffect(() => {
-    if (isOpen) {
-      if (initialData) {
-        setType(initialData.type || 'expense');
-        setDate(initialData.date ? new Date(initialData.date) : new Date());
-        setHistory(initialData.history || '');
-        if (initialData.type === 'income') {
-          const parsed = parseIncomeDescription(initialData.description || '');
-          setIncomeDetails(parsed.details);
-          setDescription(parsed.note);
-        } else {
-          setIncomeDetails(EMPTY_INCOME_DETAILS);
-          setDescription(initialData.description || '');
-        }
-        setAmount(formatNumberToMoneyMask(initialData.amount || 0));
-        setCategoryId(initialData.categoryId || '5');
-      } else {
-        setType(defaultType);
-        setDate(new Date());
-        setHistory('');
-        setDescription('');
-        setAmount('0,00');
-        setIncomeDetails(EMPTY_INCOME_DETAILS);
-        setCategoryId(defaultType === 'income' ? 'income' : '5');
-      }
-    }
-  }, [initialData, isOpen, defaultType]);
-
-  if (!isOpen) return null;
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const effectiveCategoryId = type === 'income' ? 'income' : categoryId;
-    const cat = categories.find(c => c.id === effectiveCategoryId);
+    const effectiveCategoryId =
+      type === 'income'
+        ? categories.some(
+            (c) => c.id === categoryId && (c.type === 'income' || c.type === 'both')
+          )
+          ? categoryId
+          : defaultCategoryIdForType(categories, 'income')
+        : categoryId;
+    if (!effectiveCategoryId) {
+      alert(
+        type === 'income'
+          ? 'Crie pelo menos uma categoria de receita (ou tipo Ambos) antes de registar.'
+          : 'Escolha uma categoria de despesa ou crie uma em Gerenciar categorias.'
+      );
+      return;
+    }
+    const cat = categories.find((c) => c.id === effectiveCategoryId);
+    if (!cat) {
+      alert('Categoria não encontrada. Atualize a página ou crie a categoria de novo.');
+      return;
+    }
     const finalAmount = type === 'income'
       ? (incomeTotal > 0 ? incomeTotal : parseMoneyToNumber(amount))
       : parseMoneyToNumber(amount);
     const finalDescription = type === 'income'
       ? buildIncomeDescription(incomeDetails, description)
-      : description;
+      : description.trim();
+
+    if (type === 'expense' && !credor.trim() && !finalDescription) {
+      alert('Preencha credor ou descrição da despesa.');
+      return;
+    }
 
     onSave({
       type,
       categoryId: effectiveCategoryId,
-      categoryName: cat ? cat.name : 'Outros',
+      categoryName: cat.name,
       date,
       dateStr: format(date, 'dd/MM/yyyy'),
-      history,
+      history:
+        type === 'income'
+          ? history.trim()
+          : buildExpenseHistory(credor, finalDescription),
+      credor: type === 'income' ? '' : credor.trim(),
       description: finalDescription,
       amount: finalAmount,
     });
     onClose();
   };
 
-  const filteredCategories = categories.filter(c =>
-    c.type === 'both' || c.type === type || (type === 'income' && c.id === 'income')
+  const filteredCategories = categories.filter(
+    (c) => c.type === 'both' || c.type === type
   );
 
   return (
@@ -200,7 +253,7 @@ export function TransactionModal({
           <div className="flex rounded-2xl bg-slate-100 p-1.5 ring-1 ring-slate-200/50 shadow-inner">
             <button
               type="button"
-              onClick={() => setType('expense')}
+              onClick={() => setForm((f) => ({ ...f, type: 'expense' }))}
               className={clsx(
                 "flex-1 flex items-center justify-center gap-2 py-2.5 text-xs font-medium rounded-xl transition-all duration-200 uppercase tracking-widest",
                 type === 'expense' ? "bg-white text-rose-600 shadow-md ring-1 ring-rose-100" : "text-slate-500 hover:text-slate-700"
@@ -211,7 +264,7 @@ export function TransactionModal({
             </button>
             <button
               type="button"
-              onClick={() => setType('income')}
+              onClick={() => setForm((f) => ({ ...f, type: 'income' }))}
               className={clsx(
                 "flex-1 flex items-center justify-center gap-2 py-2.5 text-xs font-medium rounded-xl transition-all duration-200 uppercase tracking-widest",
                 type === 'income' ? "bg-white text-emerald-600 shadow-md ring-1 ring-emerald-100" : "text-slate-500 hover:text-slate-700"
@@ -244,7 +297,7 @@ export function TransactionModal({
                       mode="single"
                       selected={date}
                       onSelect={(selectedDate) => {
-                        if (selectedDate) setDate(selectedDate);
+                        if (selectedDate) setForm((f) => ({ ...f, date: selectedDate }));
                       }}
                       locale={ptBR}
                       className="rounded-xl"
@@ -262,36 +315,52 @@ export function TransactionModal({
                   readOnly={type === 'income'}
                   placeholder="0,00"
                   value={type === 'income' ? formatNumberToMoneyMask(incomeTotal) : amount}
-                  onChange={type === 'expense' ? setAmount : undefined}
+                  onChange={type === 'expense' ? (v) => setForm((f) => ({ ...f, amount: v })) : undefined}
                 />
               </div>
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold uppercase tracking-widest text-slate-500 ml-1">
-                {type === 'income' ? 'Nome' : 'Titulo / Historico'}
-              </label>
-              <input
-                type="text"
-                required
-                  placeholder={type === 'expense' ? "Ex: Material hidraulico" : "Ex: Aline Barros"}
-                value={history}
-                onChange={e => setHistory(e.target.value)}
-                className="w-full rounded-2xl border border-slate-200 bg-slate-50 p-3.5 text-sm font-normal text-slate-900 outline-none transition-all focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
-              />
-            </div>
-
-            {type === 'expense' && (
-              <div className="grid grid-cols-2 gap-4">
+            {type === 'income' ? (
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold uppercase tracking-widest text-slate-500 ml-1">
+                  Nome
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Ex: Aline Barros"
+                  value={history}
+                  onChange={(e) => setForm((f) => ({ ...f, history: e.target.value }))}
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 p-3.5 text-sm font-normal text-slate-900 outline-none transition-all focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
+                />
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold uppercase tracking-widest text-slate-500 ml-1">Categoria</label>
+                  <label className="text-xs font-semibold uppercase tracking-widest text-slate-500 ml-1">
+                    Credor
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Ex: ARMAZEM AVENIDA"
+                    value={credor}
+                    onChange={(e) => setForm((f) => ({ ...f, credor: e.target.value }))}
+                    className="w-full rounded-2xl border border-slate-200 bg-slate-50 p-3.5 text-sm font-normal text-slate-900 outline-none transition-all focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold uppercase tracking-widest text-slate-500 ml-1">
+                    Categoria
+                  </label>
                   <select
                     value={categoryId}
-                    onChange={e => setCategoryId(e.target.value)}
+                    onChange={(e) => setForm((f) => ({ ...f, categoryId: e.target.value }))}
                     className="w-full rounded-2xl border border-slate-200 bg-slate-50 p-3.5 text-sm font-normal text-slate-900 outline-none transition-all focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 appearance-none cursor-pointer"
                   >
-                    {filteredCategories.map(c => (
-                      <option key={c.id} value={c.id}>{c.name}</option>
+                    {filteredCategories.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.name}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -307,7 +376,12 @@ export function TransactionModal({
                     <input
                       placeholder="81 99999-9999"
                       value={incomeDetails.phone}
-                      onChange={(e) => setIncomeDetails(prev => ({ ...prev, phone: e.target.value }))}
+                      onChange={(e) =>
+                        setForm((f) => ({
+                          ...f,
+                          incomeDetails: { ...f.incomeDetails, phone: e.target.value },
+                        }))
+                      }
                       className="w-full rounded-xl border border-slate-200 bg-white p-3 text-sm font-normal text-slate-900 outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10"
                     />
                   </div>
@@ -316,7 +390,12 @@ export function TransactionModal({
                     <input
                       placeholder="dd/mm/aaaa"
                       value={incomeDetails.checkIn}
-                      onChange={(e) => setIncomeDetails(prev => ({ ...prev, checkIn: e.target.value }))}
+                      onChange={(e) =>
+                        setForm((f) => ({
+                          ...f,
+                          incomeDetails: { ...f.incomeDetails, checkIn: e.target.value },
+                        }))
+                      }
                       className="w-full rounded-xl border border-slate-200 bg-white p-3 text-sm font-normal text-slate-900 outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10"
                     />
                   </div>
@@ -325,7 +404,12 @@ export function TransactionModal({
                     <input
                       placeholder="dd/mm/aaaa"
                       value={incomeDetails.checkOut}
-                      onChange={(e) => setIncomeDetails(prev => ({ ...prev, checkOut: e.target.value }))}
+                      onChange={(e) =>
+                        setForm((f) => ({
+                          ...f,
+                          incomeDetails: { ...f.incomeDetails, checkOut: e.target.value },
+                        }))
+                      }
                       className="w-full rounded-xl border border-slate-200 bg-white p-3 text-sm font-normal text-slate-900 outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10"
                     />
                   </div>
@@ -335,7 +419,12 @@ export function TransactionModal({
                       compact
                       placeholder="0,00"
                       value={incomeDetails.advancePayment}
-                      onChange={(v) => setIncomeDetails(prev => ({ ...prev, advancePayment: v }))}
+                      onChange={(v) =>
+                        setForm((f) => ({
+                          ...f,
+                          incomeDetails: { ...f.incomeDetails, advancePayment: v },
+                        }))
+                      }
                     />
                   </div>
                   <div className="space-y-1">
@@ -344,7 +433,12 @@ export function TransactionModal({
                       compact
                       placeholder="0,00"
                       value={incomeDetails.finalPayment}
-                      onChange={(v) => setIncomeDetails(prev => ({ ...prev, finalPayment: v }))}
+                      onChange={(v) =>
+                        setForm((f) => ({
+                          ...f,
+                          incomeDetails: { ...f.incomeDetails, finalPayment: v },
+                        }))
+                      }
                     />
                   </div>
                   <div className="space-y-1">
@@ -353,7 +447,12 @@ export function TransactionModal({
                       compact
                       placeholder="0,00"
                       value={incomeDetails.light}
-                      onChange={(v) => setIncomeDetails(prev => ({ ...prev, light: v }))}
+                      onChange={(v) =>
+                        setForm((f) => ({
+                          ...f,
+                          incomeDetails: { ...f.incomeDetails, light: v },
+                        }))
+                      }
                     />
                   </div>
                   <div className="space-y-1">
@@ -362,7 +461,12 @@ export function TransactionModal({
                       compact
                       placeholder="0,00"
                       value={incomeDetails.water}
-                      onChange={(v) => setIncomeDetails(prev => ({ ...prev, water: v }))}
+                      onChange={(v) =>
+                        setForm((f) => ({
+                          ...f,
+                          incomeDetails: { ...f.incomeDetails, water: v },
+                        }))
+                      }
                     />
                   </div>
                   <div className="space-y-1">
@@ -383,18 +487,20 @@ export function TransactionModal({
                 <Textarea
                   placeholder="Observacoes adicionais..."
                   value={description}
-                  onChange={e => setDescription(e.target.value)}
+                  onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
                   rows={3}
                   className="w-full rounded-2xl border-slate-200 bg-slate-50 p-3 text-sm font-normal text-slate-900 outline-none transition-all focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 resize-none"
                 />
               </div>
             ) : (
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold uppercase tracking-widest text-slate-500 ml-1">Descricao</label>
+                <label className="text-xs font-semibold uppercase tracking-widest text-slate-500 ml-1">
+                  Descrição
+                </label>
                 <Textarea
-                  placeholder="Detalhes adicionais..."
+                  placeholder="Detalhes da despesa (como no CSV)..."
                   value={description}
-                  onChange={e => setDescription(e.target.value)}
+                  onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
                   rows={4}
                   className="w-full rounded-2xl border-slate-200 bg-slate-50 p-3.5 text-sm font-normal text-slate-900 outline-none transition-all focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 resize-none"
                 />

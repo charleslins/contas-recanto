@@ -1,142 +1,159 @@
 ---
-description: Create new stack-agnostic workflows for the Antigravity repository
+description: Criar workflows stack-agnostic para o repositório Recanto (.agent/workflows)
 ---
 
-# Workflow Creator
+# Criador de workflows
 
-I will help you create a new workflow that follows our stack-agnostic, question-driven philosophy.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Every workflow MUST be stack-agnostic
-- Never hardcode specific frameworks, libraries, or tools
-- Always include a stack detection step
-- Always include clarifying questions
-- Keep workflows focused on a single task
+Este workflow ajuda a criar um novo procedimento alinhado à filosofia **stack-agnostic** e orientada a **perguntas**.
 
-## Steps
+## Limites e cuidados
 
-### 1. Define the Workflow
-Gather information:
-- **Name**: kebab-case identifier (e.g., `git-commit`, `debug-error`)
-- **Category**: development, git, testing, debugging, security, documentation, deployment, database, ai-tools, or creative
-- **Description**: One-line summary (5-10 words)
-- **Purpose**: What problem does this workflow solve?
+- Cada workflow deve ser **stack-agnostic**
+- Nunca fixar frameworks, bibliotecas ou ferramentas específicas no texto
+- Incluir sempre um passo de **detecção de stack**
+- Incluir sempre **perguntas de clarificação**
+- Manter o workflow focado numa **única tarefa**
 
-### 2. Follow the Template Structure
+## Passos
 
-Every workflow must have these sections:
+### 1. Definir o workflow
+
+Recolher informação:
+
+- **Nome:** identificador em kebab-case (ex.: `git-commit`, `debug-error`)
+- **Categoria:** development, git, testing, debugging, security, documentation, deployment, database, ai-tools ou creative
+- **Descrição:** resumo numa linha (5–10 palavras)
+- **Propósito:** que problema resolve?
+
+### 2. Seguir a estrutura de modelo
+
+Cada workflow deve ter estas secções:
 
 ```markdown
 ---
-description: [5-10 word description]
+description: [descrição em 5-10 palavras]
 ---
 
-# Workflow Name
+# Nome do workflow
 
-Brief intro: what this accomplishes and when to use it.
+Introdução breve: o que faz e quando usar.
 
-## Guardrails
-- What to AVOID doing
-- Scope boundaries
-- Critical constraints
+## Limites e cuidados
+- O que EVITAR
+- Limites de âmbito
+- Restrições críticas
 
-## Steps
+## Passos
 
-### 1. Understand Context
-Ask clarifying questions:
-- What is the goal?
-- What constraints exist?
-- What's the expected outcome?
+### 1. Perceber o contexto
+Perguntas de clarificação:
+- Qual o objectivo?
+- Que restrições existem?
+- Qual o resultado esperado?
 
-### 2. Analyze Project
-Detect existing stack:
-- Check relevant config files
-- Identify framework, tools, patterns
-- Look at existing code for conventions
+### 2. Analisar o projecto
+Detectar stack existente:
+- Ver ficheiros de configuração relevantes
+- Identificar framework, ferramentas, padrões
+- Olhar código existente para convenções
 
-If unclear, ask the user.
+Se não estiver claro, perguntar ao utilizador.
 
-### 3. [Core Implementation Steps]
-Describe WHAT to do, not exact code.
-Let AI generate appropriate implementation.
+### 3. [Passos centrais de implementação]
+Descrever O QUE fazer, não código exacto.
+Deixar a IA gerar a implementação adequada.
 
-### 4. Verify
-- How to confirm success
-- What to test
+### 4. Verificar
+- Como confirmar sucesso
+- O que testar
 
-## Principles
-- Universal best practices
+## Princípios
+- Boas práticas universais
 
-## Reference
-- Links to relevant documentation
+## Referência
+- Ligações à documentação relevante
 ```
 
-### 3. Validate Against Core Principles
+### 3. Validar face aos princípios centrais
 
-Ensure your workflow follows:
+Garantir que o workflow cumpre:
 
-| Principle | Check |
-|-----------|-------|
-| Stack-Agnostic | Does it work with ANY framework? |
-| Question-Driven | Does it ask clarifying questions? |
-| Single Responsibility | Does it do ONE thing well? |
-| Progressive Disclosure | Does it start minimal, expand on demand? |
-| Composable | Can it combine with other workflows? |
+| Princípio | Verificação |
+|-----------|-------------|
+| Stack-agnostic | Funciona com qualquer framework? |
+| Orientado a perguntas | Pede clarificações? |
+| Responsabilidade única | Faz UMA coisa bem? |
+| Divulgação progressiva | Começa mínimo e expande sob demanda? |
+| Componível | Pode combinar com outros workflows? |
 
-### 4. Create the File
-Create the workflow file at:
+### 4. Criar o ficheiro
+
+Criar o ficheiro em:
+
 ```
-workflows/<category>/<name>.md
+.agent/workflows/<categoria>/<nome>.md
 ```
 
-### 5. Update Registry
-Add entry to `workflows/registry.json`:
+### 5. Actualizar o registry
+
+Adicionar entrada em `.agent/workflows/registry.json`:
+
 ```json
-"<name>": {
-  "category": "<category>",
-  "description": "<5-10 word description>",
+"<nome>": {
+  "category": "<categoria>",
+  "description": "<descrição 5-10 palavras>",
   "tags": ["tag1", "tag2", "tag3"]
 }
 ```
 
-### 6. Test the Workflow
-1. Copy the file to a test project's `.agent/workflows/` directory
-2. Open Antigravity in that project
-3. Type `/<name>` to trigger the workflow
-4. Verify it asks appropriate questions
-5. Verify it detects project stack correctly
+### 6. Testar o workflow
 
-## Common Mistakes to Avoid
+1. Colocar o ficheiro em `.agent/workflows/` deste repositório (ou clone de teste)
+2. Abrir o projeto no **Cursor** (ou IDE com suporte a workflows/agentes)
+3. Invocar o workflow pelo nome ou caminho acordado com a equipa
+4. Confirmar que faz perguntas adequadas
+5. Confirmar que detecta a stack do projecto correctamente
 
-### ❌ DON'T: Hardcode frameworks
+## Erros comuns a evitar
+
+### Não fazer: fixar frameworks
+
 ```markdown
-### Install Dependencies
+### Instalar dependências
 npm install react tailwindcss
 ```
 
-### ✅ DO: Detect and adapt
+### Fazer: detectar e adaptar
+
 ```markdown
-### Analyze Project Stack
-- Check for existing UI framework
-- Check for existing CSS approach
-If unclear, ask the user which they prefer.
+### Analisar a stack do projecto
+- Verificar framework UI existente
+- Verificar abordagem CSS
+Se não estiver claro, perguntar ao utilizador.
 ```
 
-### ❌ DON'T: Provide boilerplate code
+### Não fazer: dar boilerplate completo
+
 ```markdown
-Create `Button.tsx`:
+Criar `Button.tsx`:
 import React from 'react'
-export const Button = () => <button>Click</button>
+export const Button = () => <button>Clique</button>
 ```
 
-### ✅ DO: Describe what to create
+### Fazer: descrever o que criar
+
 ```markdown
-Create a button component that:
-- Accepts variant props (primary, secondary)
-- Follows the project's existing component patterns
-- Uses the project's styling approach
+Criar um componente de botão que:
+- Aceite props de variante (primary, secondary)
+- Siga os padrões de componentes do projecto
+- Use a abordagem de estilos do projecto
 ```
 
-## Reference
-- See existing workflows in `workflows/` for examples
-- Check [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines
+## Referência
+
+- Ver workflows existentes em `.agent/workflows/` como exemplos
+- Se existir `CONTRIBUTING.md` na raiz, seguir as directrizes lá descritas

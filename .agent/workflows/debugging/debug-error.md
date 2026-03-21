@@ -1,78 +1,86 @@
 ---
-description: Analyze error messages and stack traces to suggest fixes
+description: Analisar mensagens de erro e stack traces para sugerir correções
 ---
 
-# Debug Error
+# Depuração de erros
 
-I will help you analyze errors and stack traces to identify the root cause and suggest fixes.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Focus on the actual error, not symptoms
-- Check for common causes before diving deep
-- Suggest fixes that match the project's patterns
-- Don't modify code without user confirmation
+Este workflow ajuda a analisar erros e *stack traces* para identificar a causa raiz e sugerir correções.
 
-## Steps
+## Limites e cuidados
 
-### 1. Gather Error Information
-Ask for details:
-- What is the full error message?
-- What is the stack trace (if available)?
-- What action triggered the error?
-- Is this a new issue or regression?
-- Can the error be reproduced consistently?
+- Focar no erro real, não só nos sintomas
+- Verificar causas comuns antes de aprofundar
+- Sugerir correções alinhadas aos padrões do projecto
+- Não alterar código sem confirmação do utilizador (quando aplicável)
 
-### 2. Analyze the Error
-Parse the error information:
+## Passos
 
-**From the error message:**
-- Error type (TypeError, SyntaxError, NetworkError, etc.)
-- Error description
-- Affected file and line number
+### 1. Recolher informação
 
-**From the stack trace:**
-- Entry point of the error
-- Call sequence leading to the error
-- External vs internal code
+- Mensagem de erro completa?
+- *Stack trace* disponível?
+- Que acção reproduz o erro?
+- É novo ou regressão?
+- Reprodução consistente?
 
-### 3. Identify Common Causes
+### 2. Analisar o erro
 
-| Error Type | Common Causes |
-|------------|---------------|
-| TypeError | Null/undefined access, wrong type passed |
-| ReferenceError | Undefined variable, scope issues |
-| SyntaxError | Typos, missing brackets, invalid syntax |
-| NetworkError | API down, CORS, wrong URL, auth issues |
-| ModuleNotFound | Missing dependency, wrong import path |
+**Da mensagem:**
 
-### 4. Investigate the Code
-Look at the relevant code:
-- Read the file and line mentioned in the error
-- Check recent changes if it's a regression
-- Look for related code that might affect this
+- Tipo (`TypeError`, `SyntaxError`, rede, etc.)
+- Descrição
+- Ficheiro e linha (se indicados)
 
-### 5. Suggest Fixes
-Provide solutions ranked by likelihood:
+**Do *stack trace*:**
 
-**For each fix:**
-- Explain what's wrong
-- Show the problematic code
-- Provide the fixed code
-- Explain why this fixes the issue
+- Ponto de entrada da falha
+- Sequência de chamadas
+- Código externo vs interno
 
-### 6. Verify Fix
-After applying a fix:
-- Run the code again
-- Check if the error is resolved
-- Look for any new errors
+### 3. Causas frequentes
 
-## Principles
-- Read the error message carefully—it often tells you exactly what's wrong
-- Check the most recent change first for regressions
-- Consider edge cases (null, empty, undefined)
-- Look for typos in variable/function names
+| Tipo | Causas comuns |
+|------|----------------|
+| TypeError | Acesso a null/undefined, tipo incorrecto |
+| ReferenceError | Variável não definida, âmbito |
+| SyntaxError | Erro de sintaxe, falta de parênteses/chaves |
+| Erro de rede | API indisponível, CORS, URL, auth |
+| Module not found | Dependência em falta, caminho de import |
 
-## Reference
-- Search codebase for similar patterns
-- Check documentation for the API/library involved
-- Look at recent commits if it's a regression
+### 4. Investigar o código
+
+- Ler ficheiro e linha referidos
+- Ver alterações recentes se for regressão
+- Código relacionado que possa afectar o fluxo
+
+### 5. Sugerir correções
+
+Por hipótese (da mais provável):
+
+- O que está errado
+- Trecho problemático
+- Proposta de correção
+- Porque resolve
+
+### 6. Verificar a correção
+
+- Voltar a executar o fluxo
+- Confirmar que o erro desapareceu
+- Procurar novos erros
+
+## Princípios
+
+- A mensagem de erro muitas vezes indica o problema exactamente
+- Em regressões, verificar o último *commit* primeiro
+- Considerar casos extremos (null, vazio, undefined)
+- Verificar *typos* em nomes
+
+## Referência
+
+- Padrões semelhantes no código
+- Documentação da API/biblioteca
+- Histórico de *commits* recentes

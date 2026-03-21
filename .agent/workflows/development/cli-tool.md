@@ -1,60 +1,66 @@
 ---
-description: Build command-line applications with argument parsing
+description: Construir aplicações de linha de comando com parsing de argumentos
 ---
 
-# CLI Tool
+# Ferramenta CLI
 
-I will help you build a command-line application that adapts to your language.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Detect existing project language before suggesting
-- Follow CLI best practices (help, version, exit codes)
-- Make it user-friendly with clear error messages
-- Support both interactive and non-interactive modes
+Este workflow ajuda a construir uma CLI adaptada à linguagem do projecto.
 
-## Steps
+## Limites e cuidados
 
-### 1. Understand Requirements
-Ask clarifying questions:
-- What should the CLI do?
-- What commands/subcommands are needed?
-- What arguments and flags are required?
-- Should it be interactive or purely command-based?
+- Detectar linguagem/runtime antes de sugerir bibliotecas
+- Boas práticas: `--help`, `--version`, códigos de saída
+- Mensagens de erro claras
+- Modo interactivo e não-interactivo quando fizer sentido
 
-### 2. Detect Language
-Check project setup:
-- Node.js: package.json → use Commander or Yargs
-- Python: use argparse or Click
-- Go: use Cobra
-- Rust: use Clap
+## Passos
 
-### 3. Set Up CLI Structure
-Create entry point and command structure:
-- Main entry point with argument parsing
-- Subcommands for different features
-- Help text for all commands
-- Version flag
+### 1. Requisitos
 
-### 4. Implement Commands
-For each command:
-- Parse arguments and options
-- Validate inputs
-- Execute logic
-- Handle errors gracefully
-- Output results clearly
+- O que a CLI faz?
+- Comandos e subcomandos?
+- Argumentos e *flags*?
+- Interactiva ou só argumentos?
 
-### 5. Add User Experience
-- Colorful output (chalk, rich, etc.)
-- Progress indicators for long operations
-- Clear error messages
-- Interactive prompts when needed
+### 2. Detectar linguagem
 
-### 6. Verify
-- Test all commands
-- Check help output
-- Verify error handling
+- Node: Commander, Yargs, etc.
+- Python: argparse, Click
+- Go: Cobra
+- Rust: Clap
 
-## Principles
-- Fail fast with clear error messages
-- Support both flags and environment variables
-- Follow platform conventions
+### 3. Estrutura
+
+- Ponto de entrada e parsing
+- Subcomandos
+- Texto de ajuda
+- *Flag* de versão
+
+### 4. Implementar comandos
+
+- Parse e validação
+- Lógica
+- Erros tratados
+- Saída legível
+
+### 5. Experiência de utilização
+
+- Cores (chalk, rich…) se apropriado
+- Progresso em operações longas
+- Prompts interactivos quando necessário
+
+### 6. Verificar
+
+- Todos os comandos
+- Saída de ajuda
+- Erros
+
+## Princípios
+
+- Falhar cedo com mensagens claras
+- *Flags* e variáveis de ambiente quando útil
+- Convenções da plataforma

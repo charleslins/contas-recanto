@@ -1,58 +1,65 @@
 ---
-description: Add strategic logging and debugging statements
+description: Adicionar logging e pontos de depuração estratégicos
 ---
 
-# Debug Log
+# Logging para depuração
 
-I will help you add strategic logging to diagnose issues in your code.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Don't log sensitive data (passwords, tokens, PII)
-- Use appropriate log levels
-- Make logs machine-parseable when needed
-- Clean up debug logs before production
+Este workflow ajuda a adicionar *logging* estratégico para diagnosticar problemas.
 
-## Steps
+## Limites e cuidados
 
-### 1. Understand the Issue
-Ask clarifying questions:
-- What behavior are you trying to understand?
-- Where do you suspect the issue is?
-- What data would help diagnose it?
-- Is this for development or production?
+- Não registar dados sensíveis (palavras-passe, tokens, PII)
+- Usar níveis de log adequados
+- Tornar logs analisáveis por máquina quando necessário
+- Remover ou desactivar logs de debug antes de produção (salvo política contrária)
 
-### 2. Detect Logging Setup
-Check existing configuration:
-- Node.js: console, winston, pino
-- Python: logging module, loguru
-- Check for existing log patterns
+## Passos
 
-### 3. Add Strategic Logs
-Place logs at key points:
-- Function entry/exit
-- Before/after external calls
-- Decision branches
-- Error catch blocks
+### 1. Perceber o problema
 
-### 4. Include Useful Context
-Log relevant data:
-- Input parameters
-- State changes
-- Timing information
-- Error details with stack traces
+- Que comportamento se pretende esclarecer?
+- Onde se suspeita que está o problema?
+- Que dados ajudariam a diagnosticar?
+- Ambiente: desenvolvimento ou produção?
 
-### 5. Use Appropriate Levels
-- **DEBUG**: Detailed diagnostic info
-- **INFO**: General operational events
-- **WARN**: Potential issues
-- **ERROR**: Actual errors
+### 2. Detectar o setup de logging
 
-### 6. Verify
-- Run the code path
-- Check logs contain needed info
-- Remove debug logs when done
+- Node: `console`, winston, pino, etc.
+- Python: `logging`, loguru
+- Padrões já usados no repo
 
-## Principles
-- Log the "why" not just the "what"
-- Include correlation IDs for tracing
-- Make logs searchable
+### 3. Adicionar logs estratégicos
+
+- Entrada/saída de funções críticas
+- Antes e depois de chamadas externas
+- Ramos condicionais importantes
+- Blocos `catch`
+
+### 4. Incluir contexto útil
+
+- Parâmetros de entrada
+- Mudanças de estado
+- Tempos / duração
+- Detalhes do erro com *stack*
+
+### 5. Níveis
+
+- **DEBUG:** diagnóstico detalhado
+- **INFO:** eventos operacionais normais
+- **WARN:** situações anómalas mas não fatais
+- **ERROR:** falhas
+
+### 6. Verificar
+
+- Percorrer o fluxo e ler os logs
+- Remover ruído desnecessário quando terminar
+
+## Princípios
+
+- Registar o “porquê”, não só o “o quê”
+- *Correlation IDs* para rastrear pedidos
+- Logs pesquisáveis (estruturados quando possível)

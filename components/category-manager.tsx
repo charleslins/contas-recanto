@@ -148,7 +148,6 @@ export function CategoryManager({ iconOnly = false }: CategoryManagerProps) {
               {sortedCategories.map((category) => {
                 const local = editing[category.id];
                 const isEditing = Boolean(local);
-                const isProtected = category.id === 'income' || category.id === '5';
                 const split = splitCategoryName(category.name);
                 const row = local ?? {
                   id: category.id,
@@ -239,13 +238,10 @@ export function CategoryManager({ iconOnly = false }: CategoryManagerProps) {
                       </button>
                       <button
                         type="button"
-                        disabled={isProtected || busy === `delete-${category.id}`}
+                        disabled={busy === `delete-${category.id}`}
                         onClick={() => handleDelete(category.id)}
-                        className={clsx(
-                          'rounded-lg p-2 transition-colors',
-                          isProtected ? 'text-slate-300' : 'text-rose-600 hover:bg-rose-50'
-                        )}
-                        title={isProtected ? 'Categoria padrao' : 'Remover'}
+                        className="rounded-lg p-2 text-rose-600 transition-colors hover:bg-rose-50"
+                        title="Remover"
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>

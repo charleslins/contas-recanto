@@ -1,74 +1,84 @@
 ---
-description: Create API endpoints for any backend framework
+description: Criar endpoints de API para qualquer framework backend
 ---
 
-# New API Endpoint
+# Novo endpoint de API
 
-I will help you create a robust API endpoint for your project.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Never assume a specific backend framework — detect it first
-- Follow the project's existing API patterns and conventions
-- Don't generate code until the stack is understood
-- Always include input validation and error handling
+## Recanto (Next.js)
 
-## Steps
+- Padrão actual: **server actions** em `services/*/*.actions.ts` e dados via **Drizzle** — nem toda a feature precisa de `app/api/...`.
+- Para **Route Handlers**: ficheiros `app/api/<rota>/route.ts` (GET/POST/…); validar entrada; não expor *secrets*.
+- Persistência: reutilizar `lib/db` e serviços existentes.
 
-### 1. Understand Requirements
-Ask clarifying questions:
-- What HTTP methods does this endpoint support? (GET, POST, PUT, DELETE)
-- What is the URL path/route?
-- What data does it accept and return?
-- Does it require authentication?
-- What resource/entity does it operate on?
+Este workflow ajuda a criar um endpoint de API robusto.
 
-### 2. Analyze Project Stack
-Detect the existing setup:
-- **Framework**: Next.js (App/Pages Router), Express, NestJS, FastAPI, Django, Go, etc.
-- **Language**: TypeScript, JavaScript, Python, Go, etc.
-- **Validation**: Zod, Joi, Yup, Pydantic, etc.
-- **Database/ORM**: Prisma, TypeORM, SQLAlchemy, GORM, etc.
-- **Auth**: NextAuth, Passport, JWT, etc.
+## Limites e cuidados
 
-Check `package.json`, `requirements.txt`, `go.mod`, or config files.
-If unclear, ask the user.
+- Não assumir framework — detectar primeiro
+- Seguir padrões de API já usados no projecto
+- Não gerar código até a stack estar clara
+- Validação de entrada e tratamento de erros sempre
 
-### 3. Study Existing Patterns
-Before creating:
-- Find 1-2 existing API routes in the codebase
-- Note the file structure and naming conventions
-- Match the existing error handling approach
-- Follow existing response format patterns
-- Check how authentication is handled in other routes
+## Passos
 
-### 4. Create Validation Schema
-Based on detected validation library:
-- Define input validation for request body/params
-- Include appropriate error messages
-- Use existing validation patterns in the project
+### 1. Perceber requisitos
 
-### 5. Create Route Handler
-Based on detected framework and existing patterns:
-- Create the route file in the appropriate directory
-- Implement the requested HTTP method(s)
-- Add input validation
-- Include proper error handling with appropriate status codes
-- Add authentication check if required
-- Return consistent response format
+- Métodos HTTP? (GET, POST, PUT, DELETE)
+- Caminho da rota?
+- Corpo/query e formato de resposta?
+- Autenticação necessária?
+- Recurso ou entidade envolvida?
 
-### 6. Verify
-- Endpoint responds correctly to valid requests
-- Validation rejects invalid input with helpful errors
-- Error cases return appropriate status codes
-- Authentication works if required
+### 2. Analisar a stack
 
-## Principles
-- Consistent responses — follow existing API response format
-- Validate everything — never trust client input
-- Fail gracefully — return helpful error messages
-- Secure by default — validate auth, sanitize inputs
+- **Framework:** Next.js (App/Pages), Express, NestJS, FastAPI, Django, Go, etc.
+- **Linguagem:** TS, JS, Python, Go…
+- **Validação:** Zod, Joi, Yup, Pydantic…
+- **ORM:** Prisma, Drizzle, TypeORM, SQLAlchemy…
+- **Auth:** NextAuth, Passport, JWT…
 
-## Reference
-- Check existing API routes for patterns
-- Look at `package.json` or equivalent for framework detection
-- Use `rg` to find similar endpoints in the codebase
+Consultar `package.json`, `requirements.txt`, `go.mod`, etc. Se não estiver claro, perguntar.
+
+### 3. Estudar padrões existentes
+
+- Encontrar 1–2 rotas semelhantes no código
+- Estrutura de pastas e nomenclatura
+- Formato de erros e respostas
+- Como a auth é aplicada noutras rotas
+
+### 4. Schema de validação
+
+- Corpo, *query* e *params* conforme biblioteca detectada
+- Mensagens de erro coerentes com o resto do projecto
+
+### 5. Implementar o *handler*
+
+- Ficheiro no sítio correcto (`app/api/.../route.ts` no App Router)
+- Método(s) HTTP
+- Validação + códigos de estado HTTP adequados
+- Auth se necessário
+- Formato de resposta consistente
+
+### 6. Verificar
+
+- Pedidos válidos funcionam
+- Entrada inválida rejeitada com mensagens úteis
+- Erros com status apropriados
+- Auth quando exigida
+
+## Princípios
+
+- Respostas consistentes com a API existente
+- Validar tudo — nunca confiar só no cliente
+- Falhar com mensagens úteis (sem vazar detalhes internos)
+- Segurança por defeito — auth e sanitização
+
+## Referência
+
+- Rotas existentes no repo
+- `package.json` para detecção de stack
+- `rg`/pesquisa por endpoints semelhantes

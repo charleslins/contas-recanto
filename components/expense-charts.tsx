@@ -1,7 +1,7 @@
 'use client';
 
 import { Transaction } from '@/lib/parser';
-import { useMemo } from 'react';
+import { useMemo, useLayoutEffect, useState } from 'react';
 import {
   ResponsiveContainer,
   Tooltip,
@@ -25,6 +25,13 @@ interface ExpenseChartsProps {
 const COLORS = ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#64748b', '#ec4899', '#06b6d4'];
 
 export function ExpenseCharts({ transactions }: ExpenseChartsProps) {
+  /** Recharts mede o contentor na 1.ª pintura; largura 0 deixa gráficos em branco até refresh/resize. */
+  const [chartsReady, setChartsReady] = useState(false);
+  useLayoutEffect(() => {
+    const id = requestAnimationFrame(() => setChartsReady(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
   // Focus only on expenses
   const expenseTransactions = useMemo(() => 
     transactions.filter(t => t.type === 'expense' || !t.type), 
@@ -81,14 +88,15 @@ export function ExpenseCharts({ transactions }: ExpenseChartsProps) {
   };
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
+    <div className="grid min-w-0 gap-6 lg:grid-cols-2">
       {/* Category Chart - Only Horizontal Bars as requested */}
-      <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-100/50">
+      <div className="relative min-w-0 overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-100/50">
         <div className="mb-6">
           <h4 className="text-xs font-semibold uppercase tracking-widest text-slate-500">Gastos por Categoria</h4>
           <p className="text-lg font-semibold text-slate-900">Analise setorial</p>
         </div>
-        <div className="h-[200px] w-full">
+        <div className="h-[200px] w-full min-h-[200px] min-w-0">
+          {chartsReady ? (
           <ResponsiveContainer width="100%" height="100%">
             <BarChart 
               data={categoryData} 
@@ -118,16 +126,20 @@ export function ExpenseCharts({ transactions }: ExpenseChartsProps) {
               </Bar>
             </BarChart>
           </ResponsiveContainer>
+          ) : (
+            <div className="h-full w-full animate-pulse rounded-xl bg-slate-100" aria-hidden />
+          )}
         </div>
       </div>
 
       {/* Monthly Evolution - Area Chart as established before */}
-      <div className="relative overflow-hidden rounded-3xl border border-indigo-100 bg-white p-6 shadow-xl shadow-indigo-50/20">
+      <div className="relative min-w-0 overflow-hidden rounded-3xl border border-indigo-100 bg-white p-6 shadow-xl shadow-indigo-50/20">
         <div className="mb-6">
           <h4 className="text-xs font-semibold uppercase tracking-widest text-indigo-400">Evolucao financeira</h4>
           <p className="text-lg font-semibold text-slate-900">Historico de despesas</p>
         </div>
-        <div className="h-[200px] w-full">
+        <div className="h-[200px] w-full min-h-[200px] min-w-0">
+          {chartsReady ? (
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={monthlyData} margin={{ top: 10, right: 5, left: -25, bottom: 0 }}>
               <defs>
@@ -166,6 +178,9 @@ export function ExpenseCharts({ transactions }: ExpenseChartsProps) {
               />
             </AreaChart>
           </ResponsiveContainer>
+          ) : (
+            <div className="h-full w-full animate-pulse rounded-xl bg-indigo-50/60" aria-hidden />
+          )}
         </div>
       </div>
     </div>

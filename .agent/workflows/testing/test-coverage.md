@@ -1,53 +1,57 @@
 ---
-description: Improve test coverage for specific files or functions
+description: Melhorar cobertura de testes para ficheiros ou funções específicas
 ---
 
-# Test Coverage
+# Cobertura de testes
 
-I will help you improve test coverage for your codebase.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Focus on meaningful coverage, not just numbers
-- Prioritize critical paths
-- Don't test framework code
-- Keep tests maintainable
+Este workflow ajuda a aumentar a cobertura de forma **significativa**, não só o número.
 
-## Steps
+## Limites e cuidados
 
-### 1. Analyze Current Coverage
-Run coverage report:
-- `npm run test -- --coverage`
-- `pytest --cov`
-- Identify uncovered files/lines
+- Valor em testes úteis, não só percentagem
+- Priorizar caminhos críticos
+- Não testar código do framework
+- Manter testes sustentáveis
 
-### 2. Understand Gaps
-Ask clarifying questions:
-- Which files need coverage?
-- What's the target percentage?
-- Any specific functions to prioritize?
+## Passos
 
-### 3. Prioritize
-Focus on:
-- Business-critical logic
-- Complex functions
-- Error handling paths
-- Edge cases
+### 1. Analisar cobertura actual
 
-### 4. Write Tests
-For each uncovered area:
-- Understand what it does
-- Identify test cases
-- Write meaningful tests
-- Cover edge cases
+- `npm run test -- --coverage` (se existir)
+- `pytest --cov`, etc.
+- Identificar ficheiros/linhas descobertos
 
-### 5. Verify Coverage
-After adding tests:
-- Run coverage again
-- Check for improvements
-- Ensure tests are meaningful
+### 2. Lacunas
 
-## Principles
-- 100% coverage doesn't mean bug-free
-- Test behavior, not implementation
-- Focus on critical paths first
-- Avoid testing boilerplate
+- Que módulos importam?
+- Meta de percentagem realista?
+- Funções prioritárias?
+
+### 3. Priorizar
+
+- Lógica de negócio
+- Funções complexas
+- Tratamento de erros
+- Casos extremos
+
+### 4. Escrever testes
+
+- Compreender o comportamento
+- Casos de teste com significado
+- Extremos cobertos
+
+### 5. Verificar
+
+- Relatório de cobertura actualizado
+- Testes que realmente protegem o comportamento
+
+## Princípios
+
+- 100% de cobertura ≠ sem bugs
+- Testar comportamento
+- Caminhos críticos primeiro
+- Evitar testar *boilerplate* vazio

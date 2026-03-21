@@ -1,56 +1,63 @@
 ---
-description: Generate comprehensive README files for projects
+description: Gerar README completos para projectos
 ---
 
-# README Generator
+# Gerador de README
 
-I will help you create a comprehensive README for your project.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Analyze the actual project before writing
-- Don't include features that don't exist
-- Keep it up to date with the codebase
-- Make it scannable and useful
+Este workflow ajuda a criar um README útil e actualizado.
 
-## Steps
+## Limites e cuidados
 
-### 1. Analyze Project
-Gather information:
-- Read package.json or equivalent
-- Check existing documentation
-- Understand project structure
-- Identify main features
+- Basear-se no projecto **real** (ficheiros, scripts)
+- Não listar funcionalidades inexistentes
+- Manter alinhado ao código
+- Estrutura escaneável (títulos, listas)
 
-### 2. Understand Audience
-Ask if needed:
-- Who will read this? (developers, users, both)
-- What do they need to know first?
-- Any specific sections required?
+## Passos
 
-### 3. Structure README
-Include relevant sections:
-- **Title & Description**: What it does
-- **Badges**: Build status, version, license
-- **Quick Start**: Get running fast
-- **Installation**: Detailed setup
-- **Usage**: How to use it
-- **API/Commands**: Reference docs
-- **Contributing**: How to help
-- **License**: Legal info
+### 1. Analisar o projecto
 
-### 4. Write Content
-For each section:
-- Be concise but complete
-- Include code examples
-- Add screenshots for UI
-- Link to detailed docs
+- `package.json` (ou equivalente)
+- Docs existentes (`.context/docs`, `PRD.md`)
+- Estrutura de pastas
+- Funcionalidades principais
 
-### 5. Verify
-- All commands work
-- Links are valid
-- Examples are current
+### 2. Audiência
 
-## Principles
-- Lead with value (what does this do for me?)
-- Make the quick start actually quick
-- Keep examples copy-pasteable
+- Desenvolvedores, utilizadores finais, ou ambos?
+- O que é essencial no topo?
+- Secções obrigatórias?
+
+### 3. Estrutura sugerida
+
+- Título e descrição
+- *Badges* (CI, versão, licença) se fizer sentido
+- Início rápido
+- Instalação detalhada
+- Utilização
+- API / comandos
+- Contribuição
+- Licença
+
+### 4. Redigir
+
+- Conciso e completo
+- Exemplos de comandos correctos
+- Capturas para UI
+- Ligações para documentação profunda
+
+### 5. Verificar
+
+- Comandos reproduzíveis
+- Ligações válidas
+- Exemplos actuais
+
+## Princípios
+
+- Valor logo no início (“o que isto faz”)
+- *Quick start* realmente rápido
+- Exemplos copiáveis

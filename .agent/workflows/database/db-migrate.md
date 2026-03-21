@@ -1,62 +1,78 @@
 ---
-description: Create and run database migrations safely
+description: Criar e executar migrações de base de dados com segurança
 ---
 
-# Database Migrations
+# Migrações de base de dados
 
-I will help you create and manage database migrations for your project.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Never run destructive migrations without confirmation
-- Detect existing migration setup before creating new ones
-- Always backup before major schema changes
-- Test migrations in development first
+## Recanto (Drizzle Kit)
 
-## Steps
+- Alterar **`lib/db/schema.ts`**, validar com `npm run db:push` em desenvolvimento.
+- CI: workflow **Drizzle — push schema** (`.github/workflows/drizzle-push.yml`) com secret **`DATABASE_URL`**.
+- Preferir o fluxo documentado no repo antes de introduzir outro tooling de migração.
 
-### 1. Understand the Change
-Ask clarifying questions:
-- What schema change is needed?
-- Is this adding, modifying, or removing?
-- Any data that needs to be preserved/migrated?
+Este workflow ajuda a criar e gerir migrações de base de dados.
 
-### 2. Analyze Migration Setup
-Detect the existing configuration:
+## Limites e cuidados
+
+- Nunca executar migrações destrutivas sem confirmação explícita
+- Detectar o sistema de migrações existente antes de criar novas
+- Fazer *backup* antes de alterações grandes de schema
+- Testar primeiro em desenvolvimento
+
+## Passos
+
+### 1. Perceber a mudança
+
+- Que alteração de schema é necessária?
+- Adicionar, alterar ou remover?
+- Dados a preservar ou migrar?
+
+### 2. Analisar o setup de migrações
+
 - Prisma: `npx prisma migrate`
 - Drizzle: `drizzle-kit`
-- TypeORM: migration files
-- Django: `python manage.py makemigrations`
+- TypeORM: ficheiros de migração
+- Django: `makemigrations`
 - Rails: `rails db:migrate`
 
-### 3. Create Migration
-Generate the migration file:
-- Use the ORM's migration command
-- Name descriptively (e.g., `add_user_email_column`)
-- Review the generated SQL
+### 3. Criar a migração
 
-### 4. Review Changes
-Before applying:
-- Check the up migration
-- Check the down migration (rollback)
-- Verify data preservation logic
+- Usar o comando do ORM
+- Nome descritivo (ex.: `add_user_email_column`)
+- Rever o SQL gerado
 
-### 5. Apply Migration
-Run in appropriate environment:
-- Development first
-- Then staging
-- Finally production
+### 4. Rever alterações
 
-### 6. Verify
-- Check database state
-- Test affected queries
-- Verify application works
+Antes de aplicar:
 
-## Principles
-- Migrations should be reversible when possible
-- Never edit already-applied migrations
-- Use transactions for safety
-- Document breaking changes
+- Migração “up”
+- Migração “down” (rollback)
+- Lógica de preservação de dados
 
-## Reference
-- Check migration history
-- Review existing migration patterns
+### 5. Aplicar
+
+- Desenvolvimento primeiro
+- Depois *staging*
+- Por último produção (com processo acordado)
+
+### 6. Verificar
+
+- Estado da base
+- Queries afectadas
+- Aplicação a funcionar
+
+## Princípios
+
+- Migrações reversíveis quando possível
+- Não editar migrações já aplicadas em ambientes partilhados
+- Usar transacções quando o motor permitir
+- Documentar *breaking changes*
+
+## Referência
+
+- Histórico de migrações
+- Padrões já usados no projecto

@@ -36,7 +36,7 @@
         },
         "workflow-creator": {
             "category": "ai-tools",
-            "description": "Create new workflows for the Antigravity repository",
+            "description": "Criar novos workflows stack-agnostic em .agent/workflows (Recanto)",
             "tags": [
                 "meta",
                 "workflow",

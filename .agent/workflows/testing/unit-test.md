@@ -1,127 +1,107 @@
 ---
-description: Generate comprehensive unit tests with detected testing framework
+description: Gerar testes unitários completos com o framework detectado no projecto
 ---
 
-# Unit Testing
+# Testes unitários
 
-I will help you write effective unit tests that adapt to your project's testing framework and patterns.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Never assume a specific testing framework (Jest, Vitest, pytest, etc.)
-- Detect existing test setup before writing tests
-- Test behavior, not implementation details
-- Each test should be independent and isolated
-- Use descriptive test names that explain expected behavior
+Este workflow ajuda a escrever testes unitários efectivos.
 
-## Steps
+## Recanto (estado actual)
 
-### 1. Understand What to Test
-Ask clarifying questions:
-- Which files or functions need tests?
-- Are there specific edge cases to cover?
-- What's the target code coverage?
-- Are there external services that need mocking?
-- Any existing test patterns to follow?
+- Gate habitual: `npm run lint` e `npm run build`.
+- O `package.json` pode **ainda não** ter script `test` / Vitest / Jest — **detectar** antes de criar `*.test.ts`.
+- Prioridade futura: funções puras em `lib/*.ts` e lógica em `services/*/*.service.ts` (com mocks do Drizzle).
 
-### 2. Analyze Testing Setup
-Detect the existing test configuration:
+## Limites e cuidados
 
-**JavaScript/TypeScript projects:**
-- Check for Jest (`jest.config.js`, `@jest` in package.json)
-- Check for Vitest (`vitest.config.ts`, `vitest` in package.json)
-- Check for Mocha (`mocha` in package.json)
-- Check for Testing Library (`@testing-library/*`)
+- Não assumir Jest/Vitest/pytest sem verificar
+- Detectar configuração de testes existente
+- Testar **comportamento**, não pormenores de implementação
+- Testes independentes e isolados
+- Nomes de teste descritivos
 
-**Python projects:**
-- Check for pytest (`pytest.ini`, `conftest.py`)
-- Check for unittest (standard library)
+## Passos
 
-**Other languages:**
-- Look for test configuration files
-- Check package/dependency files for test frameworks
+### 1. O que testar
 
-If no testing setup exists, ask user which framework they prefer and help set it up.
+- Ficheiros ou funções?
+- Casos extremos importantes?
+- Meta de cobertura?
+- Serviços externos a mockar?
+- Padrões de teste já usados no repo?
 
-### 3. Analyze Code to Test
-Before writing tests:
-- Understand the function's purpose and expected behavior
-- Identify inputs, outputs, and side effects
-- List edge cases (null, empty, boundary values)
-- Identify dependencies that need mocking
+### 2. Analisar o setup
 
-### 4. Write Unit Tests
-Follow the AAA pattern for each test:
+**JS/TS:** Jest, Vitest, Mocha, Testing Library…
 
-**Arrange:** Set up test data and mocks
-**Act:** Call the function being tested
-**Assert:** Verify the expected outcome
+**Python:** pytest, unittest…
 
-Structure tests logically:
-- Group related tests with `describe` blocks (or equivalent)
-- Use clear, descriptive test names
-- One primary assertion per test when possible
+Se não existir setup, perguntar qual framework preferem e ajudar a configurar.
 
-### 5. Handle Mocking
-Mock external dependencies appropriately:
-- API calls and network requests
-- Database operations
-- File system operations
-- Third-party services
-- Time-dependent operations
+### 3. Analisar o código sob teste
 
-### 6. Run and Verify Tests
-- Execute the test suite
-- Check for passing/failing tests
-- Review coverage report if available
-- Fix any failing tests
+- Propósito e comportamento esperado
+- Entradas, saídas, efeitos secundários
+- Casos extremos (null, vazio, limites)
+- Dependências a mockar
 
-## Principles
+### 4. Escrever testes (padrão AAA)
 
-### Test Quality
-- Test the public API, not internal implementation
-- Cover happy path, error cases, and edge cases
-- Keep tests fast by mocking slow operations
-- Make tests deterministic (no random, no time dependencies)
+- **Arrange:** dados e mocks
+- **Act:** invocar a unidade
+- **Assert:** verificar resultado
 
-### Test Organization
-- Place tests near the code they test (or in `__tests__` folders)
-- Name test files consistently (`*.test.ts`, `*.spec.ts`, `test_*.py`)
-- Group related tests logically
+Agrupar com `describe` / equivalente; uma asserção principal por teste quando possível.
 
-### Test Coverage
-- Aim for 80%+ coverage on critical paths
-- Don't chase 100% coverage for its own sake
-- Focus on testing complex logic and edge cases
+### 5. Mocking
 
-### Mocking Best Practices
-- Mock at the boundary (API calls, not internal functions)
-- Reset mocks between tests
-- Verify mock interactions when relevant
+- Rede, BD, sistema de ficheiros, tempo, serviços terceiros
+- Mock na fronteira do módulo
 
-## Common Test Patterns
+### 6. Executar
 
-### Testing Pure Functions
-- Provide input, verify output
-- Test multiple input variations
-- Test edge cases (null, empty, large values)
+- Correr a suíte
+- Rever relatório de cobertura se existir
+- Corrigir falhas
 
-### Testing Async Functions
-- Use async/await or framework's async utilities
-- Mock network requests
-- Test success and error scenarios
+## Princípios
 
-### Testing Components (UI)
-- Test rendering without errors
-- Test user interactions
-- Test conditional rendering
-- Avoid testing implementation details
+### Qualidade
 
-### Testing Hooks/Composables
-- Use framework-specific testing utilities
-- Test state changes
-- Test side effects
+- Testar API pública da unidade
+- Caminho feliz, erros e extremos
+- Testes rápidos (mockar operações lentas)
+- Determinísticos (evitar aleatório e relógio real)
 
-## Reference
-- Check existing tests in the project for patterns
-- Look at the test configuration file
-- Review coverage reports if available
+### Organização
+
+- Testes junto ao código ou em `__tests__/`
+- Nomes consistentes (`*.test.ts`, `*.spec.ts`)
+
+### Cobertura
+
+- ~80%+ em caminhos críticos é um alvo comum
+- 100% não garante ausência de bugs
+- Priorizar lógica complexa
+
+### Mocking
+
+- Mock nas fronteiras; reset entre testes
+- Verificar interacções quando relevante
+
+## Padrões comuns
+
+- **Funções puras:** várias entradas e extremos
+- **Async:** await; sucesso e erro
+- **Componentes UI:** render, interacções, condicionais
+- **Hooks:** utilitários do framework de testes
+
+## Referência
+
+- Testes existentes no repo
+- Ficheiro de configuração do runner
+- Relatórios de cobertura

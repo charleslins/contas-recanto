@@ -40,13 +40,15 @@ export function Dashboard() {
       <ExpenseCharts transactions={transactions} />
       <TransactionTable onAdd={handleAdd} onEdit={handleEdit} />
       
-      <TransactionModal 
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={handleSave}
-        initialData={editingTx}
-        defaultType={defaultType}
-      />
+      {isModalOpen && (
+        <TransactionModal
+          key={editingTx?.id ?? `new-${defaultType}`}
+          onClose={() => setIsModalOpen(false)}
+          onSave={handleSave}
+          initialData={editingTx}
+          defaultType={defaultType}
+        />
+      )}
     </main>
   );
 }

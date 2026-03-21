@@ -1,60 +1,65 @@
 ---
-description: Containerize application with Docker
+description: Containerizar aplicação com Docker
 ---
 
 # Docker
 
-I will help you containerize your application with Docker.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Detect existing Dockerfile before creating
-- Follow Docker best practices for image size
-- Don't include secrets in images
-- Use multi-stage builds when appropriate
+Este workflow ajuda a containerizar a aplicação com Docker.
 
-## Steps
+## Limites e cuidados
 
-### 1. Understand Requirements
-Ask clarifying questions:
-- What type of application? (Node, Python, etc.)
-- Single container or multi-container?
-- Any specific base image requirements?
-- Need docker-compose?
+- Verificar se já existe `Dockerfile` antes de criar outro
+- Boas práticas de tamanho de imagem
+- Nunca incluir *secrets* na imagem
+- *Multi-stage builds* quando fizer sentido
 
-### 2. Analyze Application
-Determine container needs:
-- Runtime requirements
-- Dependencies to install
-- Ports to expose
-- Files to copy
+## Passos
 
-### 3. Create Dockerfile
-Follow best practices:
-- Use specific base image tags
-- Order layers for caching
-- Use multi-stage for smaller images
-- Copy only necessary files
+### 1. Perceber requisitos
 
-### 4. Create docker-compose (if needed)
-For multi-container apps:
-- Define services
-- Set up networking
-- Configure volumes
-- Add health checks
+- Tipo de runtime? (Node, Python, etc.)
+- Um contentor ou vários?
+- Requisitos de imagem base?
+- Necessidade de `docker-compose`?
 
-### 5. Build and Test
-- Build the image
-- Run container locally
-- Test functionality
-- Check image size
+### 2. Analisar a aplicação
 
-### 6. Verify
-- Container starts correctly
-- Application works
-- Logs are accessible
+- Dependências de runtime
+- Portas a expor
+- Ficheiros a copiar para a imagem
 
-## Principles
-- Keep images small
-- Don't run as root
-- Use .dockerignore
-- Tag images properly
+### 3. Criar o Dockerfile
+
+- Tags específicas na imagem base
+- Ordem de camadas para *cache*
+- *Multi-stage* para imagens menores
+- Copiar apenas o necessário
+
+### 4. docker-compose (se necessário)
+
+- Serviços (app + BD, etc.)
+- Rede e volumes
+- *Health checks*
+
+### 5. Build e teste local
+
+- `docker build`
+- `docker run` e testar funcionalidade
+- Rever tamanho da imagem
+
+### 6. Verificar
+
+- Contentor arranca
+- App responde
+- Logs acessíveis
+
+## Princípios
+
+- Imagens pequenas
+- Não correr como *root* sem necessidade
+- Usar `.dockerignore`
+- Tags de versão claras

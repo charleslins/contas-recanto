@@ -1,105 +1,111 @@
 ---
-description: Perform thorough code review with focus on quality, security, and maintainability
+description: Revisão de código focada em qualidade, segurança e manutenibilidade
 ---
 
-# Code Review
+# Revisão de código
 
-I will help you review code for quality, security, and best practices.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Focus on significant issues, not style nitpicks (unless egregious)
-- Provide constructive feedback with suggested fixes
-- Consider the context and constraints of the codebase
-- Don't suggest changes that would require major refactoring unless explicitly requested
+Este workflow orienta uma revisão de código rigorosa.
 
-## Steps
+## Limites e cuidados
 
-### 1. Understand Context
+- Priorizar problemas significativos, não *nitpicks* de estilo (salvo violações graves)
+- Feedback construtivo com sugestões de correção
+- Respeitar contexto e restrições do projecto
+- Evitar pedir grandes refactors não solicitados
 
-Before reviewing, understand:
-- What is the purpose of this code change?
-- What files are being modified?
-- Are there any related tests?
+## Passos
 
-### 2. Review Checklist
+### 1. Perceber o contexto
 
-Go through each category systematically:
+- Objectivo da alteração?
+- Ficheiros tocados?
+- Testes relacionados?
 
-#### 🔒 Security
-- [ ] No hardcoded secrets or credentials
-- [ ] Input validation present
-- [ ] SQL injection prevention (parameterized queries)
-- [ ] XSS prevention (proper escaping)
-- [ ] Authentication/authorization properly handled
+### 2. Checklist
 
-#### 🐛 Bugs & Logic
-- [ ] Edge cases handled
-- [ ] Null/undefined checks where needed
-- [ ] Correct use of async/await
-- [ ] No race conditions
-- [ ] Error handling present
+#### Segurança
 
-#### 📐 Architecture
-- [ ] Single Responsibility Principle followed
-- [ ] No circular dependencies
-- [ ] Appropriate abstraction level
-- [ ] Consistent with existing patterns
+- [ ] Sem secrets hardcoded
+- [ ] Validação de entrada
+- [ ] SQL parametrizado (Drizzle/query segura)
+- [ ] Prevenção XSS onde aplicável
+- [ ] Auth/autorização correctas
 
-#### 🧪 Testing
-- [ ] Tests cover new functionality
-- [ ] Tests are meaningful (not just for coverage)
-- [ ] Edge cases tested
+#### Lógica e bugs
 
-#### 📖 Readability
-- [ ] Clear variable/function names
-- [ ] Complex logic has comments
-- [ ] No magic numbers
-- [ ] Consistent formatting
+- [ ] Casos extremos
+- [ ] Null/undefined
+- [ ] async/await correcto
+- [ ] Condições de corrida
+- [ ] Tratamento de erros
 
-#### ⚡ Performance
-- [ ] No N+1 query problems
-- [ ] Expensive operations not in loops
-- [ ] Proper memoization where needed
-- [ ] No memory leaks
+#### Arquitectura
 
-### 3. Document Findings
+- [ ] Responsabilidade única
+- [ ] Sem dependências circulares
+- [ ] Nível de abstracção adequado
+- [ ] Alinhado aos padrões do Recanto (services, actions, components)
 
-For each issue found, provide:
+#### Testes
+
+- [ ] Nova lógica coberta quando há suíte
+- [ ] Testes com significado, não só cobertura
+
+#### Legibilidade
+
+- [ ] Nomes claros
+- [ ] Lógica complexa comentada quando necessário
+- [ ] Evitar números mágicos sem nome
+- [ ] Formatação consistente
+
+#### Desempenho
+
+- [ ] Evitar N+1
+- [ ] Operações caras fora de loops
+- [ ] Memoização quando justificada
+
+### 3. Documentar achados
+
+Por issue:
+
 ```markdown
-### [Severity: High/Medium/Low] Issue Title
+### [Gravidade: Alta/Média/Baixa] Título
 
-**File:** `path/to/file.ts:L42`
+**Ficheiro:** `caminho/ficheiro.ts:42`
 
-**Problem:** Description of the issue
+**Problema:** descrição
 
-**Suggestion:** 
+**Sugestão:**
 ```typescript
-// Suggested fix
+// correção sugerida
 ```
 
-**Why:** Explanation of why this matters
+**Porquê:** impacto
 ```
 
-### 4. Summarize Review
+### 4. Resumo
 
-Provide an overall summary:
-- Number of issues by severity
-- Overall code quality assessment
-- Recommended action (approve, request changes, etc.)
+- Contagem por gravidade
+- Avaliação global
+- Recomendação (aprovar / pedir alterações)
 
-## Severity Guidelines
+## Gravidade
 
-- **High**: Security vulnerabilities, data loss risks, breaking bugs
-- **Medium**: Logic errors, missing validation, performance issues
-- **Low**: Code style, minor improvements, suggestions
+- **Alta:** segurança, perda de dados, bugs bloqueantes
+- **Média:** lógica, validação, desempenho relevante
+- **Baixa:** estilo, melhorias opcionais
 
-## Guidelines
-- Be kind and constructive
-- Assume good intent
-- Offer to pair if issues are complex
-- Praise good patterns you see
+## Orientações
 
-## Reference
-- Use `rg` to search for similar patterns in the codebase
-- Check for existing linting rules in `.eslintrc`
-- Look at test coverage with `npm run test:coverage`
+- Tom respeitoso e construtivo
+- Assumir boa intenção
+- Destacar também o que está bem feito
+
+## Referência
+
+- `.context/skills/code-review/SKILL.md`
+- ESLint do projecto; `npm run lint` / `npm run build`

@@ -1,68 +1,84 @@
 ---
-description: Design database schemas for any ORM or database
+description: Desenhar schemas de base de dados para qualquer ORM ou motor SQL
 ---
 
-# Database Schema Design
+# Desenho de schema de base de dados
 
-I will help you design database schemas that adapt to your project's ORM and database.
+> **Projeto Recanto:** Next.js 15 (App Router), React 19, TypeScript, Tailwind, shadcn/ui em `components/ui/`, Drizzle ORM + Postgres Neon (`lib/db/`, `services/`). Referência: `.context/docs/project-overview.md` e `.cursorrules`.
+>
+> **Adaptação:** em passos genéricos, usar pastas reais do repo: `app/`, `components/`, `lib/`, `services/`, `hooks/` (evitar assumir `src/` ou Vite).
 
-## Guardrails
-- Never assume a specific ORM (Prisma, Drizzle, TypeORM, SQLAlchemy, etc.)
-- Detect existing database setup before suggesting schemas
-- Consider relationships, indexes, and constraints
-- Follow naming conventions from existing schema
+## Recanto (Drizzle + Neon)
 
-## Steps
+- Ficheiro de schema: **`lib/db/schema.ts`** (tabelas `categories`, `transactions`, enums PG).
+- Configuração: **`drizzle.config.ts`**; cliente: **`lib/db/index.ts`**.
+- Sincronização local: `npm run db:push` (sem script de seed; dados vêm de importação/UI).
 
-### 1. Understand Requirements
-Ask clarifying questions:
-- What entities/tables are needed?
-- What are the relationships between them?
-- Any specific fields or constraints required?
-- What's the expected data volume?
+Este workflow ajuda a desenhar schemas de base de dados adaptados ao ORM e ao motor usados no projecto.
 
-### 2. Analyze Database Setup
-Detect the existing configuration:
-- Check for `prisma/schema.prisma`
-- Check for `drizzle.config.ts`
-- Check for SQLAlchemy models, TypeORM entities
-- Look at existing tables/models for patterns
+## Limites e cuidados
 
-If no existing setup, ask which ORM/database they prefer.
+- Não assumir ORM específico (Prisma, Drizzle, TypeORM, SQLAlchemy, etc.) sem detecção
+- Detectar configuração existente antes de propor schemas
+- Considerar relações, índices e restrições
+- Seguir convenções de nomenclatura do schema actual
 
-### 3. Design Schema
-For each entity, define:
-- Table/model name (follow naming conventions)
-- Fields with appropriate types
-- Primary keys and unique constraints
-- Foreign keys and relationships
-- Indexes for frequently queried fields
-- Timestamps (createdAt, updatedAt)
+## Passos
 
-### 4. Define Relationships
-Establish connections between entities:
-- One-to-one
-- One-to-many
-- Many-to-many (with junction tables)
+### 1. Perceber requisitos
 
-### 5. Add Constraints
-Include data integrity rules:
-- NOT NULL where required
-- UNIQUE for emails, usernames
-- CHECK constraints for valid values
-- CASCADE rules for deletions
+- Que entidades/tabelas são necessárias?
+- Relações entre elas?
+- Campos ou restrições específicas?
+- Volume de dados esperado?
 
-### 6. Verify
-- Review schema for completeness
-- Check for potential N+1 query issues
-- Ensure indexes cover common queries
+### 2. Analisar a configuração
 
-## Principles
-- Normalize to 3NF unless performance requires denormalization
-- Use appropriate field types (don't store numbers as strings)
-- Add indexes on foreign keys and frequently filtered columns
-- Consider soft deletes for important data
+- `prisma/schema.prisma`
+- `drizzle.config.ts`
+- Modelos SQLAlchemy, entidades TypeORM, etc.
+- Padrões nas tabelas/modelos existentes
 
-## Reference
-- Check existing schema files
-- Look at migration history
+Se não houver base, perguntar qual ORM/base preferem.
+
+### 3. Desenhar o schema
+
+Por entidade:
+
+- Nome da tabela/modelo
+- Campos com tipos adequados
+- Chaves primárias e `UNIQUE`
+- Chaves estrangeiras e relações
+- Índices para consultas frequentes
+- Timestamps (`createdAt`, `updatedAt`) quando fizer sentido
+
+### 4. Definir relações
+
+- Um-para-um
+- Um-para-muitos
+- Muitos-para-muitos (tabela de junção)
+
+### 5. Adicionar restrições
+
+- `NOT NULL` onde obrigatório
+- `UNIQUE` para emails, nomes de utilizador, etc.
+- `CHECK` para domínios de valores
+- Regras `ON DELETE` / `ON UPDATE`
+
+### 6. Verificar
+
+- Completude do schema
+- Riscos de consultas N+1
+- Índices alinhados às queries comuns
+
+## Princípios
+
+- Normalizar até 3FN salvo necessidade de desnormalização por desempenho
+- Tipos de campo correctos (não guardar números como texto sem motivo)
+- Índices em FKs e colunas filtradas com frequência
+- *Soft deletes* para dados críticos quando aplicável
+
+## Referência
+
+- Ficheiros de schema existentes
+- Histórico de migrações

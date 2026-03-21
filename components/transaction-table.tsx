@@ -12,7 +12,13 @@ import { useTransactions } from './transaction-context';
 import { clsx } from 'clsx';
 import { exportToPDF } from '@/lib/import-utils';
 import { Transaction } from '@/lib/parser';
+import {
+  buildExpenseHistory,
+  displayCredorColumn,
+  displayDescricaoColumn,
+} from '@/lib/transaction-fields';
 import { CategoryManager } from './category-manager';
+import { fallbackCategoryForImport, matchCategoryFromCsvLabel } from '@/lib/category-helpers';
 
 interface TransactionTableProps {
   onAdd: (type?: 'income' | 'expense') => void;
@@ -27,7 +33,8 @@ interface PendingImport {
 }
 
 export function TransactionTable({ onAdd, onEdit }: TransactionTableProps) {
-  const { transactions, categories, addTransaction, deleteTransaction, getCategoryColor } = useTransactions();
+  const { transactions, categories, addTransactionsBulk, deleteTransaction, getCategoryColor } =
+    useTransactions();
   const [importMode, setImportMode] = useState<'auto' | 'expense' | 'income'>('auto');
   const [pendingImport, setPendingImport] = useState<PendingImport | null>(null);
   const [isImporting, setIsImporting] = useState(false);
@@ -57,6 +64,7 @@ export function TransactionTable({ onAdd, onEdit }: TransactionTableProps) {
     const amountLabel = formatCurrency(t.amount);
     const searchableFields = [
       t.history,
+      t.credor || '',
       t.description || '',
       t.categoryName,
       dateLabel,
@@ -107,17 +115,16 @@ export function TransactionTable({ onAdd, onEdit }: TransactionTableProps) {
     return new Date();
   };
 
-  const getDefaultCategory = (type: 'income' | 'expense') => {
-    if (type === 'income') {
-      return categories.find((category) => category.id === 'income' || category.type === 'income' || category.type === 'both');
-    }
-    return categories.find((category) => category.type === 'expense' || category.type === 'both');
-  };
-
-  const matchCategoryByName = (name: string) => {
+  const matchCategoryByName = (name: string, type: 'income' | 'expense') => {
     const normalized = name.trim().toLowerCase();
     if (!normalized) return null;
-    return categories.find((category) => category.name.trim().toLowerCase() === normalized) ?? null;
+    const fuzzy = matchCategoryFromCsvLabel(categories, name, type);
+    if (fuzzy) return fuzzy;
+    return (
+      categories.find(
+        (category) => category.name.trim().toLowerCase() === normalized
+      ) ?? null
+    );
   };
 
   const buildRowsFromFileContent = async (content: string, fileName: string) => {
@@ -131,16 +138,18 @@ export function TransactionTable({ onAdd, onEdit }: TransactionTableProps) {
       for (const tx of imported) {
         const detectedType = tx.type === 'income' ? 'income' : 'expense';
         const type = importMode === 'auto' ? detectedType : importMode;
-        const fallbackCategory = getDefaultCategory(type);
+        const hadOfxCategory = Boolean((tx.categoryId && String(tx.categoryId).trim()) || (tx.categoryName && String(tx.categoryName).trim()));
+        const fallbackCategory = fallbackCategoryForImport(categories, type, hadOfxCategory);
         rows.push({
           date: tx.date ? new Date(tx.date) : new Date(),
           history: tx.history || 'Importado OFX',
+          credor: tx.credor ?? '',
           amount: Math.abs(tx.amount || 0),
-          categoryId: tx.categoryId || fallbackCategory?.id || (type === 'income' ? 'income' : '5'),
-          categoryName: tx.categoryName || fallbackCategory?.name || 'Outros',
+          categoryId: tx.categoryId || fallbackCategory?.id || '',
+          categoryName: tx.categoryName || fallbackCategory?.name || '',
           type,
           dateStr: tx.dateStr || format(new Date(), 'dd/MM/yyyy'),
-          description: tx.description || ''
+          description: tx.description ?? '',
         });
       }
       return { rows, detectedType };
@@ -170,7 +179,9 @@ export function TransactionTable({ onAdd, onEdit }: TransactionTableProps) {
     const isExpenseTemplate =
       normalizedHeaders.includes('data') &&
       normalizedHeaders.includes('valor') &&
-      (normalizedHeaders.includes('descricao') || normalizedHeaders.includes('historico'));
+      (normalizedHeaders.includes('descricao') ||
+        normalizedHeaders.includes('historico') ||
+        normalizedHeaders.includes('credor'));
 
     if (isRevenueTemplate) {
       detectedType = 'Receitas (template completo)';
@@ -201,11 +212,13 @@ export function TransactionTable({ onAdd, onEdit }: TransactionTableProps) {
 
       let history = row['historico'] || row['descricao'] || row['memo'] || row['nome'] || 'Importado CSV';
       let description = '';
+      let credorRow = '';
       let type: 'income' | 'expense' = importMode === 'auto' ? 'expense' : importMode;
       let amount = 0;
 
       if (isRevenueTemplate) {
         history = row['nome'] || history;
+        credorRow = '';
         amount = Math.abs(parseAmount(totalRaw));
         type = importMode === 'auto' ? 'income' : importMode;
         description = [
@@ -222,7 +235,10 @@ export function TransactionTable({ onAdd, onEdit }: TransactionTableProps) {
           .filter(Boolean)
           .join(' | ');
       } else if (isExpenseTemplate) {
-        history = row['descricao'] || row['historico'] || history;
+        credorRow = row['credor'] || '';
+        const descPart = row['descricao'] || row['historico'] || '';
+        description = descPart;
+        history = buildExpenseHistory(credorRow, descPart);
         amount = Math.abs(parseAmountLikeBrazilianSheets(valueRaw));
         type = importMode === 'auto' ? 'expense' : importMode;
       } else {
@@ -252,25 +268,31 @@ export function TransactionTable({ onAdd, onEdit }: TransactionTableProps) {
               ? (credit > 0 ? credit : Math.abs(total))
               : (debit > 0 ? debit : Math.abs(total));
         }
+        credorRow = '';
       }
 
       if (amount <= 0) continue;
 
       const matchedCategory = /^\d+$/.test(legacyCategoryRaw)
         ? categories.find((category) => category.id === legacyCategoryRaw)
-        : matchCategoryByName(categoryRaw);
-      const fallbackCategory = getDefaultCategory(type);
+        : matchCategoryByName(categoryRaw, type);
+      const fallbackCategory = fallbackCategoryForImport(
+        categories,
+        type,
+        Boolean(categoryRaw.trim())
+      );
       const transactionDate = dateRaw ? parseDate(dateRaw) : new Date();
 
       rows.push({
         date: transactionDate,
         history,
+        credor: type === 'income' ? '' : credorRow,
         amount,
-        categoryId: matchedCategory?.id || fallbackCategory?.id || (type === 'income' ? 'income' : '5'),
-        categoryName: matchedCategory?.name || fallbackCategory?.name || 'Outros',
+        categoryId: matchedCategory?.id || fallbackCategory?.id || '',
+        categoryName: matchedCategory?.name || fallbackCategory?.name || '',
         type,
         dateStr: format(transactionDate, 'dd/MM/yyyy'),
-        description
+        description,
       });
     }
 
@@ -292,6 +314,14 @@ export function TransactionTable({ onAdd, onEdit }: TransactionTableProps) {
           setPendingImport(null);
           return;
         }
+        const semCategoria = rows.filter((row) => !row.categoryId.trim() || !row.categoryName.trim());
+        if (semCategoria.length > 0) {
+          alert(
+            `${semCategoria.length} linha(s) sem categoria válida. Crie categorias de receita e despesa (Gerenciar categorias) e confirme que o ficheiro casa com os nomes ou IDs das categorias.`
+          );
+          setPendingImport(null);
+          return;
+        }
         setPendingImport({
           fileName: file.name,
           detectedType,
@@ -309,13 +339,16 @@ export function TransactionTable({ onAdd, onEdit }: TransactionTableProps) {
 
   const confirmImport = async () => {
     if (!pendingImport || pendingImport.rows.length === 0) return;
+    const invalid = pendingImport.rows.filter((row) => !row.categoryId.trim() || !row.categoryName.trim());
+    if (invalid.length > 0) {
+      alert('Importacao cancelada: existem linhas sem categoria.');
+      return;
+    }
     try {
       setIsImporting(true);
       const hasIncome = pendingImport.rows.some((row) => row.type === 'income');
       const hasExpense = pendingImport.rows.some((row) => row.type === 'expense');
-      for (const row of pendingImport.rows) {
-        await addTransaction(row);
-      }
+      await addTransactionsBulk(pendingImport.rows);
       setCurrentPage(1);
       setSearchTerm('');
       setCategoryFilter('all');
@@ -406,8 +439,9 @@ export function TransactionTable({ onAdd, onEdit }: TransactionTableProps) {
                 <thead className="bg-slate-50">
                   <tr>
                     <th className="px-3 py-2 font-semibold text-slate-500">Data</th>
-                    <th className="px-3 py-2 font-semibold text-slate-500">Historico</th>
                     <th className="px-3 py-2 font-semibold text-slate-500">Categoria</th>
+                    <th className="px-3 py-2 font-semibold text-slate-500">Credor</th>
+                    <th className="px-3 py-2 font-semibold text-slate-500">Descrição</th>
                     <th className="px-3 py-2 font-semibold text-slate-500">Tipo</th>
                     <th className="px-3 py-2 text-right font-semibold text-slate-500">Valor</th>
                   </tr>
@@ -416,8 +450,13 @@ export function TransactionTable({ onAdd, onEdit }: TransactionTableProps) {
                   {pendingImport.rows.slice(0, 5).map((row, idx) => (
                     <tr key={`${row.history}-${idx}`} className="border-t border-slate-100">
                       <td className="px-3 py-2">{row.dateStr}</td>
-                      <td className="px-3 py-2">{row.history}</td>
                       <td className="px-3 py-2">{row.categoryName}</td>
+                      <td className="px-3 py-2">
+                        {row.type === 'income' ? row.history : row.credor || '—'}
+                      </td>
+                      <td className="px-3 py-2 max-w-[200px] truncate" title={row.description}>
+                        {row.type === 'income' ? row.description || '—' : row.description || '—'}
+                      </td>
                       <td className="px-3 py-2">{row.type === 'income' ? 'Receita' : 'Despesa'}</td>
                       <td className="px-3 py-2 text-right">{formatCurrency(row.amount)}</td>
                     </tr>
@@ -523,8 +562,9 @@ export function TransactionTable({ onAdd, onEdit }: TransactionTableProps) {
           <thead className="bg-slate-50/50 text-xs uppercase font-semibold tracking-widest text-slate-500 border-b border-slate-100">
             <tr>
               <th className="px-8 py-3">Data</th>
-              <th className="px-8 py-3">Histórico e detalhes</th>
               <th className="px-8 py-3">Categoria</th>
+              <th className="px-8 py-3">Credor</th>
+              <th className="px-8 py-3">Descrição</th>
               <th className="px-8 py-3 text-right">Valor</th>
               <th className="px-8 py-3 text-center">Ações</th>
             </tr>
@@ -532,7 +572,7 @@ export function TransactionTable({ onAdd, onEdit }: TransactionTableProps) {
           <tbody className="divide-y divide-slate-100">
             {paginatedTransactions.length > 0 ? (
               paginatedTransactions.map((tx) => (
-                <tr key={tx.id} className="hover:bg-slate-50/80 transition-all group">
+                <tr key={tx.id} className="hover:bg-slate-50/80 transition-all">
                   <td className="whitespace-nowrap px-8 py-4">
                     <div className="text-xs font-normal text-slate-500">
                        {format(tx.date, 'EEEE', { locale: ptBR })}
@@ -542,25 +582,32 @@ export function TransactionTable({ onAdd, onEdit }: TransactionTableProps) {
                     </div>
                   </td>
                   <td className="px-8 py-4">
-                    <div className="text-sm font-normal text-slate-900 leading-normal">{tx.history}</div>
-                    {tx.description && (
-                      <div className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-indigo-50/50 px-2.5 py-1 text-xs font-normal text-indigo-600 border border-indigo-100/50">
-                        <FileText className="h-3 w-3" />
-                        <span title={tx.description}>
-                          {tx.type === 'income' && tx.description.includes('Tel:')
-                            ? 'Detalhes da receita'
-                            : tx.description}
-                        </span>
-                      </div>
-                    )}
-                  </td>
-                  <td className="px-8 py-4">
                     <span 
                       className="inline-flex items-center rounded-lg px-3 py-1 text-xs font-medium text-white shadow-sm shadow-current/10"
                       style={{ backgroundColor: getCategoryColor(tx.categoryId) }}
                     >
                       {tx.categoryName}
                     </span>
+                  </td>
+                  <td className="px-8 py-4">
+                    <div className="text-sm font-normal text-slate-900 leading-normal max-w-[220px] break-words">
+                      {displayCredorColumn(tx) || '—'}
+                    </div>
+                  </td>
+                  <td className="px-8 py-4">
+                    {(() => {
+                      const desc = displayDescricaoColumn(tx);
+                      const isIncomeDetails =
+                        tx.type === 'income' && desc.includes('Tel:');
+                      return desc ? (
+                        <div className="inline-flex items-start gap-1.5 rounded-lg bg-indigo-50/50 px-2.5 py-1.5 text-xs font-normal text-indigo-700 border border-indigo-100/50 max-w-[280px]">
+                          <FileText className="h-3 w-3 shrink-0 mt-0.5" />
+                          <span title={desc}>{isIncomeDetails ? 'Detalhes da receita' : desc}</span>
+                        </div>
+                      ) : (
+                        <span className="text-sm text-slate-400">—</span>
+                      );
+                    })()}
                   </td>
                   <td className={clsx(
                     "whitespace-nowrap px-8 py-4 text-right font-semibold tabular-nums text-base",
@@ -569,17 +616,19 @@ export function TransactionTable({ onAdd, onEdit }: TransactionTableProps) {
                     {tx.type === 'income' ? '+' : ''} {formatCurrency(tx.amount)}
                   </td>
                   <td className="whitespace-nowrap px-8 py-4 text-center">
-                    <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button 
+                    <div className="flex items-center justify-center gap-2">
+                      <button
+                        type="button"
                         onClick={() => onEdit(tx)}
-                        className="rounded-lg bg-white p-2 text-slate-400 hover:text-indigo-600 hover:shadow transition-all active:scale-90 border border-slate-100"
+                        className="rounded-lg border border-slate-200 bg-white p-2 text-slate-600 shadow-sm hover:border-indigo-200 hover:text-indigo-600 hover:shadow transition-all active:scale-95"
                         title="Editar"
                       >
                         <Edit2 className="h-4 w-4" />
                       </button>
-                      <button 
+                      <button
+                        type="button"
                         onClick={() => deleteTransaction(tx.id)}
-                        className="rounded-lg bg-white p-2 text-slate-400 hover:text-rose-600 hover:shadow transition-all active:scale-90 border border-slate-100"
+                        className="rounded-lg border border-slate-200 bg-white p-2 text-slate-600 shadow-sm hover:border-rose-200 hover:text-rose-600 hover:shadow transition-all active:scale-95"
                         title="Remover"
                       >
                         <Trash2 className="h-4 w-4" />
@@ -590,7 +639,7 @@ export function TransactionTable({ onAdd, onEdit }: TransactionTableProps) {
               ))
             ) : (
               <tr>
-                <td colSpan={5} className="px-8 py-16 text-center">
+                <td colSpan={6} className="px-8 py-16 text-center">
                   <div className="flex flex-col items-center gap-4">
                     <div className="bg-slate-50 p-6 rounded-full ring-4 ring-slate-100">
                       <Search className="h-8 w-8 text-slate-300" />
